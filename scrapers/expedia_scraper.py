@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
-from processors import spider, sql_connect, sql_write, csv_open, csv_write, checkin_checkout
+from processors import spider, sql_write, checkin_checkout, csv_write
 from settings import host, username, password, database, cities
 import time, re
 
@@ -16,14 +16,14 @@ def get_review(element):
         review = review.strip().strip('(').strip(')')
         return review
     except:
-        return None
+        return ''
 
 def get_rating(element):
     try:
         rating = element.find_elements_by_xpath('.//li[@class="reviewOverall"]/span')[1].text.strip()
         return rating
     except:
-        return None
+        return ''
 
 def get_actualprice(element):
     try:
@@ -34,7 +34,7 @@ def get_actualprice(element):
             price = element.find_element_by_xpath('.//ul[@class="hotel-price"]/li[@data-automation="actual-price"]').text.strip()
             price = re.findall(r'([0-9$]+)', price)[0]
         except:
-            price = None
+            price = ''
     return price
 
 def get_strikeprice(element):
@@ -42,7 +42,7 @@ def get_strikeprice(element):
         price = element.find_element_by_xpath('.//ul[@class="hotel-price"]/li[@data-automation="strike-price"]/a').text.strip()
         price = re.findall(r'([0-9$]+)', price)[0]
     except:
-        price = None
+        price = ''
     return price
 
 def get_address(element):
@@ -50,16 +50,16 @@ def get_address(element):
     try:
         phone = element.find_element_by_xpath('.//ul[@class="hotel-info"]/li[@class="phone secondary gt-mobile"]/span').text.strip()
     except:
-        phone = '##################################'
+        phone = ''
     line = '%s, %s.' % (address, phone)
     return line, address
     
-def scrape_cities(url):
+def scrape_cities(url, conn, cur):
     for city in cities:
         for x in range(2):
-            scrape_city(url, city, x)
+            scrape_city(url, city, x, conn, cur)
 
-def scrape_city(url, city, index):
+def scrape_city(url, city, index, conn, cur):
     driver = spider(url)
 
     search_el = driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]')
@@ -87,9 +87,9 @@ def scrape_city(url, city, index):
 
 def scrape_hotels(driver, city, checkin, checkout):
     restricted = ['Antigua Guatemala', 'Villa Canales']
+    count = 0
     while True:
-        d = {}
-        time.sleep(10)
+        time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')
         for hotel in hotels:
             new_price = get_actualprice(hotel)
@@ -103,23 +103,32 @@ def scrape_hotels(driver, city, checkin, checkout):
             checkout = checkout
             city = city.split(',')[0]
             currency = 'USD'
+            source = 'expedia.com'
             #if location in restricted:
             #    continue    
-            #if new_price is None and old_price in None:
-            #    continue
-            csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city)    
+            if len(new_price) == 0 and len(old_price) == 0:
+                continue
+            csv_write(fh, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            count += 1    
  
         try:       
             next = driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr')
             next.click()
         except:            
             driver.quit()
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
             break
 
 if __name__ == '__main__':
     global fh
+    cur = None
+    conn = None
+    fh = open('output/expedia.csv', 'w')
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.expedia.com/Hotels'
-    fh = csv_open('expedia')
-    scrape_cities(url)
-    fh.close
+    scrape_cities(url, conn, cur)
+    #conn.close()
+    fh.close()
 

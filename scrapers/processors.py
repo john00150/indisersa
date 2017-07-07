@@ -10,9 +10,9 @@ def sql_exec(conn, cur, sql):
     except Exception, e:
         print e
 
-def sql_write(conn, cur, hotel, rating, review, address,new_price, old_price, checkin, checkout, city):
-    sql = "insert into tbl_hotels values(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
-          (hotel, rating, review, address, new_price, old_price, checkin, checkout, city)
+def sql_write(conn, cur, hotel, rating, review, address,new_price, old_price, checkin, checkout, city, source):
+    sql = "insert into tbl_hotels values(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
+          (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, source)
     sql_exec(conn, cur, sql)
 
 def spider(url):
@@ -33,8 +33,8 @@ def csv_open(fn):
     fh.write(header)
     return fh
 
-def csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city):
-        line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city)
+def csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source):
+        line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source)
         fh.write(line.encode('utf8'))
 
 def checkin_checkout(index):
