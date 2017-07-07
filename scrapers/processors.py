@@ -2,10 +2,6 @@ import pyodbc, time, datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-def sql_connect(host, username, passwd, db):
-    conn = pyodbc.connect(r'DRIVER={SQL Server Native Client #11.0};SERVER=indisersa.database.windows.net;DATABASE=hotel_Info;UID=otto;PWD=Knoke@1958')
-    cur = conn.cursor()
-    return conn, cur
 
 def sql_exec(conn, cur, sql):
     try:
