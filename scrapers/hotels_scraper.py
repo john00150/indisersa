@@ -9,12 +9,6 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-host = 'indisersa.database.windows.net'
-username = 'otto'
-password = 'Knoke@1958'
-database = 'hotel_Info'
-
-
 def banner(driver):
     try:
         driver.find_element_by_xpath('.//div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]').click()
@@ -151,7 +145,6 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
             continue
         count += 1
 
-        #line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, new_price, old_price, checkin, checkout, city, currency)
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)

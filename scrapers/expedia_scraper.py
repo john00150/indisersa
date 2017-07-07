@@ -3,7 +3,7 @@
 from selenium.webdriver.common.keys import Keys
 from processors import spider, sql_write, checkin_checkout, csv_write
 from settings import host, username, password, database, cities
-import time, re
+import time, re, pyodbc
 
 
 def get_name(element):
@@ -108,8 +108,7 @@ def scrape_hotels(driver, city, checkin, checkout):
             #    continue    
             if len(new_price) == 0 and len(old_price) == 0:
                 continue
-            csv_write(fh, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
             count += 1    
  
         try:       
@@ -121,14 +120,9 @@ def scrape_hotels(driver, city, checkin, checkout):
             break
 
 if __name__ == '__main__':
-    global fh
-    cur = None
-    conn = None
-    fh = open('output/expedia.csv', 'w')
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.expedia.com/Hotels'
     scrape_cities(url, conn, cur)
-    #conn.close()
-    fh.close()
+    conn.close()
 
