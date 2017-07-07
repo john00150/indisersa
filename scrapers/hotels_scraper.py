@@ -2,7 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from processors import spider, sql_write
-import time, datetime
+import time, datetime, pyodbc
 
 cities = [
     'Guatemala City, Guatemala',
@@ -145,24 +145,23 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
         currency = 'USD'
         checkin = checkin
         checkout = checkout
-        city = city.split(',')[0]     
+        city = city.split(',')[0]
+        source = 'hotels.com'
         if city not in address:
             continue
         count += 1
 
-        line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, new_price, old_price, checkin, checkout, city, currency)
-        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city)
+        #line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, new_price, old_price, checkin, checkout, city, currency)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 
 if __name__ == '__main__':
-    cur = None
-    conn = None
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotel_info;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_cities(url, conn, cur)
-    #conn.close()
+    conn.close()
 
 
