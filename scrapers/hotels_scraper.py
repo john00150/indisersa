@@ -159,7 +159,7 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
 if __name__ == '__main__':
     cur = None
     conn = None
-    #conn = pyodbc.connect(DRIVER='{SQL Server};SERVER=(local);DATABASE=hotel_info;Trusted_Connection=Yes;')
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotel_info;Trusted_Connection=Yes;')
     #cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_cities(url, conn, cur)
