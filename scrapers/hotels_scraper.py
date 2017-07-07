@@ -45,10 +45,10 @@ def scrape_price(element):
     except:
         try:
             new_price = element.find_element_by_xpath('.//b[@class="fewRoomsLeft"]').text
-            old_price = None
+            old_price = ''
             return new_price, old_price
         except:
-            new_price = None
+            new_price = ''
             old_price = element.find_element_by_xpath('.//div[@class="price"]/a/b').text
             return new_price, old_price
 
@@ -57,14 +57,14 @@ def scrape_rating(element):
         rating = element.find_element_by_xpath('.//div[contains(@class, "guest-rating")]').text.strip()
         return rating
     except:
-        return None
+        return ''
 
 def scrape_review(element):
     try:
         review = element.find_element_by_xpath('.//div[@class="guest-reviews-link"]/a/span[@class="full-view"]').text
         return review
     except:
-        return None
+        return ''
 
 def scrape_cities(url, conn, cur):
     for city in cities:
