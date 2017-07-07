@@ -151,18 +151,16 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
             continue
         count += 1
 
-        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 
 if __name__ == '__main__':
-    cur = None
-    conn = None
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_cities(url, conn, cur)
-    #conn.close()
+    conn.close()
 
 
