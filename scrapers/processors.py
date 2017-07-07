@@ -8,6 +8,7 @@ def sql_exec(conn, cur, sql):
         cur.execute(sql)
         conn.commit()
     except Exception, e:
+        print sql
         print e
 
 def sql_write(conn, cur, hotel, rating, review, address,new_price, old_price, checkin, checkout, city, currency, source):
