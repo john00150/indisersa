@@ -2,7 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from processors import spider, sql_write
-import time, datetime
+import time, datetime, pyodbc
 
 cities = [
     'Guatemala City, Guatemala',
