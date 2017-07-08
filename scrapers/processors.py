@@ -24,7 +24,7 @@ def spider(url):
     prefs = {"profile.managed_default_content_settings.images":2}
     chrome_options.add_experimental_option("prefs",prefs)
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.set_window_size(800, 600)
+    #driver.set_window_size(800, 600)
     driver.get(url)
     time.sleep(5)
     return driver
