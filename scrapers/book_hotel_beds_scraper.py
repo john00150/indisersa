@@ -123,7 +123,7 @@ def get_pages(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    conn, cur = sql_connect(host, username, password, database)
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     url = 'http://www.book-hotel-beds.com/'
     scrape_cities(url)
     conn.close()
