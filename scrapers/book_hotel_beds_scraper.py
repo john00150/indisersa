@@ -54,8 +54,6 @@ def scrape_city(url, city, index):
     time.sleep(5)
     driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
-    driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]').click()
-    time.sleep(2)
 
     if index == 0:
         checkin = datetime.datetime.now()
@@ -82,6 +80,8 @@ def scrape_city(url, city, index):
     time.sleep(2)
     driver.find_element_by_xpath('//select[@class="hcsb_checkoutMonth"]/option[@value="%s"]' % checkout_year_month).click()
     time.sleep(2)
+    driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]').click()
+    time.sleep(2)    
     driver.find_element_by_xpath('.//select[@class="hcsb_guests"]/option[@value="1-1"]').click()
     time.sleep(2)
     driver.find_element_by_xpath('//a[@class="hcsb_searchButton"]').click()
