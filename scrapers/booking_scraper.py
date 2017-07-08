@@ -1,165 +1,161 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from processors import spider, sql_connect, sql_write
-import time, datetime
+from processors import sql_write
+import time, pyodbc
+from datetime import datetime, timedelta
+
 
 cities = [
     'Guatemala City, Guatemala',
-#    'Antigua Guatemala, Guatemala',
+    'Antigua Guatemala, Guatemala',
 ]
-
-host = 'indisersa.database.windows.net'
-username = 'otto'
-password = 'Knoke@1958'
-database = 'hotel_Info'
 
 
 def banner(driver):
     try:
         driver.find_element_by_xpath('.//body').click()
     except:
-        pass   
+        pass 
+
+def spider(url):
+    driver = webdriver.Chrome()
+    driver.get(url)
+    time.sleep(5)
+    return driver 
 
 def scroll_down(driver):
-    while True:
+    for x in range(200):
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.5)
-        try:
-            driver.find_element_by_xpath('.//div[@class="info unavailable-info"]')
-            break
-        except:
-            pass
+        time.sleep(0.4)
 
-def scrape_address(driver):
-    elements = driver.find_elements_by_xpath('.//div[@class="contact"]/p')
-    line = ''
-    elements_1 = ' '.join([x.text for x in elements[0].find_elements_by_xpath('./span')])
-    elements_2 = elements[1].text
-    line = '%s, %s.' % (elements_1, elements_2)
-    return line
+def scrape_name(element):
+    name = element.find_element_by_xpath('.//span[@class="sr-hotel__name"]').text 
+    return name
+
+def scrape_address(element):
+    return element.find_element_by_xpath('.//div[@class="address"]/a').text.strip()
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/ins').text
-        old_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/del').text
+        new_price = price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong/b').text.strip()
+        try:
+            old_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span').text.strip()
+        except:
+            old_price = ''
         return new_price, old_price
     except:
-        try:
-            new_price = element.find_element_by_xpath('.//b[@class="fewRoomsLeft"]').text
-            old_price = None #element.find_element_by_xpath('.//')
-            return new_price, old_price
-        except:
-            new_price = None
-            old_price = element.find_element_by_xpath('.//div[@class="price"]/a/b').text
-            return new_price, old_price
+        return '', ''
 
 def scrape_rating(element):
     try:
-        rating = element.find_element_by_xpath('.//div[contains(@class, "guest-rating")]').text.strip()
-        return rating
+        return element.find_element_by_xpath('.//span[@itemprop="ratingValue"]').text.strip()
     except:
-        return None
+        return ''
 
 def scrape_review(element):
     try:
-        review = element.find_element_by_xpath('.//div[@class="guest-reviews-link"]/a/span[@class="full-view"]').text
+        review = element.find_element_by_xpath('.//span[@class="score_from_number_of_reviews"]').text
         return review
     except:
-        return None
+        return ''
 
-def scrape_cities(url, fh, conn, cur):
-    for city in cities[:1]:
-        for x in range(1):
-            scrape_city(url, city, x, fh, conn, cur) 
+def scrape_cities(url):
+    for city in cities[:]:
+        for x in range(2):
+            scrape_city(url, city, x) 
 
-def scrape_city(url, city, index, fh, conn, cur):
+def scrape_city(url, city, index):
     driver = spider(url)
-    element = driver.find_elements_by_xpath('.//input[@id="ss"][@class="c-autocomplete__input sb-searchbox__input sb-destination__input"]')[0]
-    element.send_keys(city)
-    driver.find_element_by_xpath('.//h3[@class="sb-searchbox__title"]').click()
-    banner(driver)
+    driver.find_element_by_xpath('.//input[@id="ss"][@class="c-autocomplete__input sb-searchbox__input sb-destination__input"]').send_keys(city)
     time.sleep(2)
+    if city == 'Guatemala City, Guatemala':
+        driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Guatemala (Guatemala City)")]').click()
+        time.sleep(2)
+    if city == 'Antigua Guatemala, Guatemala':
+        driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Antigua Guatemala")]').click()
+        time.sleep(2)
 
     if index == 0:
-        checkin = datetime.date.today()
-        checkin = checkin.strftime('%m/%d/%Y')
+        checkin = datetime.now()
+        str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
+        driver.find_elements_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))[0].click()
+        time.sleep(2)
 
-        delta = datetime.timedelta(days=2)
-        checkout = datetime.date.today() + delta
-        checkout_1 = checkout.strftime('%m/%d/%Y')
-        checkout_2 = checkout.strftime('%m/%d/%y')
+        checkout = datetime.now() + timedelta(days=2)
+        str2 = '%s %s' % (checkout.strftime('%B'), checkin.year)
+        driver.find_elements_by_xpath('.//div[@data-placeholder="Check-out Date"]')[0].click()
+        time.sleep(2)
+        driver.find_elements_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day))[0].click()
+        time.sleep(2)
 
     if index == 1:
-        delta_1 = datetime.timedelta(days=120)
-        checkin = datetime.date.today() + delta_1
-        checkin = checkin.strftime('%m/%d/%Y')
+        def get_month():
+            for x in range(4):      
+                driver.find_elements_by_xpath('.//div[@class="c2-calendar-body"]/div/span[@class="c2-button-inner"]')[1].click()
+                time.sleep(1)
 
-        delta_2 = datetime.timedelta(days=122)
-        checkout = datetime.date.today() + delta_2
-        checkout_1 = checkout.strftime('%m/%d/%Y')
-        checkout_2 = checkout.strftime('%m/%d/%y')
+        delta1 = timedelta(days=120)
+        checkin = datetime.now() + delta1
+        str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
+        get_month()
+        driver.find_elements_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))[0].click()
+        time.sleep(2)
 
-    driver.find_elements_by_xpath('.//div[@data-mode="checkin"]')[0].click()
+        delta2 = timedelta(days=122)
+        checkout = datetime.now() + delta2
+        str2 = '%s %s' % (checkout.strftime('%B'), checkout.year)
+        driver.find_elements_by_xpath('.//div[@data-placeholder="Check-out Date"]')[0].click()
+        time.sleep(2)
+        driver.find_elements_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day))[0].click()
+        time.sleep(2)
+
+    driver.find_element_by_xpath('.//select[@name="group_adults"]/option[contains(@value, "1")]').click()
     time.sleep(2)
-    banner(driver)
-    #driver.find_element_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div[@class="c2-calendar"]/div[@class="c2-calendar-body"]/div[@class="c2-calendar-viewport"]'))
-    #checkout_element = driver.find_elements_by_xpath('//div[@data-placeholder="Check-out Date"]')[0]
-    #checkout_element.clear()
-    #checkout_element.send_keys(checkout_2)
-    #banner(driver)
-    #try:
-    #    driver.find_element_by_xpath('.//div[@class="widget-query-group widget-query-occupancy"]').click()
-    #except:
-    #    pass
-    #time.sleep(2)
-
-    #occupancy_element = driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]')
-    #occupancy_element.click()
-    #time.sleep(2)
-
-    #element = driver.find_element_by_xpath('//button[@type="submit"]')
-    #element.click()
-    #time.sleep(2)
-    #scrape_hotels(driver, city, checkin, checkout_1, fh, conn, cur)
+    driver.find_element_by_xpath('//button[@type="submit"]').click()
+    time.sleep(5)
+    get_pages(driver, city, checkin, checkout)
 
     driver.quit()
 
-def scrape_hotels(driver, city, checkin, checkout, fh, conn, cur):
+def get_pages(driver, city, checkin, checkout):
+    checkin = checkin.date()
+    checkout = checkout.date()
     count = 0
-    scroll_down(driver)
-    hotels = driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')
-    for hotel in hotels:
-        new_price, old_price = scrape_price(hotel)
-        name = hotel.get_attribute('data-title')
-        review = scrape_review(hotel)
-        rating = scrape_rating(hotel)
-        address = scrape_address(hotel)
-        new_price = new_price
-        old_price = old_price
-        checkin = checkin
-        checkout = checkout
-        city = city.split(',')[0]     
-        if city not in address:
-            continue
-        count += 1
-
-        line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, new_price, old_price, checkin, checkout, city)
-        fh.write(line.encode('utf8'))
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city)
-
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+    while True:
+        scroll_down(driver)
+        hotels = driver.find_elements_by_xpath('.//div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]')
+        for hotel in hotels:
+            new_price, old_price = scrape_price(hotel)
+            name = scrape_name(hotel)
+            review = scrape_review(hotel)
+            rating = scrape_rating(hotel)
+            address = scrape_address(hotel)
+            checkin = checkin
+            checkout = checkout
+            city = city.split(',')[0]
+            currency = 'USD'
+            source = 'booking.com'
+            if len(new_price) == 0 and len(old_price) == 0:
+                continue
+            count += 1
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+         
+        try:
+            driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()
+            time.sleep(10)
+        except:
+            driver.quit()
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            break
 
 
 if __name__ == '__main__':
-    #conn, cur = sql_connect(host, username, password, database)
-    conn = None
-    cur = None
+    global conn
+    global cur
+    conn, cur = sql_connect(host, username, password, database)
     url = 'https://www.booking.com/'
-    fh = open('output/booking.csv', 'w')
-    header = 'name,review,rating,address,new_price,old_price,checkin,checkout,city\n'
-    fh.write(header)
-    scrape_cities(url, fh, conn, cur)
-    fh.close()
+    scrape_cities(url)
+    conn.close()
 
 

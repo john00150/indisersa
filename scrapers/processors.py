@@ -26,7 +26,7 @@ def spider(url):
     chrome_options.add_experimental_option("prefs",prefs)
     #chrome_options.add_argument('--proxy-server=%s' % proxy)
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.set_window_size(800, 600)
+    #driver.set_window_size(800, 600)
     driver.get(url)
     time.sleep(5)
     return driver
