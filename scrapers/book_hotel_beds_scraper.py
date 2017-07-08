@@ -1,67 +1,57 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from processors import spider, sql_connect, sql_write
+from processors import spider, sql_write
 import time, datetime
 
 cities = [
     'Guatemala City, Guatemala',
-#    'Antigua Guatemala, Guatemala',
+    'Antigua Guatemala, Guatemala',
 ]
 
-host = 'indisersa.database.windows.net'
-username = 'otto'
-password = 'Knoke@1958'
-database = 'hotel_Info'
 
+def scrape_address(element):
+    try:
+        return element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_location")]').text
+    except:
+        return ''
 
-def scrape_address(driver):
-    elements = driver.find_elements_by_xpath('.//div[@class="contact"]/p')
-    line = ''
-    elements_1 = ' '.join([x.text for x in elements[0].find_elements_by_xpath('./span')])
-    elements_2 = elements[1].text
-    line = '%s, %s.' % (elements_1, elements_2)
-    return line
+def scrape_name(element):
+    return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').text.strip()
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/ins').text
-        old_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/del').text
+        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().split(' ')[1].replace(',', '')
+        try:
+            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().split(' ')[1].replace(',', '')
+        except:
+            old_price = ''
         return new_price, old_price
     except:
-        try:
-            new_price = element.find_element_by_xpath('.//b[@class="fewRoomsLeft"]').text
-            old_price = None #element.find_element_by_xpath('.//')
-            return new_price, old_price
-        except:
-            new_price = None
-            old_price = element.find_element_by_xpath('.//div[@class="price"]/a/b').text
-            return new_price, old_price
+        return '', ''
 
 def scrape_rating(element):
     try:
-        rating = element.find_element_by_xpath('.//div[contains(@class, "guest-rating")]').text.strip()
-        return rating
+        return element.find_element_by_xpath('.//p[@class="hc_hotel_userRating"]/a').text.strip()
     except:
-        return None
+        return ''
 
 def scrape_review(element):
     try:
-        review = element.find_element_by_xpath('.//div[@class="guest-reviews-link"]/a/span[@class="full-view"]').text
-        return review
+        return element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_numberOfReviews")]/span').text.strip()
     except:
-        return None
+        return ''
 
-def scrape_cities(url, fh, conn, cur):
+def scrape_cities(url):
     for city in cities:
-        for x in range(1):
-            scrape_city(url, city, x, fh, conn, cur) 
+        for x in range(2):
+            scrape_city(url, city, x) 
 
-def scrape_city(url, city, index, fh, conn, cur):
+def scrape_city(url, city, index):
     driver = spider(url)
     element = driver.find_elements_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input')[0]
     element.send_keys(city)
-    time.sleep(2)
+    time.sleep(5)
     driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
     driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]').click()
@@ -97,53 +87,45 @@ def scrape_city(url, city, index, fh, conn, cur):
     driver.find_element_by_xpath('//a[@class="hcsb_searchButton"]').click()
     time.sleep(2)
     driver.switch_to_window(driver.window_handles[1])
-    get_pages(driver, fh)
+    get_pages(driver, city, checkin, checkout)
     driver.quit()
 
-def get_pages(driver, fh):
+def get_pages(driver, city, checkin, checkout):
+    checkin = checkin.date()
+    checkout = checkout.date()
     time.sleep(5)
-    #scrape_hotels(driver, city, checkin, checkout_1, fh, conn, cur)
+    count = 0
     while True:
+        hotels = driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')
+        for hotel in hotels:
+            new_price, old_price = scrape_price(hotel)
+            name = scrape_name(hotel)
+            review = scrape_review(hotel)
+            rating = scrape_rating(hotel)
+            address = scrape_address(hotel)
+            checkin = checkin
+            checkout = checkout
+            city = city.split(',')[0]
+            currency = 'GTQ'
+            source = 'book-hotel-beds.com'
+            if len(new_price) == 0 and len(old_price) == 0:
+                continue
+            count += 1
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
-            time.sleep(5)
+            time.sleep(10)
         except:
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
             break
-
-def scrape_hotels(driver, city, checkin, checkout, fh, conn, cur):
-    count = 0
-    hotels = driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')
-    for hotel in hotels:
-        new_price, old_price = scrape_price(hotel)
-        name = hotel.get_attribute('data-title')
-        review = scrape_review(hotel)
-        rating = scrape_rating(hotel)
-        address = scrape_address(hotel)
-        new_price = new_price
-        old_price = old_price
-        checkin = checkin
-        checkout = checkout
-        city = city.split(',')[0]     
-        if city not in address:
-            continue
-        count += 1
-
-        line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, new_price, old_price, checkin, checkout, city)
-        fh.write(line.encode('utf8'))
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city)
-
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 
 if __name__ == '__main__':
-    #conn, cur = sql_connect(host, username, password, database)
-    conn = None
-    cur = None
+    global conn
+    global cur
+    conn, cur = sql_connect(host, username, password, database)
     url = 'http://www.book-hotel-beds.com/'
-    fh = open('output/book_hotel_beds.csv', 'w')
-    header = 'name,review,rating,address,new_price,old_price,checkin,checkout,city\n'
-    fh.write(header)
-    scrape_cities(url, fh, conn, cur)
-    fh.close()
+    scrape_cities(url)
+    conn.close()
 
 
