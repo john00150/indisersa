@@ -21,9 +21,9 @@ def scrape_name(element):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().split(' ')[1].replace(',', '')
+        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip()
         try:
-            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().split(' ')[1].replace(',', '')
+            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip()
         except:
             old_price = ''
         return new_price, old_price
@@ -93,7 +93,7 @@ def scrape_city(url, city, index):
 def get_pages(driver, city, checkin, checkout):
     checkin = checkin.date()
     checkout = checkout.date()
-    time.sleep(5)
+    time.sleep(10)
     count = 0
     while True:
         hotels = driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')
@@ -124,6 +124,7 @@ if __name__ == '__main__':
     global conn
     global cur
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'http://www.book-hotel-beds.com/'
     scrape_cities(url)
     conn.close()
