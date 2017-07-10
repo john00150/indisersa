@@ -2,18 +2,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from processors import spider, sql_write
-import time, datetime
+import time, datetime, pyodbc
 
 cities = [
     'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
 ]
-
-host = 'indisersa.database.windows.net'
-username = 'otto'
-password = 'Knoke@1958'
-database = 'hotel_Info'
-
 
 def banner(driver):
     try:
@@ -145,8 +139,8 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
         currency = 'USD'
         checkin = checkin
         checkout = checkout
-        city = city.split(',')[0] 
-        source = 'hotels.com'    
+        city = city.split(',')[0]
+        source = 'hotels.com'
         if city not in address:
             continue
         count += 1

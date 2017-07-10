@@ -13,7 +13,8 @@ cities = [
 
 def banner(driver):
     try:
-        driver.find_element_by_xpath('.//body').click()
+        driver.find_element_by_xpath('.//i[@class="nevo-modal-close nevo-icon-close"]').click()
+        time.sleep(2)
     except:
         pass 
 
@@ -123,8 +124,11 @@ def get_pages(driver, city, checkin, checkout):
     checkin = checkin.date()
     checkout = checkout.date()
     time.sleep(10)
+    banner(driver)
     count = 0
     while True:
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
         for hotel in hotels:
             new_price, old_price = scrape_price(hotel)
@@ -141,7 +145,9 @@ def get_pages(driver, city, checkin, checkout):
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]').click()
-            time.sleep(10)
+            time.sleep(5)
+            banner(driver)
+            time.sleep(5)
         except:
             driver.quit()
             print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
