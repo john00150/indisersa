@@ -134,7 +134,7 @@ def get_pages(driver, city, checkin, checkout):
             checkin = checkin
             checkout = checkout
             city = city.split(',')[0]
-            currency = 'USD'
+            currency = 'GTQ'
             source = 'booking.com'
             if len(new_price) == 0 and len(old_price) == 0:
                 continue

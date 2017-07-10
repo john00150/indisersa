@@ -16,7 +16,7 @@ def sql_write(conn, cur, hotel, rating, review, address,new_price, old_price, ch
     review = review.replace("'", "''")
     address = address.replace("'", "''")
     city = city.replace("'", "''")   
-    sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+    sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source, location) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
     sql_exec(conn, cur, sql)
 
 def spider(url):

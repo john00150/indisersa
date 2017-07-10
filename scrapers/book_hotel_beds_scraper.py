@@ -93,7 +93,7 @@ def scrape_city(url, city, index):
 def get_pages(driver, city, checkin, checkout):
     checkin = checkin.date()
     checkout = checkout.date()
-    time.sleep(5)
+    time.sleep(10)
     count = 0
     while True:
         hotels = driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')
@@ -111,7 +111,7 @@ def get_pages(driver, city, checkin, checkout):
             if len(new_price) == 0 and len(old_price) == 0:
                 continue
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
@@ -123,7 +123,8 @@ def get_pages(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'http://www.book-hotel-beds.com/'
     scrape_cities(url)
     conn.close()
