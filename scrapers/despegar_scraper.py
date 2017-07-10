@@ -121,8 +121,6 @@ def scrape_city(url, city, index):
     get_pages(driver, city, checkin, checkout)
 
 def get_pages(driver, city, checkin, checkout):
-    checkin = checkin.date()
-    checkout = checkout.date()
     time.sleep(10)
     banner(driver)
     count = 0
@@ -135,14 +133,15 @@ def get_pages(driver, city, checkin, checkout):
             name = scrape_name(hotel)
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
-            address = scrape_address(hotel)
+            address = ''
             checkin = checkin
             checkout = checkout
             city = city.split(',')[0]
             currency = 'USD'
             source = 'us.despegar.com'
+            location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         try:
             driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]').click()
             time.sleep(5)

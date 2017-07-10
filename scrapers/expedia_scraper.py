@@ -1,10 +1,14 @@
 #!/usr/bin/python
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
-from processors import spider, sql_write, checkin_checkout, csv_write
-from settings import host, username, password, database, cities
+from processors import spider, sql_write
 import time, re, pyodbc
+from datetime import datetime, timedelta
 
+cities = [
+    'Guatemala City, Guatemala',
+    'Antigua Guatemala, Guatemala',
+]
 
 def get_name(element):
     name = element.find_element_by_xpath('./h3').text.strip()
@@ -16,33 +20,33 @@ def get_review(element):
         review = review.strip().strip('(').strip(')')
         return review
     except:
-        return ''
+        return 0
 
 def get_rating(element):
     try:
         rating = element.find_elements_by_xpath('.//li[@class="reviewOverall"]/span')[1].text.strip()
         return rating
     except:
-        return ''
+        return 0
 
 def get_actualprice(element):
     try:
         price = element.find_element_by_xpath('.//ul[@class="hotel-price"]/li[@data-automation="actual-price"]/a').text.strip()
-        price = re.findall(r'([0-9$]+)', price)[0]
+        price = re.findall(r'([0-9$]+)', price)[0].strip('$')
     except:
         try:
             price = element.find_element_by_xpath('.//ul[@class="hotel-price"]/li[@data-automation="actual-price"]').text.strip()
-            price = re.findall(r'([0-9$]+)', price)[0]
+            price = re.findall(r'([0-9$]+)', price)[0].strip('$')
         except:
-            price = ''
+            price = 0
     return price
 
 def get_strikeprice(element):
     try:
         price = element.find_element_by_xpath('.//ul[@class="hotel-price"]/li[@data-automation="strike-price"]/a').text.strip()
-        price = re.findall(r'([0-9$]+)', price)[0]
+        price = re.findall(r'([0-9$]+)', price)[0].strip('$')
     except:
-        price = ''
+        price = 0
     return price
 
 def get_address(element):
@@ -54,39 +58,43 @@ def get_address(element):
     line = '%s, %s.' % (address, phone)
     return line, address
     
-def scrape_cities(url, conn, cur):
+def scrape_cities(url):
     for city in cities:
         for x in range(2):
-            scrape_city(url, city, x, conn, cur)
+            scrape_city(url, city, x)
 
-def scrape_city(url, city, index, conn, cur):
+def scrape_city(url, city, index):
     driver = spider(url)
 
-    search_el = driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]')
-    search_el.send_keys(city)
+    driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]').send_keys(city)
     driver.find_element_by_xpath('.//div[@class="hero-banner-box cf"]').click()
     time.sleep(2)
 
-    checkin, checkout_1, checkout_2 = checkin_checkout(index)
-    checkin_el = driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]')
-    checkin_el.send_keys(checkin)
+    if index == 0:
+        checkin = datetime.now()
+        checkinn = checkin.strftime('%m/%d/%Y')
+        checkout = datetime.now() + timedelta(days=2)
+        checkoutt = checkout.strftime('%m/%d/%Y')
+    if index == 1:
+        checkin = datetime.now() + timedelta(days=120)
+        checkinn = checkin.strftime('%m/%d/%Y')
+        checkout = datetime.now() + timedelta(days=122)
+        checkoutt = checkout.strftime('%m/%d/%Y')
+
+    driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]').send_keys(checkinn)
     time.sleep(2)
-    checkout_el = driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]')
-    checkout_el.clear()
-    checkout_el.send_keys(checkout_1)
+    driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]').clear()
+    driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]').send_keys(checkoutt)
     time.sleep(2)
 
-    occupancy_el = driver.find_element_by_xpath('.//select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]')
-    occupancy_el.click()
+    driver.find_element_by_xpath('.//select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]').click()
     time.sleep(2)
 
-    button_el = driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]')
-    button_el.click()
+    driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]').click()
     time.sleep(2)
-    scrape_hotels(driver, city, checkin, checkout_1)
+    scrape_hotels(driver, city, checkin.date(), checkout.date())
 
 def scrape_hotels(driver, city, checkin, checkout):
-    restricted = ['Antigua Guatemala', 'Villa Canales']
     count = 0
     while True:
         time.sleep(5)
@@ -99,17 +107,11 @@ def scrape_hotels(driver, city, checkin, checkout):
             rating = get_rating(hotel)
             address, location = get_address(hotel)
             address = address
-            checkin = checkin
-            checkout = checkout
             city = city.split(',')[0]
             currency = 'USD'
             source = 'expedia.com'
-            #if location in restricted:
-            #    continue    
-            if len(new_price) == 0 and len(old_price) == 0:
-                continue
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-            count += 1    
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+            count += 1   
  
         try:       
             next = driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr')
@@ -120,9 +122,11 @@ def scrape_hotels(driver, city, checkin, checkout):
             break
 
 if __name__ == '__main__':
+    global conn
+    global cur
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'https://www.expedia.com/Hotels'
-    scrape_cities(url, conn, cur)
+    scrape_cities(url)
     conn.close()
 

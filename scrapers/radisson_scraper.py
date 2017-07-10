@@ -25,7 +25,7 @@ def scrape_location(element):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//td[@class="rateamount"]').text.strip()
+        new_price = element.find_element_by_xpath('.//td[@class="rateamount"]').text.strip().strip('Q').strip()
         old_price = 0
         return new_price, old_price
     except:
@@ -86,7 +86,7 @@ def scrape_hotels(driver, city, checkin, checkout):
     city = city.split(',')[0]
     location = scrape_location(driver)     
     source = 'radisson.com'
-    currency = 'USD'
+    currency = 'GTQ'
     sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
     #print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
