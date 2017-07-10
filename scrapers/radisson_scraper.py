@@ -10,6 +10,10 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
+def banner(element):
+    element.find_element_by_xpath('.//div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]').click()
+    time.sleep(2)
+
 def scrape_name(element):
     return element.find_element_by_xpath('.//div[@class="innername"]/a').text.strip()
 
@@ -43,6 +47,7 @@ def scrape_cities(url):
 
 def scrape_city(url, city, index):
     driver = spider(url)
+    banner(driver)
     driver.find_element_by_xpath('.//input[@name="city"]').send_keys(city)
     time.sleep(2)
     driver.find_element_by_xpath('.//input[@id="checkinDate"]').click()
@@ -82,9 +87,8 @@ def scrape_hotels(driver, city, checkin, checkout):
     location = scrape_location(driver)     
     source = 'radisson.com'
     currency = 'USD'
-    #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
     #print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
-    print name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location
 
 
 if __name__ == '__main__':
