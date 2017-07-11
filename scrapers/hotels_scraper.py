@@ -134,8 +134,6 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
         review = scrape_review(hotel)
         rating = scrape_rating(hotel)
         address = scrape_address(hotel)
-        new_price = new_price
-        old_price = old_price
         currency = 'USD'
         checkin = checkin
         checkout = checkout
@@ -144,7 +142,7 @@ def scrape_hotels(driver, city, checkin, checkout, conn, cur):
         if city not in address:
             continue
         count += 1
-
+        print new_price, old_price
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
