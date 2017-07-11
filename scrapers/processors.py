@@ -31,26 +31,4 @@ def csv_write(fh, name, review, rating, address, currency, new_price, old_price,
         line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source)
         fh.write(line.encode('utf8'))
 
-def checkin_checkout(index):
-    if index == 0:
-        checkin = datetime.date.today()
-        checkin = checkin.strftime('%m/%d/%Y')
-
-        delta = datetime.timedelta(days=2)
-        checkout = datetime.date.today() + delta
-        checkout_1 = checkout.strftime('%m/%d/%Y')
-        checkout_2 = checkout.strftime('%m/%d/%y')
-
-    if index == 1:
-        delta_1 = datetime.timedelta(days=120)
-        checkin = datetime.date.today() + delta_1
-        checkin = checkin.strftime('%m/%d/%Y')
-
-        delta_2 = datetime.timedelta(days=122)
-        checkout = datetime.date.today() + delta_2
-        checkout_1 = checkout.strftime('%m/%d/%Y')
-        checkout_2 = checkout.strftime('%m/%d/%y')
-
-    return checkin, checkout_1, checkout_2
-
 

@@ -27,20 +27,20 @@ def scrape_address(element):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//span[@class="currency"]/span[@class="currency-price"]').text.strip()
+        new_price = element.find_element_by_xpath('.//span[@class="currency"]/span[@class="currency-price"]').text.strip().strip('us$').strip()
         try:
-            old_price = element.find_element_by_xpath('.//span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]').text.strip()
+            old_price = element.find_element_by_xpath('.//span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]').text.strip().strip('us$').strip()
         except:
-            old_price = ''
+            old_price = 0
         return new_price, old_price
     except:
-        return '', ''
+        return 0, 0
 
 def scrape_rating(element):
     try:
         return element.find_element_by_xpath('.//span[@class="reviews"]').text.strip()
     except:
-        return ''
+        return 0
 
 def scrape_review(element):
     pass
@@ -65,8 +65,7 @@ def scrape_city(url, city, index):
 
     if index == 0:
         checkin = datetime.now()
-        delta = timedelta(days=2)
-        checkout = datetime.now() + delta
+        checkout = datetime.now() + timedelta(days=2)
 
         driver.find_element_by_xpath('//input[@name="check-inH"]').click()
         time.sleep(2)
@@ -78,11 +77,8 @@ def scrape_city(url, city, index):
         time.sleep(2)
 
     if index == 1:
-        delta_1 = timedelta(days=120)
-        checkin = datetime.now() + delta_1
-
-        delta_2 = timedelta(days=122)
-        checkout = datetime.now() + delta_2
+        checkin = datetime.now() + timedelta(days=120)
+        checkout = datetime.now() + timedelta(days=122)
 
         driver.find_element_by_xpath('//input[@name="check-inH"]').click()
         for x in range(4):
@@ -102,28 +98,23 @@ def scrape_city(url, city, index):
 
 def scrape_hotels(driver, city, checkin, checkout):
     time.sleep(10)
-    checkin = checkin.date()
-    checkout = checkout.date()
     count = 0
     scroll_down(driver)
     hotels = driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]')
     for hotel in hotels:
         new_price, old_price = scrape_price(hotel)
         name = scrape_name(hotel)
-        review = ''
+        review = 0
         rating = scrape_rating(hotel)
-        address = scrape_address(hotel)
-        checkin = checkin
-        checkout = checkout
+        address = ''
         city = city.split(',')[0] 
-        currency = 'GTQ'
+        currency = 'USD'
         source = 'bestday.com'
-        if address not in city:
-            continue
-        if len(new_price) == 0 and len(old_price) == 0:
-            continue
+        location = scrape_address(hotel)
+        #if location not in city:
+        #    continue
 
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         count += 1
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)

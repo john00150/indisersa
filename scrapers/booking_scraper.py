@@ -11,7 +11,6 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-
 def banner(driver):
     try:
         driver.find_element_by_xpath('.//body').click()
@@ -25,7 +24,7 @@ def spider(url):
     return driver 
 
 def scroll_down(driver):
-    for x in range(200):
+    for x in range(500):
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
         time.sleep(0.4)
 
@@ -38,27 +37,27 @@ def scrape_address(element):
 
 def scrape_price(element):
     try:
-        new_price = price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong/b').text.strip()
+        new_price = price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong/b').text.strip().strip('GTQ').strip()
         try:
-            old_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span').text.strip()
+            old_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span').text.strip().strip('GTQ').strip()
         except:
-            old_price = ''
+            old_price = 0
         return new_price, old_price
     except:
-        return '', ''
+        return 0, 0
 
 def scrape_rating(element):
     try:
         return element.find_element_by_xpath('.//span[@itemprop="ratingValue"]').text.strip()
     except:
-        return ''
+        return 0
 
 def scrape_review(element):
     try:
         review = element.find_element_by_xpath('.//span[@class="score_from_number_of_reviews"]').text
         return review
     except:
-        return ''
+        return 0
 
 def scrape_cities(url):
     for city in cities[:]:
@@ -130,16 +129,13 @@ def get_pages(driver, city, checkin, checkout):
             name = scrape_name(hotel)
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
-            address = scrape_address(hotel)
-            checkin = checkin
-            checkout = checkout
+            address = ''
             city = city.split(',')[0]
-            currency = 'USD'
+            currency = 'GTQ'
             source = 'booking.com'
-            if len(new_price) == 0 and len(old_price) == 0:
-                continue
+            location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
          
         try:
             driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()

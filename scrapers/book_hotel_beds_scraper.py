@@ -2,7 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from processors import spider, sql_write
-import time, datetime, pyodbc
+import time, pyodbc
+from datetime import datetime, timedelta
 
 cities = [
     'Guatemala City, Guatemala',
@@ -21,26 +22,26 @@ def scrape_name(element):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip()
+        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip()
         try:
-            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip()
+            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip()
         except:
-            old_price = ''
+            old_price = 0
         return new_price, old_price
     except:
-        return '', ''
+        return 0, 0
 
 def scrape_rating(element):
     try:
         return element.find_element_by_xpath('.//p[@class="hc_hotel_userRating"]/a').text.strip()
     except:
-        return ''
+        return 0
 
 def scrape_review(element):
     try:
         return element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_numberOfReviews")]/span').text.strip()
     except:
-        return ''
+        return 0
 
 def scrape_cities(url):
     for city in cities:
@@ -56,20 +57,15 @@ def scrape_city(url, city, index):
     time.sleep(2)
 
     if index == 0:
-        checkin = datetime.datetime.now()
+        checkin = datetime.now()
         checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
-
-        delta = datetime.timedelta(days=2)
-        checkout = datetime.datetime.now() + delta
+        checkout = datetime.now() + timedelta(days=2)
         checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
     if index == 1:
-        delta_1 = datetime.timedelta(days=120)
-        checkin = datetime.datetime.now() + delta_1
+        checkin = datetime.now() + timedelta(days=120)
         checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
-
-        delta_2 = datetime.timedelta(days=122)
-        checkout = datetime.datetime.now() + delta_2
+        checkout = datetime.now() + timedelta(days=122)
         checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
     driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
@@ -91,8 +87,6 @@ def scrape_city(url, city, index):
     driver.quit()
 
 def get_pages(driver, city, checkin, checkout):
-    checkin = checkin.date()
-    checkout = checkout.date()
     time.sleep(10)
     count = 0
     while True:
@@ -102,16 +96,13 @@ def get_pages(driver, city, checkin, checkout):
             name = scrape_name(hotel)
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
-            address = scrape_address(hotel)
-            checkin = checkin
-            checkout = checkout
+            address = ''
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'book-hotel-beds.com'
-            if len(new_price) == 0 and len(old_price) == 0:
-                continue
+            location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
