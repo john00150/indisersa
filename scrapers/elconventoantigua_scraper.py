@@ -54,6 +54,8 @@ def scrape(url, index):
     time.sleep(2)
     driver.find_element_by_xpath('.//select[@id="rooms"]/option[contains(text(), "1")]').click()
     time.sleep(2)
+    driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+    time.sleep(2)
     driver.find_element_by_xpath('.//button[@type="submit"]').click()
     time.sleep(2)
     driver.switch_to_window(driver.window_handles[1])
@@ -71,16 +73,16 @@ def scrape_hotels(driver, checkin, checkout):
     location = scrape_location()     
     source = 'elconventoantigua.com'
     currency = 'USD'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+    #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
 
 
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
     scrape_dates(url)
-    conn.close()
+    #conn.close()
 
 

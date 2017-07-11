@@ -6,8 +6,8 @@ import time, pyodbc
 from datetime import datetime, timedelta
 
 cities = [
-    'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
+    'Guatemala City, Guatemala',
 ]
 
 
@@ -18,7 +18,7 @@ def scrape_address(element):
         return ''
 
 def scrape_name(element):
-    return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').text.strip()
+    return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').get_attribute('title')
 
 def scrape_price(element):
     try:
@@ -52,7 +52,7 @@ def scrape_city(url, city, index):
     driver = spider(url)
     element = driver.find_elements_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input')[0]
     element.send_keys(city)
-    time.sleep(5)
+    time.sleep(10)
     driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
 
@@ -102,22 +102,22 @@ def get_pages(driver, city, checkin, checkout):
             source = 'book-hotel-beds.com'
             location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
         except:
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
             break
 
 
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'http://www.book-hotel-beds.com/'
     scrape_cities(url)
-    conn.close()
+    #conn.close()
 
 
