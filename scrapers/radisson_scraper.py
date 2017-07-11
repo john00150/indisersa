@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 cities = [
     'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
+#    'Antigua Guatemala, Guatemala',
 ]
 
 def banner(element):
