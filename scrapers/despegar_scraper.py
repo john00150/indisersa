@@ -149,7 +149,7 @@ def get_pages(driver, city, checkin, checkout):
             time.sleep(5)
         except:
             driver.quit()
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
             break
 
 

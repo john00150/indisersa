@@ -6,8 +6,8 @@ import time, pyodbc
 from datetime import datetime, timedelta
 
 cities = [
+    'Antigua Guatemala, Guatemala',   
     'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
 ]
 
 
@@ -18,13 +18,13 @@ def scrape_address(element):
         return ''
 
 def scrape_name(element):
-    return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').text.strip()
+    return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').get_attribute('title')
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip()
+        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip().replace(',', '')
         try:
-            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip()
+            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip().replace(',', '')
         except:
             old_price = 0
         return new_price, old_price
@@ -52,7 +52,7 @@ def scrape_city(url, city, index):
     driver = spider(url)
     element = driver.find_elements_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input')[0]
     element.send_keys(city)
-    time.sleep(5)
+    time.sleep(10)
     driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
 
@@ -107,7 +107,7 @@ def get_pages(driver, city, checkin, checkout):
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
         except:
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
             break
 
 
