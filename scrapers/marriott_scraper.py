@@ -85,10 +85,9 @@ def scrape_hotels(driver, city, checkin, checkout):
         source = 'marriott.com'
         currency = 'USD'
         count += 1
-
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+    print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
 
 def spider(url):
     chrome_options = webdriver.ChromeOptions()

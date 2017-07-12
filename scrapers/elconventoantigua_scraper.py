@@ -74,6 +74,7 @@ def scrape_hotels(driver, checkin, checkout):
         source = 'elconventoantigua.com'
         currency = 'USD'
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        print source 
     except:
         print 'the date is unavailable'
 

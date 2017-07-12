@@ -77,7 +77,7 @@ def scrape_hotels(driver, city, checkin, checkout):
     source = 'radisson.com'
     currency = 'GTQ'
     sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-    #print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+    print source
 
 
 if __name__ == '__main__':
