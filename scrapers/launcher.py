@@ -7,38 +7,38 @@ if __name__ == '__main__':
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
     except:
-        fh.write('marriott_scraper failed')
+        fh.write('marriott_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py')
     except:
-        fh.write('radisson_scraper failed')
+        fh.write('radisson_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py')
     except:
-        fh.write('bestday_scraper failed')
+        fh.write('bestday_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py')
     except:
-        fh.write('booking_scraper failed')
+        fh.write('booking_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py')
     except:
-        fh.write('despegar_scraper failed')
+        fh.write('despegar_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py')
     except:
-        fh.write('elconventoantigua_scraper failed')
+        fh.write('elconventoantigua_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py')
     except:
-        fh.write('expedia_scraper failed')
+        fh.write('expedia_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py')
     except:
-        fh.write('book_hotel_beds_scraper failed')
+        fh.write('book_hotel_beds_scraper failed\n')
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py')
     except:
-        fh.write('hotels_scraper failed')
+        fh.write('hotels_scraper failed\n')
     fh.write('finish: %s\n' % datetime.now())
 
