@@ -6,7 +6,7 @@ import time, pyodbc
 from datetime import datetime, timedelta
 
 cities = [
-    'Antigua Guatemala, Guatemala',
+    'Antigua Guatemala, Guatemala',   
     'Guatemala City, Guatemala',
 ]
 
@@ -22,9 +22,9 @@ def scrape_name(element):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip()
+        new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip().replace(',', '')
         try:
-            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip()
+            old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip().replace(',', '')
         except:
             old_price = 0
         return new_price, old_price
@@ -102,7 +102,7 @@ def get_pages(driver, city, checkin, checkout):
             source = 'book-hotel-beds.com'
             location = scrape_address(hotel)
             count += 1
-            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
@@ -114,10 +114,10 @@ def get_pages(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'http://www.book-hotel-beds.com/'
     scrape_cities(url)
-    #conn.close()
+    conn.close()
 
 

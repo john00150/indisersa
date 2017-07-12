@@ -1,10 +1,21 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from processors import sql_write, spider
+from selenium.webdriver.chrome.options import Options
+from processors import sql_write
 import time, pyodbc
 from datetime import datetime, timedelta
 
+
+def spider(url):
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {'profile.managed_default_content_settings.images': 2}
+    chrome_options.add_experimental_option('prefs', prefs)
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_window_size(800, 1000)
+    driver.get(url)
+    time.sleep(5)
+    return driver
 
 def scrape_name():
     return 'Convento Boutique Hotel'

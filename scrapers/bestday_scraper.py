@@ -117,7 +117,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
         count += 1
 
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
 
 
 if __name__ == '__main__':
