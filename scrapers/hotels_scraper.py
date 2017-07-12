@@ -1,7 +1,7 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from processors import spider, sql_write
+from processors import sql_write
 import time, pyodbc
 from datetime import datetime, timedelta
 
@@ -9,6 +9,16 @@ cities = [
     'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
 ]
+
+def spider(url):
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {"profile.managed_default_content_settings.images":2}
+    chrome_options.add_experimental_option("prefs",prefs)
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_window_size(800, 1200)
+    driver.get(url)
+    time.sleep(5)
+    return driver
 
 def banner(driver):
     try:
@@ -129,7 +139,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         if city not in address:
             continue
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
 
@@ -137,10 +147,10 @@ def scrape_hotels(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_cities(url)
-    conn.close()
+    #conn.close()
 
 
