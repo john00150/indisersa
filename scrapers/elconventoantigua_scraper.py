@@ -12,7 +12,7 @@ def spider(url):
     prefs = {'profile.managed_default_content_settings.images': 2}
     chrome_options.add_experimental_option('prefs', prefs)
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.set_window_size(800, 1000)
+    driver.set_window_size(800, 1200)
     driver.get(url)
     time.sleep(5)
     return driver
@@ -56,8 +56,6 @@ def scrape(url):
     time.sleep(2)
     driver.find_element_by_xpath('.//select[@id="rooms"]/option[contains(text(), "1")]').click()
     time.sleep(2)
-    driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-    time.sleep(2)
     driver.find_element_by_xpath('.//button[@type="submit"]').click()
     time.sleep(2)
     driver.switch_to_window(driver.window_handles[1])
@@ -66,16 +64,18 @@ def scrape(url):
 
 def scrape_hotels(driver, checkin, checkout):
     time.sleep(10)
-    new_price, old_price = scrape_price(driver)
-    name = scrape_name()
-    review = scrape_review()
-    rating = scrape_rating()
-    address = scrape_address()
-    city = 'Antigua Guatemala, Guatemala'
-    #location = scrape_location()     
-    source = 'elconventoantigua.com'
-    currency = 'USD'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+    try:
+        new_price, old_price = scrape_price(driver)
+        name = scrape_name()
+        review = scrape_review()
+        rating = scrape_rating()
+        address = scrape_address()
+        city = 'Antigua Guatemala, Guatemala'
+        source = 'elconventoantigua.com'
+        currency = 'USD'
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+    except:
+        print 'the date is unavailable'
 
 
 if __name__ == '__main__':

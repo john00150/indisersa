@@ -41,3 +41,4 @@ if __name__ == '__main__':
     except:
         fh.write('hotels_scraper failed')
     fh.write('finish: %s\n' % datetime.now())
+
