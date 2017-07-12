@@ -110,7 +110,7 @@ def scrape_hotels(driver, city, checkin, checkout):
             next.click()
         except:            
             driver.quit()
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
             break
 
 if __name__ == '__main__':

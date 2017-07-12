@@ -99,7 +99,7 @@ def get_pages(driver, city, checkin, checkout):
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
         except:
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
+            print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
             break
 
 
