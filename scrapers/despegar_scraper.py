@@ -79,46 +79,27 @@ def send_city_name(url, city):
     return driver
 
 def scrape_cities(url):
-    for city in cities[:]:
-        for x in range(2):
-            scrape_city(url, city, x) 
+    for city in cities:
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     try:
         driver = send_city_name(url, city)
     except:
         driver.quit()
         driver = send_city_name(url, city)
-    driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]').click()
+    driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]').click()       
 
-    if index == 0:
-        checkin = datetime.now()
-        driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkin.strftime('%Y-%m'), checkin.day)).click()
-        time.sleep(2)
-
-        checkout = datetime.now() + timedelta(days=2)
-        driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkout.strftime('%Y-%m'), checkout.day)).click()
-        time.sleep(2)        
-
-    if index == 1:
-        def get_month(driver):
-            for x in range(4):      
-                driver.find_element_by_xpath('.//div[@class="_dpmg2--controls-next"]').click()
-                time.sleep(1)
-
-        get_month(driver)
-        time.sleep(2)
-        checkin = datetime.now() + timedelta(days=120)
-        driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkin.strftime('%Y-%m'), checkin.day)).click()
-        time.sleep(2)
-
-        checkout = datetime.now() + timedelta(days=122)
-        driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkout.strftime('%Y-%m'), checkout.day)).click()
-        time.sleep(2)    
+    checkin = datetime.now() + timedelta(days=15)
+    checkout = datetime.now() + timedelta(days=18)
+    driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkin.strftime('%Y-%m'), checkin.day)).click()
+    time.sleep(2)
+    driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkout.strftime('%Y-%m'), checkout.day)).click()
+    time.sleep(2)    
 
     scrape_occupation(driver)
     driver.find_element_by_xpath('.//a[contains(@class, "sbox-search")]').click()
-    get_pages(driver, city, checkin, checkout)
+    get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
 
 def get_pages(driver, city, checkin, checkout):
     time.sleep(10)
@@ -134,14 +115,12 @@ def get_pages(driver, city, checkin, checkout):
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
             address = ''
-            checkin = checkin
-            checkout = checkout
             city = city.split(',')[0]
             currency = 'USD'
             source = 'us.despegar.com'
-            location = scrape_address(hotel)
+            #location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]').click()
             time.sleep(5)
@@ -149,7 +128,7 @@ def get_pages(driver, city, checkin, checkout):
             time.sleep(5)
         except:
             driver.quit()
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
             break
 
 

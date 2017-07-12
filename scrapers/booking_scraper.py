@@ -60,11 +60,10 @@ def scrape_review(element):
         return 0
 
 def scrape_cities(url):
-    for city in cities[:]:
-        for x in range(2):
-            scrape_city(url, city, x) 
+    for city in cities:
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     driver.find_element_by_xpath('.//input[@id="ss"][@class="c-autocomplete__input sb-searchbox__input sb-destination__input"]').send_keys(city)
     time.sleep(2)
@@ -75,51 +74,25 @@ def scrape_city(url, city, index):
         driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Antigua Guatemala")]').click()
         time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
-        driver.find_elements_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))[0].click()
-        time.sleep(2)
-
-        checkout = datetime.now() + timedelta(days=2)
-        str2 = '%s %s' % (checkout.strftime('%B'), checkin.year)
-        driver.find_elements_by_xpath('.//div[@data-placeholder="Check-out Date"]')[0].click()
-        time.sleep(2)
-        driver.find_elements_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day))[0].click()
-        time.sleep(2)
-
-    if index == 1:
-        def get_month():
-            for x in range(4):      
-                driver.find_elements_by_xpath('.//div[@class="c2-calendar-body"]/div/span[@class="c2-button-inner"]')[1].click()
-                time.sleep(1)
-
-        delta1 = timedelta(days=120)
-        checkin = datetime.now() + delta1
-        str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
-        get_month()
-        driver.find_elements_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))[0].click()
-        time.sleep(2)
-
-        delta2 = timedelta(days=122)
-        checkout = datetime.now() + delta2
-        str2 = '%s %s' % (checkout.strftime('%B'), checkout.year)
-        driver.find_elements_by_xpath('.//div[@data-placeholder="Check-out Date"]')[0].click()
-        time.sleep(2)
-        driver.find_elements_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day))[0].click()
-        time.sleep(2)
+    checkin = datetime.now() + timedelta(days=15)
+    checkout = datetime.now() + timedelta(days=18)
+    str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
+    str2 = '%s %s' % (checkout.strftime('%B'), checkout.year)
+    driver.find_elements_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))[0].click()
+    time.sleep(2)
+    driver.find_elements_by_xpath('.//div[@data-placeholder="Check-out Date"]')[0].click()
+    time.sleep(2)
+    driver.find_elements_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day))[0].click()
+    time.sleep(2)
 
     driver.find_element_by_xpath('.//select[@name="group_adults"]/option[contains(@value, "1")]').click()
     time.sleep(2)
     driver.find_element_by_xpath('//button[@type="submit"]').click()
     time.sleep(5)
-    get_pages(driver, city, checkin, checkout)
-
+    get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def get_pages(driver, city, checkin, checkout):
-    checkin = checkin.date()
-    checkout = checkout.date()
     count = 0
     while True:
         scroll_down(driver)
@@ -133,9 +106,9 @@ def get_pages(driver, city, checkin, checkout):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            location = scrape_address(hotel)
+            #location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
          
         try:
             driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()

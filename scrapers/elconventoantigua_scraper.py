@@ -38,24 +38,15 @@ def scrape_review():
     return 0
 
 def scrape_dates(url):
-    for x in range(2):
-        scrape(url, x) 
+    scrape(url) 
 
-def scrape(url, index):
+def scrape(url):
     driver = spider(url)
     driver.find_element_by_xpath('.//input[@id="date-in"]').click()
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkout = datetime.now() + timedelta(days=2)
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkout = datetime.now() + timedelta(days=122)
-        for x in range(4):
-            driver.find_element_by_xpath('.//a[@title="Next"]').click()
-            time.sleep(1)
+    checkin = datetime.now() + timedelta(days=15)
+    checkout = datetime.now() + timedelta(days=18)
 
     driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day)).click()
     time.sleep(2)
@@ -70,7 +61,7 @@ def scrape(url, index):
     driver.find_element_by_xpath('.//button[@type="submit"]').click()
     time.sleep(2)
     driver.switch_to_window(driver.window_handles[1])
-    scrape_hotels(driver, checkin, checkout)
+    scrape_hotels(driver, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def scrape_hotels(driver, checkin, checkout):
@@ -81,19 +72,19 @@ def scrape_hotels(driver, checkin, checkout):
     rating = scrape_rating()
     address = scrape_address()
     city = 'Antigua Guatemala, Guatemala'
-    location = scrape_location()     
+    #location = scrape_location()     
     source = 'elconventoantigua.com'
     currency = 'USD'
-    #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
 
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
     scrape_dates(url)
-    #conn.close()
+    conn.close()
 
 

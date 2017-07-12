@@ -72,10 +72,9 @@ def scrape_review(element):
 
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x) 
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     banner(driver)
     element = driver.find_element_by_xpath('.//input[@name="q-destination"]')
@@ -84,19 +83,10 @@ def scrape_city(url, city, index):
     banner(driver)
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkinn = checkin.strftime('%m/%d/%Y')
-
-        checkout = datetime.now() + timedelta(days=2)
-        checkoutt = checkout.strftime('%m/%d/%y')
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkinn = checkin.strftime('%m/%d/%Y')
-
-        checkout = datetime.now() + timedelta(days=122)
-        checkoutt = checkout.strftime('%m/%d/%y')
+    checkin = datetime.now() + timedelta(days=15)
+    checkinn = checkin.strftime('%m/%d/%Y')
+    checkout = datetime.now() + timedelta(days=18)
+    checkoutt = checkout.strftime('%m/%d/%y')
 
     checkin_element = driver.find_element_by_xpath('//input[@name="q-localised-check-in"]')
     checkin_element.send_keys(checkinn)
@@ -119,7 +109,7 @@ def scrape_city(url, city, index):
     element = driver.find_element_by_xpath('//button[@type="submit"]')
     element.click()
     time.sleep(2)
-    scrape_hotels(driver, city, checkin, checkout)
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
 
     driver.quit()
 
@@ -136,13 +126,12 @@ def scrape_hotels(driver, city, checkin, checkout):
         currency = 'USD'
         city = city.split(',')[0]
         source = 'hotels.com'
-        location = ''
         if city not in address:
             continue
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
+    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 
 if __name__ == '__main__':

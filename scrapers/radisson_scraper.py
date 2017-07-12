@@ -42,10 +42,9 @@ def scrape_review(element):
 
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x) 
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     banner(driver)
     driver.find_element_by_xpath('.//input[@name="city"]').send_keys(city)
@@ -53,16 +52,8 @@ def scrape_city(url, city, index):
     driver.find_element_by_xpath('.//input[@id="checkinDate"]').click()
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkout = datetime.now() + timedelta(days=2)
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkout = datetime.now() + timedelta(days=122)
-        for x in range(4):
-            driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
-            time.sleep(1)
+    checkin = datetime.now() + timedelta(days=15)
+    checkout = datetime.now() + timedelta(days=18)
 
     driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day)).click()
     time.sleep(2)
@@ -72,22 +63,20 @@ def scrape_city(url, city, index):
     time.sleep(2)
     driver.find_element_by_xpath('.//a[contains(@title, "Search Destination")]').click()
     time.sleep(10)
-    scrape_hotels(driver, city, checkin, checkout)
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout):
-    checkin = checkin.date()
-    checkout = checkout.date()
     new_price, old_price = scrape_price(driver)
     name = scrape_name(driver)
     review = scrape_review(driver)
     rating = scrape_rating(driver)
     address = scrape_address(driver)
     city = city.split(',')[0]
-    location = scrape_location(driver)     
+    #location = scrape_location(driver)     
     source = 'radisson.com'
     currency = 'GTQ'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
     #print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 

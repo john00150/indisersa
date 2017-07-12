@@ -45,10 +45,9 @@ def scrape_review(element):
 
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x) 
+        scrape_city(url, city)  
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     element = driver.find_elements_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input')[0]
     element.send_keys(city)
@@ -56,17 +55,10 @@ def scrape_city(url, city, index):
     driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
-        checkout = datetime.now() + timedelta(days=2)
-        checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
-        checkout = datetime.now() + timedelta(days=122)
-        checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
+    checkin = datetime.now() + timedelta(days=15)
+    checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
+    checkout = datetime.now() + timedelta(days=18)
+    checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
     driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
     time.sleep(2)
@@ -83,7 +75,7 @@ def scrape_city(url, city, index):
     driver.find_element_by_xpath('//a[@class="hcsb_searchButton"]').click()
     time.sleep(2)
     driver.switch_to_window(driver.window_handles[1])
-    get_pages(driver, city, checkin, checkout)
+    get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def get_pages(driver, city, checkin, checkout):
@@ -100,14 +92,14 @@ def get_pages(driver, city, checkin, checkout):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'book-hotel-beds.com'
-            location = scrape_address(hotel)
+            #location = scrape_address(hotel)
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             driver.find_element_by_xpath('.//a[@data-paging="next"]').click()
             time.sleep(10)
         except:
-            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
+            print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
             break
 
 

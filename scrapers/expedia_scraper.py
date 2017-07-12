@@ -60,26 +60,19 @@ def get_address(element):
     
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x)
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
 
     driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]').send_keys(city)
     driver.find_element_by_xpath('.//div[@class="hero-banner-box cf"]').click()
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkinn = checkin.strftime('%m/%d/%Y')
-        checkout = datetime.now() + timedelta(days=2)
-        checkoutt = checkout.strftime('%m/%d/%Y')
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkinn = checkin.strftime('%m/%d/%Y')
-        checkout = datetime.now() + timedelta(days=122)
-        checkoutt = checkout.strftime('%m/%d/%Y')
+    checkin = datetime.now() + timedelta(days=15)
+    checkinn = checkin.strftime('%m/%d/%Y')
+    checkout = datetime.now() + timedelta(days=18)
+    checkoutt = checkout.strftime('%m/%d/%Y')
 
     driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]').send_keys(checkinn)
     time.sleep(2)
@@ -92,7 +85,7 @@ def scrape_city(url, city, index):
 
     driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]').click()
     time.sleep(2)
-    scrape_hotels(driver, city, checkin.date(), checkout.date())
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
 
 def scrape_hotels(driver, city, checkin, checkout):
     count = 0
@@ -106,11 +99,10 @@ def scrape_hotels(driver, city, checkin, checkout):
             review = get_review(hotel)
             rating = get_rating(hotel)
             address, location = get_address(hotel)
-            address = address
             city = city.split(',')[0]
             currency = 'USD'
             source = 'expedia.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
             count += 1   
  
         try:       

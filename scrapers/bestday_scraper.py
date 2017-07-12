@@ -47,10 +47,9 @@ def scrape_review(element):
 
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x) 
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     driver.find_element_by_xpath('.//input[@name="ajhoteles"]').send_keys(city)
     time.sleep(2)
@@ -63,37 +62,19 @@ def scrape_city(url, city, index):
         driver.find_elements_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]')[0].click()
         time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        checkout = datetime.now() + timedelta(days=2)
-
-        driver.find_element_by_xpath('//input[@name="check-inH"]').click()
-        time.sleep(2)
-        driver.find_element_by_xpath('.//button[contains(text(), "Today")]').click()
-        time.sleep(2)
-        driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)).click()
-        time.sleep(2)
-        driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)).click()
-        time.sleep(2)
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        checkout = datetime.now() + timedelta(days=122)
-
-        driver.find_element_by_xpath('//input[@name="check-inH"]').click()
-        for x in range(4):
-            driver.find_element_by_xpath('.//span[@id="nextCalendar"]').click()
-            time.sleep(1)
-
-        driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)).click()
-        time.sleep(2)
-        driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)).click()
-        time.sleep(2)
+    checkin = datetime.now() + timedelta(days=15)
+    checkout = datetime.now() + timedelta(days=18)
+    driver.find_element_by_xpath('//input[@name="check-inH"]').click()
+    time.sleep(2)
+    driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)).click()
+    time.sleep(2)
+    driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)).click()
+    time.sleep(2)
 
     driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]').click()
     time.sleep(2)
     driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]').click()
-    scrape_hotels(driver, city, checkin, checkout)
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout):
@@ -110,14 +91,14 @@ def scrape_hotels(driver, city, checkin, checkout):
         city = city.split(',')[0] 
         currency = 'USD'
         source = 'bestday.com'
-        location = scrape_address(hotel)
+        #location = scrape_address(hotel)
         #if location not in city:
         #    continue
 
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin.date(), checkout.date(), city, currency, source, location)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         count += 1
 
-    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin.date(), checkout.date())
+    print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
 
 if __name__ == '__main__':

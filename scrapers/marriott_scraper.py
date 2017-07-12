@@ -38,35 +38,21 @@ def scrape_review(element):
 
 def scrape_cities(url):
     for city in cities:
-        for x in range(2):
-            scrape_city(url, city, x) 
+        scrape_city(url, city) 
 
-def scrape_city(url, city, index):
+def scrape_city(url, city):
     driver = spider(url)
     driver.find_elements_by_xpath('.//input[@name="destinationAddress.destination"]')[1].send_keys(city)
     time.sleep(2)
 
-    if index == 0:
-        checkin = datetime.now()
-        day = checkin.strftime('%A')[:3]
-        month = checkin.strftime('%B')[:3]
-        str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
-
-        checkout = datetime.now() + timedelta(days=2)
-        day2 = checkout.strftime('%A')[:3]
-        month2 = checkout.strftime('%B')[:3]
-        str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
-
-    if index == 1:
-        checkin = datetime.now() + timedelta(days=120)
-        day = checkin.strftime('%A')[:3]
-        month = checkin.strftime('%B')[:3]
-        str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
-
-        checkout = datetime.now() + timedelta(days=122)
-        day2 = checkout.strftime('%A')[:3]
-        month2 = checkout.strftime('%B')[:3]
-        str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
+    checkin = datetime.now() + timedelta(days=15)
+    day = checkin.strftime('%A')[:3]
+    month = checkin.strftime('%B')[:3]
+    str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
+    checkout = datetime.now() + timedelta(days=18)
+    day2 = checkout.strftime('%A')[:3]
+    month2 = checkout.strftime('%B')[:3]
+    str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
 
     driver.find_elements_by_xpath('.//input[@placeholder="Check-in"]')[1].click()
     time.sleep(2)
@@ -82,13 +68,11 @@ def scrape_city(url, city, index):
     time.sleep(2)
     driver.find_elements_by_xpath('.//button[@title="Find"]')[1].click()
     time.sleep(2)
-    scrape_hotels(driver, city, checkin, checkout)
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout):
     count = 0
-    checkin = checkin.date()
-    checkout = checkout.date()
     hotels = driver.find_elements_by_xpath('.//div[contains(@class, "merch-property-records")]')
     for hotel in hotels:
         new_price, old_price = scrape_price(hotel)
@@ -96,15 +80,13 @@ def scrape_hotels(driver, city, checkin, checkout):
         review = scrape_review(hotel)
         rating = scrape_rating(hotel)
         address = scrape_address(hotel)
-        checkin = checkin
-        checkout = checkout
         city = city.split(',')[0]
-        location = scrape_location(hotel)     
+        #location = scrape_location(hotel)     
         source = 'marriott.com'
         currency = 'USD'
         count += 1
 
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, location)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s hotels, checkin %s, checkout %s' % (city, count, checkin, checkout)
 
