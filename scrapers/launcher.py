@@ -7,6 +7,13 @@ if __name__ == '__main__':
     fh.write('start: %s\n' % datetime.now())
 
     try:
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py')
+    except Exception:
+        fh.write('hotels_scraper failed\n')
+        traceback.print_exc(file=fh)
+        fh.write('\n')
+
+    try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
     except Exception:
         fh.write('marriott_scraper failed\n')
@@ -59,13 +66,6 @@ if __name__ == '__main__':
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py')
     except Exception:
         fh.write('book_hotel_beds_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py')
-    except Exception:
-        fh.write('hotels_scraper failed\n')
         traceback.print_exc(file=fh)
         fh.write('\n')
 
