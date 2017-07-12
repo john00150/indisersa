@@ -14,21 +14,21 @@ if __name__ == '__main__':
         fh.write('\n')
 
     try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py')
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\radisson_scraper.py')
     except Exception:
         fh.write('radisson_scraper failed\n')
         traceback.print_exc(file=fh)
         fh.write('\n')
 
     try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py')
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\bestday_scraper.py')
     except Exception:
         fh.write('bestday_scraper failed\n')
         traceback.print_exc(file=fh)
         fh.write('\n')
 
     try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py')
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
     except Exception:
         fh.write('booking_scraper failed\n')
         traceback.print_exc(file=fh)
@@ -56,7 +56,7 @@ if __name__ == '__main__':
         fh.write('\n')
 
     try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py')
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py')
     except Exception:
         fh.write('book_hotel_beds_scraper failed\n')
         traceback.print_exc(file=fh)
