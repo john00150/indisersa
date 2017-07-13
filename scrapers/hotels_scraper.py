@@ -33,7 +33,7 @@ def banner(driver):
 def scroll_down(driver):
     while True:
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.4)
+        time.sleep(0.5)
         try:
             driver.find_element_by_xpath('.//div[@class="info unavailable-info"]')
             break
@@ -101,10 +101,11 @@ def scrape_city(url, city):
     checkin_element = driver.find_element_by_xpath('//input[@name="q-localised-check-in"]')
     checkin_element.send_keys(checkinn)
     banner(driver)
-    time.sleep(2)
+    time.sleep(5)
     checkout_element = driver.find_element_by_xpath('//input[@name="q-localised-check-out"]')
     checkout_element.clear()
     checkout_element.send_keys(checkoutt)
+    time.sleep(5)
     banner(driver)
     try:
         driver.find_element_by_xpath('.//div[@class="widget-query-group widget-query-occupancy"]').click()
@@ -118,7 +119,7 @@ def scrape_city(url, city):
 
     element = driver.find_element_by_xpath('//button[@type="submit"]')
     element.click()
-    time.sleep(2)
+    time.sleep(10)
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
 
     driver.quit()
