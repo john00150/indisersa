@@ -19,7 +19,6 @@ def scrape_address(element):
         return ''
 
 def scrape_name(element):
-    WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]'))
     return element.find_element_by_xpath('.//a[contains(@data-ceid, "searchresult_hotelname")]').get_attribute('title')
 
 def scrape_price(element):
