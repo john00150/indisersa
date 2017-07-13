@@ -107,11 +107,11 @@ def get_pages(driver, city, checkin, checkout):
             currency = 'GTQ'
             source = 'booking.com'
             count += 1
-            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
          
         try:
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]'))
-            next.click()
+            _next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]'))
+            _next.click()
         except:
             driver.quit()
             print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
@@ -121,10 +121,10 @@ def get_pages(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.booking.com/'
     scrape_cities(url)
-    #conn.close()
+    conn.close()
 
 

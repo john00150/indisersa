@@ -2,8 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, spider
-import pyodbc
+from processors import sql_write#, spider
+import pyodbc, time
 from datetime import datetime, timedelta
 
 
@@ -11,6 +11,16 @@ cities = [
     'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
 ]
+
+def spider(url):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--proxy-server=159.203.117.131:3128')
+    prefs = {"profile.managed_default_content_settings.images":2}
+    chrome_options.add_experimental_option("prefs",prefs)
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_window_size(800, 600)
+    driver.get(url)
+    return driver
 
 def banner(driver):
     try:
@@ -66,19 +76,6 @@ def scrape_occupation(driver):
         element_3 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//h3[contains(@class, "sbox-ui-heading")]'))
         element_3.click()
 
-def send_city_name(url, city):
-    driver = spider(url)
-    element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
-    element_1.send_keys(city)
-
-    if city == 'Guatemala City, Guatemala':
-        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
-    if city == 'Antigua Guatemala, Guatemala':
-        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
-    return driver
-
 def scrape_cities(url):
     for city in cities:
         scrape_city(url, city) 
@@ -87,6 +84,13 @@ def scrape_city(url, city):
     driver = spider(url)
     element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
     element_1.send_keys(city)
+    if city == 'Guatemala City, Guatemala':
+        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
+        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+    if city == 'Antigua Guatemala, Guatemala':
+        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
+        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+
     element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]'))
     element_2.click()       
 
@@ -118,7 +122,7 @@ def get_pages(driver, city, checkin, checkout):
             currency = 'USD'
             source = 'us.despegar.com'
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
             next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
             next.click()
@@ -132,10 +136,10 @@ def get_pages(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.us.despegar.com/hotels/'
     scrape_cities(url)
-    conn.close()
+    #conn.close()
 
 
