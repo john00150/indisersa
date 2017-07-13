@@ -1,8 +1,9 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write
-import time, pyodbc
+import pyodbc, time
 from datetime import datetime, timedelta
 
 cities = [
@@ -17,18 +18,18 @@ def spider(url):
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.set_window_size(800, 1200)
     driver.get(url)
-    time.sleep(5)
     return driver
 
 def banner(driver):
     try:
-        driver.find_element_by_xpath('.//div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]').click()
+        banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]'))
+        banner.click()
     except:
-        pass 
-    try:
-        driver.find_element_by_xpath('.//button[@class="cta widget-overlay-close"]').click()
-    except:
-        pass  
+        try:
+            banner_2 = WebDriverWait(driver, 5).untin(lambda driver: driver.find_element_by_xpath('.//button[@class="cta widget-overlay-close"]'))
+            banner_2.click()
+        except:
+            pass  
 
 def scroll_down(driver):
     while True:
@@ -87,38 +88,34 @@ def scrape_cities(url):
 def scrape_city(url, city):
     driver = spider(url)
     banner(driver)
-    element = driver.find_element_by_xpath('.//input[@name="q-destination"]')
+    element = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@name="q-destination"]'))
     element.send_keys(city)
     element.click()
     banner(driver)
-    time.sleep(2)
 
     checkin = datetime.now() + timedelta(days=15)
     checkinn = checkin.strftime('%m/%d/%Y')
     checkout = datetime.now() + timedelta(days=18)
     checkoutt = checkout.strftime('%m/%d/%y')
 
-    checkin_element = driver.find_element_by_xpath('//input[@name="q-localised-check-in"]')
+    checkin_element = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//input[@name="q-localised-check-in"]'))
     checkin_element.send_keys(checkinn)
     banner(driver)
-    time.sleep(2)
-    checkout_element = driver.find_element_by_xpath('//input[@name="q-localised-check-out"]')
+    checkout_element = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//input[@name="q-localised-check-out"]'))
     checkout_element.clear()
     checkout_element.send_keys(checkoutt)
     banner(driver)
     try:
-        driver.find_element_by_xpath('.//div[@class="widget-query-group widget-query-occupancy"]').click()
+        element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[@class="widget-query-group widget-query-occupancy"]'))
+        element_2.click()
     except:
         pass
-    time.sleep(2)
 
-    occupancy_element = driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]')
+    occupancy_element = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'))
     occupancy_element.click()
-    time.sleep(2)
 
-    element = driver.find_element_by_xpath('//button[@type="submit"]')
-    element.click()
-    time.sleep(2)
+    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//button[@type="submit"]'))
+    element_3.click()
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
 
     driver.quit()
@@ -126,10 +123,11 @@ def scrape_city(url, city):
 def scrape_hotels(driver, city, checkin, checkout):
     count = 0
     scroll_down(driver)
+    WebDriverWait(driver, 20).until(lambda driver: len(driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')) > 0)
     hotels = driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')
     for hotel in hotels:
-        new_price, old_price = scrape_price(hotel)
         name = hotel.get_attribute('data-title')
+        new_price, old_price = scrape_price(hotel)
         review = scrape_review(hotel)
         rating = scrape_rating(hotel)
         address = scrape_address(hotel)
@@ -139,7 +137,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         if city not in address:
             continue
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
 
@@ -147,10 +145,10 @@ def scrape_hotels(driver, city, checkin, checkout):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_cities(url)
-    conn.close()
+    #conn.close()
 
 

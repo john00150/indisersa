@@ -1,8 +1,9 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 from processors import spider, sql_write
-import time, pyodbc
+import pyodbc, time
 from datetime import datetime, timedelta
 
 cities = [
@@ -14,13 +15,13 @@ def scroll_down(driver):
     while True:
         try:
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            driver.find_element_by_xpath('.//span[contains(text(), "See more options")]').click()
-            time.sleep(5)
+            element = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(text(), "See more options")]'))
+            element.click()
         except:
             break
 
 def scrape_name(element):
-    return element.find_element_by_xpath('.//a[@class="hotel-name"]').text.strip()
+    return WebDriverWait(element, 5).until(lambda element: element.find_element_by_xpath('.//a[@class="hotel-name"]').text.strip())
 
 def scrape_address(element):
     return element.find_element_by_xpath('.//div[@class="details"]/a/span').text.strip()
@@ -51,36 +52,37 @@ def scrape_cities(url):
 
 def scrape_city(url, city):
     driver = spider(url)
-    driver.find_element_by_xpath('.//input[@name="ajhoteles"]').send_keys(city)
-    time.sleep(2)
+    element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
+    element_1.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
-        driver.find_elements_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]')[0].click()
-        time.sleep(2)
+        element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'))
+        element_2.click()
 
     if city == 'Antigua Guatemala, Guatemala':
-        driver.find_elements_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]')[0].click()
-        time.sleep(2)
+        element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'))
+        element_2.click()
 
     checkin = datetime.now() + timedelta(days=15)
     checkout = datetime.now() + timedelta(days=18)
-    driver.find_element_by_xpath('//input[@name="check-inH"]').click()
-    time.sleep(2)
-    driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)).click()
-    time.sleep(2)
-    driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)).click()
-    time.sleep(2)
+    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//input[@name="check-inH"]'))
+    element_3.click()
+    element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)))
+    element_4.click()
+    element_5 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)))
+    element_5.click()
 
-    driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]').click()
-    time.sleep(2)
-    driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]').click()
+    element_6 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]'))
+    element_6.click()
+    element_7 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]'))
+    element_7.click()
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout):
-    time.sleep(10)
     count = 0
     scroll_down(driver)
+    WebDriverWait(driver, 20).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
     hotels = driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]')
     for hotel in hotels:
         new_price, old_price = scrape_price(hotel)
@@ -91,7 +93,6 @@ def scrape_hotels(driver, city, checkin, checkout):
         city = city.split(',')[0] 
         currency = 'USD'
         source = 'bestday.com'
-        #location = scrape_address(hotel)
         #if location not in city:
         #    continue
 

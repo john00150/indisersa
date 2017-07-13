@@ -3,7 +3,7 @@ import traceback
 
 
 if __name__ == '__main__':
-    fh = open('C:\users\indisersa\Desktop\hotels\logs\launcher.log', 'a')
+    fh = open('C:\users\indisersa\Desktop\hotels\logs\launcher.log', 'w')
     fh.write('start: %s\n' % datetime.now())
 
     try:
