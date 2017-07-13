@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write, spider
-import pyodbc
+import pyodbc, time
 from datetime import datetime, timedelta
 
 
@@ -66,19 +66,6 @@ def scrape_occupation(driver):
         element_3 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//h3[contains(@class, "sbox-ui-heading")]'))
         element_3.click()
 
-def send_city_name(url, city):
-    driver = spider(url)
-    element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
-    element_1.send_keys(city)
-
-    if city == 'Guatemala City, Guatemala':
-        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
-    if city == 'Antigua Guatemala, Guatemala':
-        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
-    return driver
-
 def scrape_cities(url):
     for city in cities:
         scrape_city(url, city) 
@@ -87,6 +74,13 @@ def scrape_city(url, city):
     driver = spider(url)
     element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
     element_1.send_keys(city)
+    if city == 'Guatemala City, Guatemala':
+        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
+        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+    if city == 'Antigua Guatemala, Guatemala':
+        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
+        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+
     element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]'))
     element_2.click()       
 
