@@ -79,8 +79,7 @@ def scrape_city(url, city):
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
     driver.quit()
 
-def get_pages(driver, city, checkin, checkout):
-    count = 0
+def scrape_hotels(driver, city, count, checkin, checkout):
     while True:
         WebDriverWait(driver, 20).until(lambda driver: len(driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')) > 0)
         hotels = driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')
@@ -96,12 +95,20 @@ def get_pages(driver, city, checkin, checkout):
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
         try:
-            next = WebDriverWait(driver, 10).until(driver.find_element_by_xpath('.//a[@data-paging="next"]'))
-            next.click()
+            _next = WebDriverWait(driver, 10).until(driver.find_element_by_xpath('.//a[@data-paging="next"]'))
+            _next.click()
         except:
             print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
             break
 
+def get_pages(driver, city, checkin, checkout):
+    count = 0
+    while True:
+        try:
+            scrape_hotels(driver, city, count, checkin, checkout)
+            break
+        except:
+            pass
 
 if __name__ == '__main__':
     global conn
