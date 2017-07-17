@@ -50,10 +50,20 @@ def scrape(url):
     checkin = datetime.now() + timedelta(days=15)
     checkout = datetime.now() + timedelta(days=18)
 
-    element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
-    element_2.click()
-    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
-    element_3.click()
+    try:
+        element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
+        element_2.click()
+    except:
+        driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
+        element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
+        element_2.click()
+    try:
+        element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
+        element_3.click()
+    except:
+        driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
+        element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
+        element_3.click()   
     element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@id="adults"]/option[contains(text(), "1")]'))
     element_4.click()
     element_5 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@id="rooms"]/option[contains(text(), "1")]'))
