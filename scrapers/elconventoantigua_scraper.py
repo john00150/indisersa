@@ -29,7 +29,10 @@ def scrape_location():
     return 'Antigua Guatemala'
 
 def scrape_price(element):
-    new_price = WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "CardList-price-title")]').text.strip().strip('$').strip())
+    try:
+        new_price = WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "CardList-price-title")]').text.strip().strip('$').strip())
+    except:
+        new_price = 0
     old_price = 0
     return new_price, old_price
 
@@ -50,10 +53,20 @@ def scrape(url):
     checkin = datetime.now() + timedelta(days=15)
     checkout = datetime.now() + timedelta(days=18)
 
-    element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
-    element_2.click()
-    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
-    element_3.click()
+    try:
+        element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
+        element_2.click()
+    except:
+        driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
+        element_2 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
+        element_2.click()
+    try:
+        element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
+        element_3.click()
+    except:
+        driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
+        element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
+        element_3.click()   
     element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@id="adults"]/option[contains(text(), "1")]'))
     element_4.click()
     element_5 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@id="rooms"]/option[contains(text(), "1")]'))
@@ -66,19 +79,15 @@ def scrape(url):
     driver.quit()
 
 def scrape_hotels(driver, checkin, checkout):
-    try:
-        new_price, old_price = scrape_price(driver)
-        name = scrape_name()
-        review = scrape_review()
-        rating = scrape_rating()
-        address = scrape_address()
-        city = 'Antigua Guatemala, Guatemala'
-        source = 'elconventoantigua.com'
-        currency = 'USD'
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-        print name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source 
-    except:
-        print 'the date is unavailable'
+    new_price, old_price = scrape_price(driver)
+    name = scrape_name()
+    review = scrape_review()
+    rating = scrape_rating()
+    address = scrape_address()
+    city = 'Antigua Guatemala, Guatemala'
+    source = 'elconventoantigua.com'
+    currency = 'USD'
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
 
 if __name__ == '__main__':

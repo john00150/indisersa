@@ -69,7 +69,6 @@ if __name__ == '__main__':
         traceback.print_exc(file=fh)
         fh.write('\n')
 
-
     fh.write('finish: %s\n' % datetime.now())
     fh.write('#'*50+'\n')
 

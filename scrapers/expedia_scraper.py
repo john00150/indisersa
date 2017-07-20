@@ -114,8 +114,8 @@ def scrape_hotels(driver, city, checkin, checkout):
             count += 1   
  
         try:       
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr'))
-            next.click()
+            _next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr'))
+            _next.click()
             time.sleep(10)
         except:            
             driver.quit()
