@@ -29,7 +29,10 @@ def scrape_location():
     return 'Antigua Guatemala'
 
 def scrape_price(element):
-    new_price = WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "CardList-price-title")]').text.strip().strip('$').strip())
+    try:
+        new_price = WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "CardList-price-title")]').text.strip().strip('$').strip())
+    except:
+        new_price = 0
     old_price = 0
     return new_price, old_price
 
@@ -76,19 +79,15 @@ def scrape(url):
     driver.quit()
 
 def scrape_hotels(driver, checkin, checkout):
-    try:
-        new_price, old_price = scrape_price(driver)
-        name = scrape_name()
-        review = scrape_review()
-        rating = scrape_rating()
-        address = scrape_address()
-        city = 'Antigua Guatemala, Guatemala'
-        source = 'elconventoantigua.com'
-        currency = 'USD'
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-        print name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source 
-    except:
-        print 'the date is unavailable'
+    new_price, old_price = scrape_price(driver)
+    name = scrape_name()
+    review = scrape_review()
+    rating = scrape_rating()
+    address = scrape_address()
+    city = 'Antigua Guatemala, Guatemala'
+    source = 'elconventoantigua.com'
+    currency = 'USD'
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
 
 
 if __name__ == '__main__':

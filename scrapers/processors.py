@@ -14,7 +14,7 @@ def sql_exec(conn, cur, sql):
 def sql_write(conn, cur, hotel, rating, review, address,new_price, old_price, checkin, checkout, city, currency, source):
     hotel = hotel.replace("'", "''")
     address = address.replace("'", "''")
-    city = city.replace("'", "''")   
+    city = city.replace("'", "''")
     sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source, date_scraped) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, datetime.now().strftime('%m/%d/%Y'))
     try:
         sql_exec(conn, cur, sql)
