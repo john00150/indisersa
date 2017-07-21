@@ -99,7 +99,7 @@ if __name__ == '__main__':
     global cur
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
-    url = 'http://www.marriott.com/search/default.mi'
+    url = 'http://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     scrape_cities(url)
     conn.close()
 
