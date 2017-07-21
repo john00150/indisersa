@@ -37,8 +37,10 @@ def scrape_address(element):
 def scrape_price(element):
     try:
         new_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong/b').text.strip().strip('GTQ').strip().replace(',', '')
+        new_price = int(new_price) / 3
         try:
             old_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span').text.strip().strip('GTQ').strip().replace(',', '')
+            old_price = int(old_price) / 3
         except:
             old_price = 0
         return new_price, old_price
