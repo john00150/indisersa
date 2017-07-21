@@ -24,8 +24,10 @@ def scrape_name(element):
 def scrape_price(element):
     try:
         new_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_price")]').text.strip().strip('Q').strip().replace(',', '')
+        new_price = int(new_price) / 3
         try:
             old_price = element.find_element_by_xpath('.//p[contains(@class, "hc_hotel_wasPrice")]').text.strip().strip('Q').strip().replace(',', '')
+            old_price = int(old_price) / 3
         except:
             old_price = 0
         return new_price, old_price
