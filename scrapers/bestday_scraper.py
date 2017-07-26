@@ -85,6 +85,7 @@ def scrape_hotels(driver, city, checkin, checkout):
     WebDriverWait(driver, 20).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
     hotels = driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]')
     for hotel in hotels:
+        count += 1
         new_price, old_price = scrape_price(hotel)
         name = scrape_name(hotel)
         review = 0
@@ -96,8 +97,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         #if location not in city:
         #    continue
 
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-        count += 1
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
 

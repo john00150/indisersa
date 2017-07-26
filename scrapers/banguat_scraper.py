@@ -1,6 +1,8 @@
 import requests, time, traceback, pyodbc
 from lxml import html
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
 
 
 url = 'http://banguat.gob.gt/default.asp'
@@ -22,8 +24,19 @@ def get_rate():
     cur.execute(sql)
     conn.commit()
 
+def send_email(line):
+    sender = 'scrapers@radissonguat.com'
+    recipients = ['oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupazu.com', 'yury0051@gmail.com']
+    msg = MIMEText(line)
+    msg['Subject'] = 'banguat scraper'
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
 
-if __name__ == "__main__":
+    s = smtplib.SMTP('localhost')
+    s.sendmail(sender, recipients, msg.as_string())
+    s.quit()
+
+def main():
     global conn
     global cur
 
@@ -36,5 +49,11 @@ if __name__ == "__main__":
         get_rate()
     except Exception:
         traceback.print_exc(file=fh)
+        line = 'banguat scraper error'
+        send_email(line)
         
-    fh.close()    
+    fh.close()
+
+
+if __name__ == '__main__':
+    main()

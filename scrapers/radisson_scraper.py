@@ -79,7 +79,7 @@ def scrape_hotels(driver, city, checkin, checkout):
     city = city.split(',')[0]
     source = 'radisson.com'
     currency = 'GTQ'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1)
     print source
 
 

@@ -6,6 +6,7 @@ from processors import sql_write
 import pyodbc, time
 from datetime import datetime, timedelta
 
+
 cities = [
     'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
@@ -29,8 +30,11 @@ def banner(driver):
             banner_2 = WebDriverWait(driver, 5).untin(lambda driver: driver.find_element_by_xpath('.//button[@class="cta widget-overlay-close"]'))
             banner_2.click()
         except:
-            pass  
-
+            try:
+                banner_3 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//button[contains(@class, "cta widget-overlay-close")]'))
+                banner_3.click()
+            except:
+                pass
 def scroll_down(driver):
     while True:
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
@@ -138,7 +142,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         if city not in address:
             continue
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
 
