@@ -17,7 +17,12 @@ def banner(driver):
         banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//i[@class="nevo-modal-close nevo-icon-close"]'))
         banner.click()
     except:
-        pass 
+        pass
+    try:
+        banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(@class, "eva-close")]'))
+        banner.click()
+    except:
+        pass
 
 def scrape_name(element):
     WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//h3[@class="hf-hotel-name"]/a'))
@@ -112,7 +117,7 @@ def get_pages(driver, city, checkin, checkout):
             currency = 'USD'
             source = 'us.despegar.com'
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
         try:
             next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
             next.click()

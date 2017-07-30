@@ -87,7 +87,7 @@ def scrape_hotels(driver, checkin, checkout):
     city = 'Antigua Guatemala, Guatemala'
     source = 'elconventoantigua.com'
     currency = 'USD'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,8 @@
 import requests, time, traceback, pyodbc
 from lxml import html
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
 
 
 url = 'http://banguat.gob.gt/default.asp'
@@ -18,10 +20,24 @@ def get_rate():
     tree = html.fromstring(r.content)
     
     element = tree.xpath('.//tr[@class="txt-resumen"]/td[./strong/a[contains(@href, "cambio/default.asp")]]/following-sibling::td/text()')
-    sql = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (date, element[0].strip())
-    cur.execute(sql)
-    conn.commit()
+    try:
+        sql = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (date, element[0].strip())
+        cur.execute(sql)
+        conn.commit()
+    except:
+        pass
 
+def send_email(line):
+    sender = 'scrapers@radissonguat.com'
+    recipients = ['oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupazu.com', 'yury0051@gmail.com']
+    msg = MIMEText(line)
+    msg['Subject'] = 'banguat scraper'
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+
+    s = smtplib.SMTP('localhost')
+    s.sendmail(sender, recipients, msg.as_string())
+    s.quit()
 
 if __name__ == "__main__":
     global conn
@@ -31,10 +47,14 @@ if __name__ == "__main__":
     cur = conn.cursor()
     
     fh = open('C:\\users\\indisersa\\Desktop\hotels\\logs\\banguat.log', 'w')
+    fh.write('start: %s\n' % datetime.now())
     
     try:
         get_rate()
     except Exception:
         traceback.print_exc(file=fh)
-        
-    fh.close()    
+        line = 'banguat scraper error'
+        send_email(line)
+
+    fh.write('finish: %s' % datetime.now())        
+    fh.close()

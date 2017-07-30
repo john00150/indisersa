@@ -28,13 +28,13 @@ def scroll_down(driver):
     elements = driver.find_elements_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong[contains(@class, "price scarcity_color")]/b')
     while True:
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.4)        
-        elements_2 = [element for element in elements if len(element.text.strip())!=0]
+        time.sleep(0.4)
+        elements_2 = [e for e in elements if len(e.text.strip())!=0]
         if len(elements) == len(elements_2):
             break
 
 def scrape_name(element):
-    return element.find_element_by_xpath('.//span[@class="sr-hotel__name"]').text 
+    return element.find_element_by_xpath('.//span[contains(@class, "sr-hotel__name")]').text 
 
 def scrape_address(element):
     return element.find_element_by_xpath('.//div[@class="address"]/a').text.strip()
@@ -100,8 +100,10 @@ def get_pages(driver, city, checkin, checkout):
     count = 0
     while True:
         scroll_down(driver)
+        time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]')
         for hotel in hotels:
+            count += 1
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
             review = scrape_review(hotel)
@@ -110,9 +112,8 @@ def get_pages(driver, city, checkin, checkout):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-         
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
+
         time.sleep(10)
         try:
             driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()

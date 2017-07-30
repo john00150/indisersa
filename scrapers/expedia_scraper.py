@@ -101,6 +101,7 @@ def scrape_hotels(driver, city, checkin, checkout):
         WebDriverWait(driver, 20).until(lambda driver: len(driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')) > 0)
         hotels = driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')
         for hotel in hotels:
+            count += 1
             name = get_name(hotel)
             new_price = get_actualprice(hotel)
             old_price = get_strikeprice(hotel)
@@ -110,8 +111,7 @@ def scrape_hotels(driver, city, checkin, checkout):
             city = city.split(',')[0]
             currency = 'USD'
             source = 'expedia.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
-            count += 1   
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)   
  
         try:       
             _next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr'))

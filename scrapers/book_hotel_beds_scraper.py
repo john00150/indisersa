@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import spider, sql_write
-import pyodbc
+import pyodbc, time
 from datetime import datetime, timedelta
 
 cities = [
@@ -95,7 +95,8 @@ def scrape_hotels(driver, city, count, checkin, checkout):
             currency = 'GTQ'
             source = 'book-hotel-beds.com'
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
+        time.sleep(10)
         try:
             _next = WebDriverWait(driver, 10).until(driver.find_element_by_xpath('.//a[@data-paging="next"]'))
             _next.click()
