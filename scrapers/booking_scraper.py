@@ -34,7 +34,7 @@ def scroll_down(driver):
             break
 
 def scrape_name(element):
-    return element.find_element_by_xpath('.//span[@class="sr-hotel__name"]').text 
+    return element.find_element_by_xpath('.//span[contains(@class, "sr-hotel__name")]').text 
 
 def scrape_address(element):
     return element.find_element_by_xpath('.//div[@class="address"]/a').text.strip()
@@ -109,6 +109,7 @@ def get_pages(driver, city, checkin, checkout):
     count = 0
     while True:
         scroll_down(driver)
+        time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]')
         for hotel in hotels:
             count += 1

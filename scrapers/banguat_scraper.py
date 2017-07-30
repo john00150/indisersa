@@ -20,9 +20,12 @@ def get_rate():
     tree = html.fromstring(r.content)
     
     element = tree.xpath('.//tr[@class="txt-resumen"]/td[./strong/a[contains(@href, "cambio/default.asp")]]/following-sibling::td/text()')
-    sql = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (date, element[0].strip())
-    cur.execute(sql)
-    conn.commit()
+    try:
+        sql = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (date, element[0].strip())
+        cur.execute(sql)
+        conn.commit()
+    except:
+        pass
 
 def send_email(line):
     sender = 'scrapers@radissonguat.com'
@@ -36,7 +39,7 @@ def send_email(line):
     s.sendmail(sender, recipients, msg.as_string())
     s.quit()
 
-def main():
+if __name__ == "__main__":
     global conn
     global cur
 
@@ -44,6 +47,7 @@ def main():
     cur = conn.cursor()
     
     fh = open('C:\\users\\indisersa\\Desktop\hotels\\logs\\banguat.log', 'w')
+    fh.write('start: %s\n' % datetime.now())
     
     try:
         get_rate()
@@ -51,9 +55,6 @@ def main():
         traceback.print_exc(file=fh)
         line = 'banguat scraper error'
         send_email(line)
-        
+
+    fh.write('finish: %s' % datetime.now())        
     fh.close()
-
-
-if __name__ == '__main__':
-    main()

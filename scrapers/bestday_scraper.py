@@ -11,6 +11,8 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
+dates = [15, 30, 60, 90, 120]
+
 def scroll_down(driver):
     while True:
         try:
@@ -46,11 +48,15 @@ def scrape_rating(element):
 def scrape_review(element):
     pass
 
-def scrape_cities(url):
-    for city in cities:
-        scrape_city(url, city) 
+def scrape_dates():
+    for date in dates:
+        scrape_cities(url, date)
 
-def scrape_city(url, city):
+def scrape_cities(url, date):
+    for city in cities:
+        scrape_city(url, city, date) 
+
+def scrape_city(url, city, date):
     driver = spider(url)
     element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
     element_1.send_keys(city)
@@ -63,8 +69,8 @@ def scrape_city(url, city):
         element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'))
         element_2.click()
 
-    checkin = datetime.now() + timedelta(days=15)
-    checkout = datetime.now() + timedelta(days=18)
+    checkin = datetime.now() + timedelta(date)
+    checkout = datetime.now() + timedelta(date + 3)
     element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//input[@name="check-inH"]'))
     element_3.click()
     element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)))
@@ -76,10 +82,10 @@ def scrape_city(url, city):
     element_6.click()
     element_7 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]'))
     element_7.click()
-    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
     driver.quit()
 
-def scrape_hotels(driver, city, checkin, checkout):
+def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
     scroll_down(driver)
     WebDriverWait(driver, 20).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
@@ -97,9 +103,9 @@ def scrape_hotels(driver, city, checkin, checkout):
         #if location not in city:
         #    continue
 
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
-    print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
+    print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
 
 
 if __name__ == '__main__':
@@ -108,7 +114,7 @@ if __name__ == '__main__':
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'https://www.bestday.com/Hotels/'
-    scrape_cities(url)
+    scrape_dates()
     conn.close()
 
 

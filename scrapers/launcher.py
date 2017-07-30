@@ -93,8 +93,8 @@ if __name__ == '__main__':
         fh.write('\n')
         line += 'book_hotel_beds_scraper error '
 
-    fh.write('finish: %s\n' % datetime.now())
-    fh.write('#'*50+'\n')
+    fh.write('finish: %s' % datetime.now())
+    fh.close()
 
     if len(line) > 0:
         send_email(line)
