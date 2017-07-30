@@ -20,6 +20,7 @@ def scroll_down(driver):
         except:
             break
 
+
 def scrape_name(element):
     return WebDriverWait(element, 5).until(lambda element: element.find_element_by_xpath('.//a[@class="hotel-name"]').text.strip())
 
