@@ -13,6 +13,8 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
+dates = [15, 30, 60, 90, 120]
+
 def get_name(element):
     return element.find_element_by_xpath('./h3').text.strip()
 
@@ -67,38 +69,42 @@ def banner(driver):
     except:
         pass    
 
-def scrape_cities(url):
-    for city in cities:
-        scrape_city(url, city) 
+def scrape_dates():
+    for date in dates:
+        scrape_cities(url, date)
 
-def scrape_city(url, city):
+def scrape_cities(url, date):
+    for city in cities:
+        scrape_city(url, city, date) 
+
+def scrape_city(url, city, date):
     driver = spider(url)
-    element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]'))
+    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-destination-hlp"]'))
     element_1.send_keys(city)
     banner(driver)
 
-    checkin = datetime.now() + timedelta(days=15)
+    checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
-    checkout = datetime.now() + timedelta(days=18)
+    checkout = datetime.now() + timedelta(date + 3)
     checkoutt = checkout.strftime('%m/%d/%Y')
 
-    element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]'))
+    element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]'))
     element_2.send_keys(checkinn)
-    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]'))
+    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]'))
     element_3.clear()
     element_3.send_keys(checkoutt)
 
-    element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'))
+    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'))
     element_4.click()
 
-    element_5 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]'))
+    element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]'))
     element_5.click()
-    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'))
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
-def scrape_hotels(driver, city, checkin, checkout):
+def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
     while True:
-        WebDriverWait(driver, 20).until(lambda driver: len(driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')) > 0)
+        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')) > 0)
         hotels = driver.find_elements_by_xpath('.//div[@id="resultsContainer"]/section/article')
         for hotel in hotels:
             count += 1
@@ -111,7 +117,7 @@ def scrape_hotels(driver, city, checkin, checkout):
             city = city.split(',')[0]
             currency = 'USD'
             source = 'expedia.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count)   
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
  
         try:       
             _next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@class="pagination-next"]/abbr'))
@@ -119,7 +125,7 @@ def scrape_hotels(driver, city, checkin, checkout):
             time.sleep(10)
         except:            
             driver.quit()
-            print '%s, %s, %s hotels, checkin %s, checkout %s' % (source, city, count, checkin, checkout)
+            print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
             break
 
 if __name__ == '__main__':
@@ -128,6 +134,6 @@ if __name__ == '__main__':
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'https://www.expedia.com/Hotels'
-    scrape_cities(url)
+    scrape_dates()
     conn.close()
 

@@ -58,29 +58,43 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    element_1 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
+    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
     element_1.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
-        element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'))
+        element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'))
         element_2.click()
 
     if city == 'Antigua Guatemala, Guatemala':
-        element_2 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'))
+        element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'))
         element_2.click()
 
     checkin = datetime.now() + timedelta(date)
     checkout = datetime.now() + timedelta(date + 3)
-    element_3 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('//input[@name="check-inH"]'))
+    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//input[@name="check-inH"]'))
     element_3.click()
-    element_4 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)))
-    element_4.click()
-    element_5 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)))
-    element_5.click()
 
-    element_6 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]'))
+    while True:
+        try:
+            element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)))
+            element_4.click()
+            break
+        except:
+            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//span[@id="nextCalendar"]'))
+            next.click()            
+
+    while True:
+        try:
+            element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)))
+            element_5.click()
+            break
+        except:
+            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//span[@id="nextCalendar"]'))
+            next.click()  
+
+    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]'))
     element_6.click()
-    element_7 = WebDriverWait(driver, 20).until(lambda driver: driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]'))
+    element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]'))
     element_7.click()
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
     driver.quit()
@@ -88,7 +102,7 @@ def scrape_city(url, city, date):
 def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
     scroll_down(driver)
-    WebDriverWait(driver, 20).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
+    WebDriverWait(driver, 10).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
     hotels = driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]')
     for hotel in hotels:
         count += 1
