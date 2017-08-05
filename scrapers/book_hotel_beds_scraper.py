@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from processors import spider, sql_write
-import pyodbc, time
+import pyodbc, time, os
 from datetime import datetime, timedelta
 
 cities = [
@@ -55,7 +55,15 @@ def scrape_dates():
 
 def scrape_cities(url, date):
     for city in cities:
-        scrape_city(url, city, date)  
+        c1 = 0
+        while c1 != 5:
+            try:
+                scrape_city(url, city, date)
+                break
+            except:
+                c1 += 1
+                os.system('taskkill /f /im chromedriver.exe')
+                pass
 
 def scrape_city(url, city, date):
     driver = spider(url)

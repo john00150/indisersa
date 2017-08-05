@@ -1,7 +1,9 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from processors import spider, sql_write
 import pyodbc, time
 from datetime import datetime, timedelta
@@ -60,13 +62,14 @@ def scrape_city(url, city, date):
     driver = spider(url)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
     element_1.send_keys(city)
+    time.sleep(5)
 
     if city == 'Guatemala City, Guatemala':
-        element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'))
+        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]')))
         element_2.click()
 
     if city == 'Antigua Guatemala, Guatemala':
-        element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'))
+        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]')))
         element_2.click()
 
     checkin = datetime.now() + timedelta(date)

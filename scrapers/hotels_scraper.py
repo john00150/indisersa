@@ -98,6 +98,7 @@ def scrape_cities(url, date):
 def scrape_city(url, city, date):
     driver = spider(url)
     banner(driver)
+    time.sleep(5)
     element = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="q-destination"]'))
     element.send_keys(city)
     element.click()

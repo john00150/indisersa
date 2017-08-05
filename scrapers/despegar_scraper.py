@@ -1,6 +1,8 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write#, spider
 import pyodbc, time
@@ -95,12 +97,20 @@ def scrape_city(url, city, date):
     element_1.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
-        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+        while True:
+            try:
+                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+                break
+            except:
+                pass
 
     if city == 'Antigua Guatemala, Guatemala':
-        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+        while True:
+            try:
+                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+                break
+            except:
+                pass
 
     element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]'))
     element_2.click()       
@@ -114,7 +124,7 @@ def scrape_city(url, city, date):
             element_4.click()
             break
         except:
-            driver.find_element_by_xpath('.//div[@class="_dpmg2--controls-next"]').click()
+            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
             time.sleep(2)
 
     while True:
@@ -123,7 +133,7 @@ def scrape_city(url, city, date):
             element_5.click()
             break
         except:
-            driver.find_element_by_xpath('.//div[@class="_dpmg2--controls-next"]').click()
+            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
             time.sleep(2)
     
     scrape_occupation(driver)
@@ -148,7 +158,7 @@ def get_pages(driver, city, checkin, checkout, date):
             currency = 'USD'
             source = 'us.despegar.com'
             count += 1
-            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
             next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
             next.click()
@@ -162,10 +172,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.us.despegar.com/hotels/'
     scrape_dates()
-    #conn.close()
+    conn.close()
 
 

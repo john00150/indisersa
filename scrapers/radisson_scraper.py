@@ -46,7 +46,7 @@ def scrape_rating(element):
 def scrape_review(element):
     return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//a[@class="ratingLink"]').text.strip())
 
-def scrape_dates(url, dates):
+def scrape_dates(url):
     for date in dates:
         scrape_cities(url, date)
 
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'https://www.radisson.com/'
-    scrape_dates(url, dates)
+    scrape_dates(url)
     conn.close()
 
 
