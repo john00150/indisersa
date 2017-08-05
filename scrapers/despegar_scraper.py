@@ -1,6 +1,8 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write, spider
 import pyodbc, time
@@ -87,12 +89,20 @@ def scrape_city(url, city, date):
     element_1.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
-        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+        while True:
+            try:
+                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+                break
+            except:
+                pass
 
     if city == 'Antigua Guatemala, Guatemala':
-        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')) > 0)
-        driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+        while True:
+            try:
+                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+                break
+            except:
+                pass
 
     element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]'))
     element_2.click()       
@@ -106,7 +116,7 @@ def scrape_city(url, city, date):
             element_4.click()
             break
         except:
-            driver.find_element_by_xpath('.//i[contains(@class, "icon-ico-arrow")]').click()
+            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
             time.sleep(2)
 
     while True:
@@ -115,7 +125,7 @@ def scrape_city(url, city, date):
             element_5.click()
             break
         except:
-            driver.find_element_by_xpath('.//i[contains(@class, "icon-ico-arrow")]').click()
+            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
             time.sleep(2)
     
     scrape_occupation(driver)
