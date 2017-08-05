@@ -2,6 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from processors import sql_write
 import pyodbc, time
 from datetime import datetime, timedelta
@@ -91,7 +93,7 @@ def scrape_city(url, city, date):
 
     while True:
         try:
-            element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day)))
+            element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))))
             element_3.click()
             break
         except:
@@ -106,6 +108,7 @@ def scrape_city(url, city, date):
 
     element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-placeholder="Check-out Date"]'))
     element_4.click()
+    time.sleep(5) #####
 
     while True:
         try:
@@ -133,19 +136,19 @@ def get_pages(driver, city, checkin, checkout, date):
     count = 0
     while True:
         scroll_down(driver)
-        #time.sleep(10)
         hotels = driver.find_elements_by_xpath('.//div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]')
         for hotel in hotels:
             count += 1
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
+            print new_price, old_price
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
             address = ''
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
         try:
             driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()
@@ -158,10 +161,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.booking.com/'
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 

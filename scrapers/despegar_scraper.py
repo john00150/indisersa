@@ -2,7 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, spider
+from processors import sql_write#, spider
 import pyodbc, time
 from datetime import datetime, timedelta
 
@@ -12,7 +12,15 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-dates = [15, 30, 60, 90, 120]
+dates = [60, 15, 30, 60, 90, 120]
+
+
+def spider(url):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--proxy-server=159.203.117.131:3128')
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.get(url)
+    return driver
 
 def banner(driver):
     try:
@@ -106,7 +114,7 @@ def scrape_city(url, city, date):
             element_4.click()
             break
         except:
-            driver.find_element_by_xpath('.//i[contains(@class, "icon-ico-arrow")]').click()
+            driver.find_element_by_xpath('.//div[@class="_dpmg2--controls-next"]').click()
             time.sleep(2)
 
     while True:
@@ -115,7 +123,7 @@ def scrape_city(url, city, date):
             element_5.click()
             break
         except:
-            driver.find_element_by_xpath('.//i[contains(@class, "icon-ico-arrow")]').click()
+            driver.find_element_by_xpath('.//div[@class="_dpmg2--controls-next"]').click()
             time.sleep(2)
     
     scrape_occupation(driver)
@@ -140,7 +148,7 @@ def get_pages(driver, city, checkin, checkout, date):
             currency = 'USD'
             source = 'us.despegar.com'
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
             next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
             next.click()
@@ -154,10 +162,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.us.despegar.com/hotels/'
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 
