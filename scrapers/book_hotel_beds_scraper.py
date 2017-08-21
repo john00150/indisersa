@@ -96,7 +96,6 @@ def scrape_city(url, city, date):
     WebDriverWait(driver, 10).until(lambda driver: len(driver.window_handles) > 1)
     driver.switch_to_window(driver.window_handles[1])
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
-    driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
@@ -119,6 +118,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             driver.find_element_by_xpath('.//span[contains(@class, "pagination_next")]').click()
         except Exception, e:
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
+            driver.quit()
             break
 
 

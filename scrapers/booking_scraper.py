@@ -14,7 +14,7 @@ cities = [
     'Guatemala City, Guatemala',
 ]
 
-dates = [15, 30, 60, 90, 120]
+dates = [90, 120, 60, 30, 15]
 
 def banner(driver):
     try:
@@ -73,42 +73,18 @@ def scrape_dates():
 
 def scrape_cities(url, date):
     for city in cities:
-        c3 = 0
-        while c3 != 5:
-            try:
-                scrape_city(url, city, date)
-                break
-            except:
-                os.system('taskkill /f /im chromedriver.exe')
-                c3 += 1
-                pass
+        scrape_city(url, city, date)
 
 def scrape_city(url, city, date):
     driver = spider(url)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="ss"][@class="c-autocomplete__input sb-searchbox__input sb-destination__input"]'))
     element_1.send_keys(city)
+    time.sleep(5)
     if city == 'Guatemala City, Guatemala':
-        c1 = 0
-        while c1 != 10:
-            try:
-                element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Guatemala (Guatemala City)")]'))
-                element_2.click()
-                break
-            except:
-                c1 += 1
-                time.sleep(0.5)
-                pass
+        driver.find_element_by_xpath('.//li[contains(@data-label, "Guatemala, Guatemala, Guatemala")]').click()
+
     if city == 'Antigua Guatemala, Guatemala':
-        c2 = 0
-        while c2 != 10:
-            try:
-                element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Antigua Guatemala")]'))
-                element_2.click()
-                break
-            except:
-                c2 += 1
-                time.sleep(0.5)
-                pass
+        driver.find_element_by_xpath('.//li[contains(@data-label, "Antigua Guatemala, Guatemala")]').click()
 
     checkin = datetime.now() + timedelta(date)
     checkout = datetime.now() + timedelta(date + 3)

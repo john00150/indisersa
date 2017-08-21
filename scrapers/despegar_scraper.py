@@ -85,6 +85,7 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
+    banner(driver)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
     element_1.send_keys(city)
 
@@ -92,6 +93,7 @@ def scrape_city(url, city, date):
         while True:
             try:
                 driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
+                time.sleep(2)
                 break
             except:
                 pass
@@ -100,6 +102,7 @@ def scrape_city(url, city, date):
         while True:
             try:
                 driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
+                time.sleep(2)
                 break
             except:
                 pass
@@ -138,8 +141,13 @@ def get_pages(driver, city, checkin, checkout, date):
     count = 0
     while True:
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        WebDriverWait(driver, 10).until(lambda driver: len(driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')) > 0)
+        time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
+        
+        if len(hotels) == 0:
+            driver.quit()
+            break
+        
         for hotel in hotels:
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)

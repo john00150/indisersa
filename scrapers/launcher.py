@@ -49,14 +49,6 @@ if __name__ == '__main__':
         line += 'bestday_scraper error, '
 
     try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
-    except Exception:
-        fh.write('booking_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line += 'booking_scraper error, '
-
-    try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py')
     except Exception:
         fh.write('despegar_scraper failed\n')
@@ -94,7 +86,15 @@ if __name__ == '__main__':
         fh.write('hotels_scraper failed\n')
         traceback.print_exc(file=fh)
         fh.write('\n')
-        line += 'hotels_scraper error' 
+        line += 'hotels_scraper error, '
+
+    try:
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
+    except Exception:
+        fh.write('booking_scraper failed\n')
+        traceback.print_exc(file=fh)
+        fh.write('\n')
+        line += 'booking_scraper error.'
 
     fh.write('finish: %s' % datetime.now())
 

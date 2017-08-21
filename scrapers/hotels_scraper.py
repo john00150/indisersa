@@ -38,9 +38,11 @@ def banner(driver):
             except:
                 pass
 def scroll_down(driver):
-    while True:
+    c = 0
+    while c != 1000:
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
         time.sleep(0.5)
+        c += 1
         try:
             driver.find_element_by_xpath('.//div[@class="info unavailable-info"]')
             break
@@ -101,6 +103,7 @@ def scrape_city(url, city, date):
     time.sleep(5)
     element = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="q-destination"]'))
     element.send_keys(city)
+    time.sleep(5)
     element.click()
     banner(driver)
 
@@ -123,11 +126,24 @@ def scrape_city(url, city, date):
     except:
         pass
 
-    occupancy_element = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'))
-    occupancy_element.click()
+    c1 = 0
+    while c1 != 5:
+        try:
+            driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]').click()
+            break
+        except:
+            time.sleep(1)
+            c1 += 1
 
-    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//button[@type="submit"]'))
-    element_3.click()
+    c2 = 0
+    while c2 != 5:
+        try:
+            driver.find_element_by_xpath('//button[@type="submit"]').click()
+            break
+        except:
+            time.sleep(1)
+            c2 += 1
+            
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
     driver.quit()
@@ -135,7 +151,6 @@ def scrape_city(url, city, date):
 def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
     scroll_down(driver)
-    WebDriverWait(driver, 10).until(lambda driver: len(driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')) > 0)
     hotels = driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')
     for hotel in hotels:
         name = hotel.get_attribute('data-title')

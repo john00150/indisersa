@@ -28,6 +28,7 @@ def spider(url):
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.set_window_size(800, 600)
     driver.get(url)
+    time.sleep(5)
     return driver
 
 def csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source):

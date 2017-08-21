@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write, spider
-import pyodbc
+import pyodbc, time
 from datetime import datetime, timedelta
 
 cities = [
@@ -61,31 +61,30 @@ def scrape_city(url, city, date):
     element_1.send_keys(city)
     element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="checkinDate"]'))
     element_2.click()
+    time.sleep(5)
 
     checkin = datetime.now() + timedelta(date)
     checkout = datetime.now() + timedelta(date + 3)
 
     while True:
         try:
-            element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day)))
-            element_3.click()
+            driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day)).click()
+            time.sleep(2)
             break
         except:
-            element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[@data-handler="next"]'))
-            element_7.click()
-            pass
+            driver.find_element_by_xpath('.//a[@data-handler="next"]').click()
+            time.sleep(2)
         
     element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="checkoutDate"]'))
     element_4.click()
     while True:
         try:
-            element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
-            element_5.click()
+            driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)).click()
+            time.sleep(2)
             break
         except:
-            element_8 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[@data-handler="next"]'))
-            element_8.click()
-            pass
+            driver.find_element_by_xpath('.//a[@data-handler="next"]').click()
+            time.sleep(2)
         
     element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[contains(@title, "Search Destination")]'))
     element_6.click()
