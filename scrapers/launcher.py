@@ -50,6 +50,16 @@ if __name__ == '__main__':
     print '#' * 50
 
     try:
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py')
+    except Exception, e:
+        fh.write('lodebernal_scraper failed\n')
+        traceback.print_exc(file=fh)
+        fh.write('\n')
+        line.append('lodebernal_scraper error')
+        print e
+    print '#' * 50
+
+    try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\\bestday_scraper.py')
     except Exception, e:
         fh.write('bestday_scraper failed\n')
