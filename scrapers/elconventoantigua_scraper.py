@@ -101,10 +101,16 @@ def scrape_hotels(driver, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
+    
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    scrape_dates()
+    
+    try:
+        scrape_dates()
+    except:
+        pass
+    
     conn.close()
 
 

@@ -9,8 +9,8 @@ import pyodbc, time, os
 from datetime import datetime, timedelta
 
 cities = [
-    'Antigua Guatemala, Guatemala',   
     'Guatemala City, Guatemala',
+    'Antigua Guatemala, Guatemala',   
 ]
 
 dates = [15, 30, 60, 90, 120]
@@ -62,41 +62,39 @@ def scrape_cities(url, date):
                 break
             except:
                 c1 += 1
-                os.system('taskkill /f /im chromedriver.exe')
                 pass
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    element = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input'))
-    element.send_keys(city)
-    element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li'))
-    element_2.click()
+    driver.find_element_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input').send_keys(city)
+    time.sleep(2)
+    driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
+    time.sleep(2)
 
     checkin = datetime.now() + timedelta(date)
     checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
     checkout = datetime.now() + timedelta(date + 3)
     checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
-    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day))
-    element_3.click()
-    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//select[@class="hcsb_checkinMonth"]/option[@value="%s"]' % checkin_year_month))
-    element_4.click()
+    driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
+    time.sleep(2)
+    driver.find_element_by_xpath('//select[@class="hcsb_checkinMonth"]/option[@value="%s"]' % checkin_year_month).click()
+    time.sleep(2)
 
-    element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//select[@class="hcsb_checkoutDay"]/option[@value="%s"]' % checkout.day))
-    element_5.click()
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//select[@class="hcsb_checkoutMonth"]/option[@value="%s"]' % checkout_year_month))
-    element_6.click()
+    driver.find_element_by_xpath('//select[@class="hcsb_checkoutDay"]/option[@value="%s"]' % checkout.day).click()
+    time.sleep(2)
+    driver.find_element_by_xpath('//select[@class="hcsb_checkoutMonth"]/option[@value="%s"]' % checkout_year_month).click()
+    time.sleep(2)
 
-    element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]'))
-    element_7.click()
-    element_8 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@class="hcsb_guests"]/option[@value="1-1"]'))
-    element_8.click()
+    driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]').click()
+    time.sleep(2)
+    driver.find_element_by_xpath('.//select[@class="hcsb_guests"]/option[@value="1-1"]').click()
+    time.sleep(2)
     element_9 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//a[@class="hcsb_searchButton"]')))
     element_9.click()
     WebDriverWait(driver, 10).until(lambda driver: len(driver.window_handles) > 1)
     driver.switch_to_window(driver.window_handles[1])
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
-    driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
@@ -119,6 +117,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             driver.find_element_by_xpath('.//span[contains(@class, "pagination_next")]').click()
         except Exception, e:
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
+            driver.quit()
             break
 
 
