@@ -10,11 +10,11 @@ from datetime import datetime, timedelta
 
 
 cities = [
-    'Antigua Guatemala, Guatemala',
     'Guatemala City, Guatemala',
+    'Antigua Guatemala, Guatemala',
 ]
 
-dates = [90, 120, 60, 30, 15]
+dates = [15, 30, 60, 90, 120]
 
 def banner(driver):
     try:
@@ -90,34 +90,15 @@ def scrape_city(url, city, date):
     checkout = datetime.now() + timedelta(date + 3)
     str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
     str2 = '%s %s' % (checkout.strftime('%B'), checkout.year)
-
-    while True:
-        try:
-            element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day))))
-            element_3.click()
-            break
-        except Exception, e:
-            print e
-            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]/span[contains(@class, "c2-button-inner")]')
-            for e in ee:
-                try:
-                    e.click()
-                    time.sleep(2)
-                    break
-                except:
-                    pass
-
-    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-placeholder="Check-out Date"]'))
-    element_4.click()
     time.sleep(5)
 
     while True:
         try:
-            element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day)))
-            element_5.click()
+            driver.find_element_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day)).click()
             break
-        except:
-            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]/span[contains(@class, "c2-button-inner")]')
+        except Exception, e:
+            #ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]/span[contains(@class, "c2-button-inner")]')
+            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]')
             for e in ee:
                 try:
                     e.click()
@@ -126,10 +107,27 @@ def scrape_city(url, city, date):
                 except:
                     pass
 
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@name="group_adults"]/option[contains(@value, "1")]'))
-    element_6.click()
-    element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//button[@type="submit"]'))
-    element_7.click()
+    driver.find_element_by_xpath('.//div[@data-placeholder="Check-out Date"]').click()
+    time.sleep(5)
+
+    while True:
+        try:
+            driver.find_element_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day)).click()
+            break
+        except:
+            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]')
+            for e in ee:
+                try:
+                    e.click()
+                    time.sleep(2)
+                    break
+                except:
+                    pass
+
+    driver.find_element_by_xpath('.//select[@name="group_adults"]/option[contains(@value, "1")]').click()
+    time.sleep(2)
+    driver.find_element_by_xpath('//button[@type="submit"]').click()
+    time.sleep(2)
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
     driver.quit()
 
