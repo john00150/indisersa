@@ -29,12 +29,11 @@ def banner(driver):
         banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//i[@class="nevo-modal-close nevo-icon-close"]'))
         banner.click()
     except:
-        pass
-    try:
-        banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(@class, "eva-close")]'))
-        banner.click()
-    except:
-        pass
+        try:
+            banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(@class, "eva-close")]'))
+            banner.click()
+        except:
+            pass  
 
 def scrape_name(element):
     WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//h3[@class="hf-hotel-name"]/a'))
@@ -93,6 +92,7 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
+    banner(driver)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
     element_1.send_keys(city)
 
@@ -158,7 +158,7 @@ def get_pages(driver, city, checkin, checkout, date):
             currency = 'USD'
             source = 'us.despegar.com'
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
             next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
             next.click()
@@ -172,10 +172,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.us.despegar.com/hotels/'
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 

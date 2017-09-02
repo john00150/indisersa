@@ -91,8 +91,7 @@ def scrape_city(url, city, date):
         c1 = 0
         while c1 != 10:
             try:
-                element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Guatemala (Guatemala City)")]'))
-                element_2.click()
+                driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Guatemala (Guatemala City)")]').click()
                 break
             except:
                 c1 += 1
@@ -102,8 +101,7 @@ def scrape_city(url, city, date):
         c2 = 0
         while c2 != 10:
             try:
-                element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Antigua Guatemala")]'))
-                element_2.click()
+                driver: driver.find_element_by_xpath('.//b[@class="search_hl_name"][contains(text(), "Antigua Guatemala")]').click()
                 break
             except:
                 c2 += 1

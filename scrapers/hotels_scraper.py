@@ -38,14 +38,19 @@ def banner(driver):
             except:
                 pass
 def scroll_down(driver):
+    c = 0
     while True:
         driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
         time.sleep(0.5)
+        c += 1
         try:
             driver.find_element_by_xpath('.//div[@class="info unavailable-info"]')
             break
         except:
             pass
+
+        if c == 500:
+            break
 
 def scrape_address(driver):
     elements = driver.find_elements_by_xpath('.//div[@class="contact"]/p')
@@ -155,8 +160,8 @@ def scrape_hotels(driver, city, checkin, checkout, date):
 
 
 if __name__ == '__main__':
-    global conn
-    global cur
+    #global conn
+    #global cur
     #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     #cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
