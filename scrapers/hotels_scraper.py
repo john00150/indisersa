@@ -152,21 +152,22 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         address = scrape_address(hotel)
         currency = 'USD'
         city = city.split(',')[0]
-        if city not in address:
-            continue
+        #if city not in address:
+        #    continue
+        
         count += 1
-        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
 
 
 if __name__ == '__main__':
-    #global conn
-    #global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    global conn
+    global cur
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_dates()
-    #conn.close()
+    conn.close()
 
 

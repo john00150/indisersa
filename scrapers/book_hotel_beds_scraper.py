@@ -55,14 +55,7 @@ def scrape_dates():
 
 def scrape_cities(url, date):
     for city in cities:
-        c1 = 0
-        while c1 != 5:
-            try:
-                scrape_city(url, city, date)
-                break
-            except:
-                c1 += 1
-                pass
+        scrape_city(url, city, date)
 
 def scrape_city(url, city, date):
     driver = spider(url)
@@ -76,14 +69,14 @@ def scrape_city(url, city, date):
     checkout = datetime.now() + timedelta(date + 3)
     checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
-    driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
-    time.sleep(2)
     driver.find_element_by_xpath('//select[@class="hcsb_checkinMonth"]/option[@value="%s"]' % checkin_year_month).click()
     time.sleep(2)
-
-    driver.find_element_by_xpath('//select[@class="hcsb_checkoutDay"]/option[@value="%s"]' % checkout.day).click()
+    driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
     time.sleep(2)
+
     driver.find_element_by_xpath('//select[@class="hcsb_checkoutMonth"]/option[@value="%s"]' % checkout_year_month).click()
+    time.sleep(2)
+    driver.find_element_by_xpath('//select[@class="hcsb_checkoutDay"]/option[@value="%s"]' % checkout.day).click()
     time.sleep(2)
 
     driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]').click()

@@ -29,13 +29,18 @@ def spider(url):
 
 def scroll_down(driver):
     time.sleep(5)
-    elements = driver.find_elements_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong[contains(@class, "price scarcity_color")]/b')
-    while True:
-        driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.4)
-        elements_2 = [e for e in elements if len(e.text.strip())!=0]
-        if len(elements) == len(elements_2):
-            break
+    try:
+        elements = driver.find_elements_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong[contains(@class, "price scarcity_color")]/b')
+        while True:
+            driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
+            time.sleep(0.4)
+            elements_2 = [e for e in elements if len(e.text.strip())!=0]
+            if len(elements) == len(elements_2):
+                break
+    except:
+        for x in range(400):
+            driver.find_element_by_xpath('.//body').send_keys(Keys.ARROW_DOWN)
+            time.sleep(0.4)
 
 def scrape_name(element):
     return element.find_element_by_xpath('.//span[contains(@class, "sr-hotel__name")]').text 
@@ -140,7 +145,6 @@ def get_pages(driver, city, checkin, checkout, date):
             count += 1
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
-            print new_price, old_price
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
             address = ''

@@ -30,7 +30,7 @@ def get_price(driver):
     element = './/div[@class="room_types"]/div[@class="room"]'
     price = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, element)))
     price = price.find_elements_by_xpath('.//div[contains(@class, "rate_basic_derived")]')[0]
-    return re.sub('Q|,| +', '', price.text)   
+    return int(float(re.sub('Q|,| +', '', price.text)))/3   
 
 def scrape_hotel(date):
     driver = webdriver.Chrome()
@@ -52,9 +52,9 @@ def scrape_hotel(date):
     time.sleep(1)
 
     driver.find_element_by_xpath('.//input[@value="Search"]').click()
-    scrape_room(driver, checkin2, checkout2)
+    scrape_room(driver, checkin2, checkout2, date)
 
-def scrape_room(driver, checkin, checkout):
+def scrape_room(driver, checkin, checkout, date):
     new_price = get_price(driver)
     old_price = 0
     name = 'Hotel Lo de Bernal'
@@ -64,7 +64,8 @@ def scrape_room(driver, checkin, checkout):
     city = 'Antigua Guatemala, Guatemala'
     source = 'lodebernal.com'
     currency = 'GTQ'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    sql_write(conn, cur, name, rating, review, address.decode('utf8'), new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
 
     driver.quit()
 
