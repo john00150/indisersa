@@ -140,7 +140,6 @@ def get_pages(driver, city, checkin, checkout, date):
             count += 1
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
-            print new_price, old_price
             review = scrape_review(hotel)
             rating = scrape_rating(hotel)
             address = ''
