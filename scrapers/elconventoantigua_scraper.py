@@ -96,6 +96,7 @@ def scrape_hotels(driver, checkin, checkout, date):
     source = 'elconventoantigua.com'
     currency = 'USD'
     sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
 
 
 if __name__ == '__main__':
@@ -105,12 +106,7 @@ if __name__ == '__main__':
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    
-    try:
-        scrape_dates()
-    except:
-        pass
-    
+    scrape_dates()    
     conn.close()
 
 
