@@ -30,7 +30,9 @@ def get_price(driver):
     element = './/div[@class="room_types"]/div[@class="room"]'
     price = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, element)))
     price = price.find_elements_by_xpath('.//div[contains(@class, "rate_basic_derived")]')[0]
-    return int(float(re.sub('Q|,| +', '', price.text)))/3   
+    price = int(float(re.sub('Q|,| +', '', price.text)))/3   
+    print price
+    return price
 
 def scrape_hotel(date):
     driver = webdriver.Chrome()

@@ -14,7 +14,7 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-dates = [60, 15, 30, 60, 90, 120]
+dates = [15, 30, 60, 90, 120]
 
 
 

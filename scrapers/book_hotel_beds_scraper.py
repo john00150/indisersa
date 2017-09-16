@@ -60,8 +60,9 @@ def scrape_cities(url, date):
 def scrape_city(url, city, date):
     driver = spider(url)
     driver.find_element_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input').send_keys(city)
-    time.sleep(2)
-    driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
+    elementt = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, './/ul[@id="ui-id-1"]/li')))
+    elementt.click()
+    #driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
     time.sleep(2)
 
     checkin = datetime.now() + timedelta(date)
