@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write, spider
-import pyodbc, time
+import pyodbc, time, sys
 from datetime import datetime, timedelta
 
 
@@ -16,7 +16,13 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
+currency = 'USD'
+source = 'us.despegar.com'
 
+def scroll_down(driver):
+    element = driver.find_element_by_xpath('.//body')
+    for x in range(150):
+        element.send_keys(Keys.ARROW_DOWN)
 
 def banner(driver):
     try:
@@ -85,9 +91,16 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    driver = spider(url)
+    #driver = spider(url)
+
+    options = webdriver.ChromeOptions()
+    options.add_argument('--proxy-server=159.203.117.131:3128')
+    driver = webdriver.Chrome(chrome_options=options)
+    driver.get(url)
+
     banner(driver)
-    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-destination")]'))
+    element_1 = './/input[contains(@class, "sbox-destination")]'
+    element_1 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_1)))
     element_1.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
@@ -108,7 +121,8 @@ def scrape_city(url, city, date):
             except:
                 pass
 
-    element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[contains(@class, "sbox-checkin-date")]'))
+    element_2 = './/input[contains(@class, "sbox-checkin-date")]'
+    element_2 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_2)))
     element_2.click()       
 
     checkin = datetime.now() + timedelta(date)
@@ -116,7 +130,8 @@ def scrape_city(url, city, date):
 
     while True:
         try:
-            element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkin.strftime('%Y-%m'), checkin.day)))
+            element_4 = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'.format(checkin.strftime('%Y-%m'), checkin.day)
+            element_4 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_4)))
             element_4.click()
             break
         except:
@@ -125,7 +140,8 @@ def scrape_city(url, city, date):
 
     while True:
         try:
-            element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@data-month="%s"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "%s")]' % (checkout.strftime('%Y-%m'), checkout.day)))
+            element_5 = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'.format(checkout.strftime('%Y-%m'), checkout.day)
+            element_5 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_5)))
             element_5.click()
             break
         except:
@@ -133,7 +149,8 @@ def scrape_city(url, city, date):
             time.sleep(2)
     
     scrape_occupation(driver)
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[contains(@class, "sbox-search")]'))
+    element_6 = './/a[contains(@class, "sbox-search")]'
+    element_6 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_6)))
     element_6.click()
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
@@ -141,14 +158,14 @@ def get_pages(driver, city, checkin, checkout, date):
     banner(driver)
     count = 0
     while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(5)
-        hotels = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
-        
-        if len(hotels) == 0:
-            driver.quit()
-            break
-        
+        hotels_1 = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
+        hotels_2 = driver.find_elements_by_xpath('.//div[contains(@class, "results-cluster-container")]')
+
+        if len(hotels_1) == 0:
+            hotels = hotels_2
+        else:
+            hotels = hotels_1        
+
         for hotel in hotels:
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
@@ -156,12 +173,11 @@ def get_pages(driver, city, checkin, checkout, date):
             rating = scrape_rating(hotel)
             address = ''
             city = city.split(',')[0]
-            currency = 'USD'
-            source = 'us.despegar.com'
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
+            next = './/a[@data-ga-el="next"]'
+            next = driver.find_element_by_xpath(next)
             next.click()
             banner(driver)
         except:

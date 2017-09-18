@@ -82,7 +82,8 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="ss"][@class="c-autocomplete__input sb-searchbox__input sb-destination__input"]'))
+    element_1 = './/input[@id="ss"]'
+    element_1 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, element_1)))
     element_1.send_keys(city)
     time.sleep(5)
     if city == 'Guatemala City, Guatemala':

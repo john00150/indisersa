@@ -1,7 +1,9 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from processors import sql_write
 import pyodbc, time
 from datetime import datetime, timedelta
@@ -10,8 +12,10 @@ from datetime import datetime, timedelta
 dates = [15, 30, 60, 90, 120]
 
 def scrape_price(element):
-    new_price = WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "t-price")]/span').text.strip())
+    new_price = './/div[contains(@class, "t-price")]/span'
+    new_price = element.find_element_by_xpath(new_price).text.strip()
     old_price = 0
+    print new_price
     return new_price, old_price
 
 def scrape_review(element):
@@ -35,9 +39,14 @@ def scrape_hotel(url, date):
     month2 = checkout.strftime('%B')[:3]
     str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
 
-    checkin_element = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hws-fromDate"]'))
-    checkin_element.click()
-    time.sleep(2)
+    input_elements = './/input[contains(@class, "js-date-from")]'
+    input_elements = driver.find_elements_by_xpath(input_elements)
+    for el in input_elements:
+        try:
+            el.click()
+            break
+        except:
+            pass
 
     done = False
     while not done:    
@@ -81,8 +90,16 @@ def scrape_hotel(url, date):
 
     review = scrape_review(driver)
                                                             
-    driver.find_elements_by_xpath('.//button[contains(text(), "VIEW RATES")]')[0].click()
-    time.sleep(5)
+    submit_elements = './/em[contains(text(), "View Rates")]'
+    submit_elements = driver.find_elements_by_xpath(submit_elements)
+    for elm in submit_elements:
+        try:
+            elm.click()
+            break
+        except:
+            pass
+
+    time.sleep(10)
     scrape_rooms(driver, checkin, checkout, review, date)
     driver.quit()
 
@@ -90,7 +107,8 @@ def scrape_rooms(driver, checkin, checkout, review, date):
     checkin = checkin.strftime('%m/%d/%Y')
     checkout = checkout.strftime('%m/%d/%Y')
     rooms = driver.find_elements_by_xpath('.//div[contains(@class, "results-container")]/div[contains(@class, "m-room-rate-results")]')
-    for room in rooms[:1]:
+    try:
+        room = rooms[0]
         new_price, old_price = scrape_price(room)
         name = 'Courtyard Guatemala City'
         rating = 0
@@ -100,6 +118,8 @@ def scrape_rooms(driver, checkin, checkout, review, date):
         currency = 'USD'
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
         print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
+    except Exception, e:
+        print e
 
 def spider(url):
     chrome_options = webdriver.ChromeOptions()
