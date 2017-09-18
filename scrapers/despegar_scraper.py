@@ -16,7 +16,8 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
-
+currency = 'USD'
+source = 'us.despegar.com'
 
 def banner(driver):
     try:
@@ -145,10 +146,6 @@ def get_pages(driver, city, checkin, checkout, date):
         time.sleep(5)
         hotels = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
         
-        if len(hotels) == 0:
-            driver.quit()
-            break
-        
         for hotel in hotels:
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
@@ -156,12 +153,10 @@ def get_pages(driver, city, checkin, checkout, date):
             rating = scrape_rating(hotel)
             address = ''
             city = city.split(',')[0]
-            currency = 'USD'
-            source = 'us.despegar.com'
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]'))
+            next = driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]')
             next.click()
             banner(driver)
         except:
