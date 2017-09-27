@@ -15,11 +15,11 @@ def scrape_price(element):
     new_price = './/div[contains(@class, "t-price")]/span'
     new_price = element.find_element_by_xpath(new_price).text.strip()
     old_price = 0
-    print new_price
     return new_price, old_price
 
 def scrape_review(element):
-    return element.find_element_by_xpath('.//span[contains(text(), "Reviews")]').text.strip()
+    reviews_element = './/span[contains(text(), "Reviews")]'
+    return element.find_element_by_xpath(reviews_element).text.strip()
 
 def scrape_dates():
     for date in dates:
@@ -38,9 +38,22 @@ def scrape_hotel(url, date):
     day2 = checkout.strftime('%A')[:3]
     month2 = checkout.strftime('%B')[:3]
     str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
+    
+    if len(driver.find_elements_by_xpath('.//input[contains(@class, "js-date-from")]')) != 8:
+        input_elements = './/input[contains(@class, "js-date-from")]'
+        checkin_elms = './/div[@aria-label="{}"]'.format(str1)
+        checkout_elms = './/div[@aria-label="{}"]'.format(str2)
+        nextmonth_elms = './/div[@title="Next month"]'
+        submit_elements = './/em[contains(text(), "View Rates")]'
+    else:
+        input_elements = './/input[contains(@class, "js-date-from")]'
+        checkin_elms = './/div[@aria-label="{}"]'.format(str1)
+        checkout_elms = './/div[@aria-label="{}"]'.format(str2)
+        nextmonth_elms = './/div[@title="Next month"]'
+        submit_elements = './/em[contains(text(), "View Rates")]'
 
-    input_elements = './/input[contains(@class, "js-date-from")]'
     input_elements = driver.find_elements_by_xpath(input_elements)
+
     for el in input_elements:
         try:
             el.click()
@@ -49,31 +62,36 @@ def scrape_hotel(url, date):
             pass
 
     done = False
-    while not done:    
-        for x in driver.find_elements_by_xpath('.//div[@aria-label="%s"]' % str1):
+    while True:   
+        checkin_elements = driver.find_elements_by_xpath(checkin_elms)
+        nextmonth_elements = driver.find_elements_by_xpath(nextmonth_elms)
+
+        for x in checkin_elements:
             try:
                 x.click()
-                time.sleep(5)
                 done = True
-            except:
+            except Exception, e:
                 pass
 
         if done == True:
             break
 
-        for y in driver.find_elements_by_xpath('.//div[@title="Next month"]'):
+        for y in nextmonth_elements:
             try:
                 y.click()
-                time.sleep(2)
-            except:
+            except Exception, e:
                 pass
+
+        time.sleep(5)
 
     done = False
-    while not done:    
-        for x in driver.find_elements_by_xpath('.//div[@aria-label="%s"]' % str2):
+    while True:
+        checkout_elements = driver.find_elements_by_xpath(checkout_elms)
+        nextmonth_elements = driver.find_elements_by_xpath(nextmonth_elms) 
+   
+        for x in checkout_elements:
             try:
                 x.click()
-                time.sleep(5)
                 done = True
             except:
                 pass
@@ -81,20 +99,20 @@ def scrape_hotel(url, date):
         if done == True:
             break
 
-        for y in driver.find_elements_by_xpath('.//div[@title="Next month"]'):
+        for y in nextmonth_elements:
             try:
                 y.click()
-                time.sleep(2)
             except:
                 pass
 
+        time.sleep(5)
+
     review = scrape_review(driver)
-                                                            
-    submit_elements = './/em[contains(text(), "View Rates")]'
-    submit_elements = driver.find_elements_by_xpath(submit_elements)
-    for elm in submit_elements:
+
+    submit_elements = driver.find_elements_by_xpath(submit_elements)                                              
+    for x in submit_elements:
         try:
-            elm.click()
+            x.click()
             break
         except:
             pass
