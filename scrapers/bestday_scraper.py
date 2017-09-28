@@ -15,11 +15,16 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
+url = 'https://www.bestday.com/Hotels/'
+currency = 'USD'
+source = 'bestday.com'
+
 def scroll_down(driver):
+    el = './/span[contains(text(), "See more options")]'
     while True:
         try:
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            element = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(text(), "See more options")]'))
+            element = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath(el))
             element.click()
         except:
             break
@@ -28,13 +33,17 @@ def scrape_name(element):
     return WebDriverWait(element, 5).until(lambda element: element.find_element_by_xpath('.//a[@class="hotel-name"]').text.strip())
 
 def scrape_address(element):
-    return element.find_element_by_xpath('.//div[@class="details"]/a/span').text.strip()
+    address = './/div[@class="details"]/a/span'
+    address = element.find_element_by_xpath(address).text.strip()
+    return address
 
 def scrape_price(element):
+    new_price = './/span[@class="currency"]/span[@class="currency-price"]'
+    old_price = './/span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]'
     try:
-        new_price = element.find_element_by_xpath('.//span[@class="currency"]/span[@class="currency-price"]').text.strip().strip('us$').strip()
+        new_price = element.find_element_by_xpath(new_price).text.strip().strip('us$').strip()
         try:
-            old_price = element.find_element_by_xpath('.//span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]').text.strip().strip('us$').strip()
+            old_price = element.find_element_by_xpath(old_price).text.strip().strip('us$').strip()
         except:
             old_price = 0
         return new_price, old_price
@@ -42,8 +51,9 @@ def scrape_price(element):
         return 0, 0
 
 def scrape_rating(element):
+    review = './/span[@class="reviews"]'
     try:
-        return element.find_element_by_xpath('.//span[@class="reviews"]').text.strip()
+        return element.find_element_by_xpath(review).text.strip()
     except:
         return 0
 
@@ -60,66 +70,85 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="ajhoteles"]'))
+    
+    element_1 = './/input[@name="ajhoteles"]'
+    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath(element_1))
     element_1.send_keys(city)
     time.sleep(5)
 
     if city == 'Guatemala City, Guatemala':
-        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]')))
+        element_2 = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'
+        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, element_2)))
         element_2.click()
 
-    if city == 'Antigua Guatemala, Guatemala':
-        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]')))
+    else:
+        element_2 = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'
+        element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, element_2)))
         element_2.click()
 
     checkin = datetime.now() + timedelta(date)
     checkout = datetime.now() + timedelta(date + 3)
-    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//input[@name="check-inH"]'))
+    element_3 = '//input[@name="check-inH"]'
+    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath(element_3))
     element_3.click()
 
-    while True:
-        try:
-            element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkin.strftime('%B'), checkin.day)))
-            element_4.click()
-            break
-        except:
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//span[@id="nextCalendar"]'))
-            next.click()            
+    checkin_el = './/div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "{}")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "{}")]'.format(checkin.strftime('%B'), checkin.day)
+    checkout_el = './/div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "{}")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "{}")]'.format(checkout.strftime('%B'), checkout.day)
+    next_el = '//span[@id="nextCalendar"]'
 
     while True:
         try:
-            element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "%s")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "%s")]' % (checkout.strftime('%B'), checkout.day)))
-            element_5.click()
+            checkin_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkin_el)))
+            checkin_element.click()
+            break
+        except Exception, e:
+            next_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, next_el)))
+            next_element.click()
+
+    time.sleep(5)            
+
+    while True:
+        try:
+            checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_el)))
+            checkout_element.click()
             break
         except:
-            next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('//span[@id="nextCalendar"]'))
-            next.click()  
+            next_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, next_el)))
+            next_element.click()
 
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@name="num_adultos"]/option[contains(@value, "1")]'))
+    time.sleep(5)  
+
+    element_6 = './/select[@name="num_adultos"]/option[contains(@value, "1")]'
+    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath(element_6))
     element_6.click()
-    element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@id="btnSubmitHotels"]'))
+
+    element_7 = './/button[@id="btnSubmitHotels"]'
+    element_7 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath(element_7))
     element_7.click()
+
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout, date):
     count = 0
+
     scroll_down(driver)
-    WebDriverWait(driver, 10).until(lambda driver: driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]') > 0)
-    hotels = driver.find_elements_by_xpath('.//ul[@id="hotelList"]/li[contains(@class, "hotel-item")]')
-    for hotel in hotels:
-        count += 1
+
+    hotel_elms = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
+    hotel_elements = driver.find_elements_by_xpath(hotel_elms)
+    for hotel in hotel_elements:
         new_price, old_price = scrape_price(hotel)
         name = scrape_name(hotel)
         review = 0
         rating = scrape_rating(hotel)
-        address = ''
+        address = scrape_address(hotel)
         city = city.split(',')[0] 
-        currency = 'USD'
-        source = 'bestday.com'
-        #if location not in city:
-        #    continue
 
+        if address not in city:
+            continue
+
+        count += 1
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
@@ -130,7 +159,6 @@ if __name__ == '__main__':
     global cur
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
-    url = 'https://www.bestday.com/Hotels/'
     scrape_dates()
     conn.close()
 

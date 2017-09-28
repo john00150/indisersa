@@ -143,8 +143,10 @@ def scrape_hotels(driver, city, checkin, checkout, date):
     source = 'hotels.com'
     count = 0
     scroll_down(driver)
-    hotels = driver.find_elements_by_xpath('.//ol[contains(@class, "listings")]/li[contains(@class, "hotel")]')
-    for hotel in hotels:
+    hotel_elms = './/ol[contains(@class, "listings")]/li[@class="hotel"]'
+    hotel_elements = driver.find_elements_by_xpath(hotel_elms)
+    print len(hotel_elements)
+    for hotel in hotel_elements:
         name = hotel.get_attribute('data-title')
         new_price, old_price = scrape_price(hotel)
         review = scrape_review(hotel)
@@ -152,8 +154,6 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         address = scrape_address(hotel)
         currency = 'USD'
         city = city.split(',')[0]
-        #if city not in address:
-        #    continue
         
         count += 1
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
