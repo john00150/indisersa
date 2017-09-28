@@ -9,6 +9,8 @@ import pyodbc, time, re
 from datetime import datetime, timedelta
 
 
+f_h = open('lodebernal_prices.txt', 'w')
+
 url = 'http://www.lodebernal.com/'
 dates = [15, 30, 60, 90, 120]
 
@@ -30,8 +32,8 @@ def get_price(driver):
     element = './/div[@class="room_types"]/div[@class="room"]'
     price = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, element)))
     price = price.find_elements_by_xpath('.//div[contains(@class, "rate_basic_derived")]')[0]
+    f_h.write(price.text+'\n')
     price = int(float(re.sub('Q|,| +', '', price.text)))/3   
-    print price
     return price
 
 def scrape_hotel(date):
@@ -80,3 +82,4 @@ if __name__ == "__main__":
     scrape_dates()
     conn.close()
 
+f_h.close()

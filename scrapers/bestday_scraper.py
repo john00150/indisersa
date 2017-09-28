@@ -15,6 +15,9 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
+source = 'bestday.com'
+currency = 'USD'
+
 def scroll_down(driver):
     while True:
         try:
@@ -114,9 +117,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         review = 0
         rating = scrape_rating(hotel)
         address = ''
-        city = city.split(',')[0] 
-        currency = 'USD'
-        source = 'bestday.com'
+        city = city.split(',')[0]
         #if location not in city:
         #    continue
 

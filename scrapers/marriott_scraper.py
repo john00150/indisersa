@@ -11,11 +11,17 @@ from datetime import datetime, timedelta
 
 dates = [15, 30, 60, 90, 120]
 
+address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
+city = 'Guatemala City, Guatemala'
+source = 'marriott.com'
+currency = 'USD'
+name = 'Courtyard Guatemala City'
+rating = 0
+
 def scrape_price(element):
     new_price = './/div[contains(@class, "t-price")]/span'
     new_price = element.find_element_by_xpath(new_price).text.strip()
     old_price = 0
-    print new_price
     return new_price, old_price
 
 def scrape_review(element):
@@ -27,70 +33,115 @@ def scrape_dates():
 
 def scrape_hotel(url, date):
     driver = spider(url)
+    time.sleep(5)
 
     review = scrape_review(driver)
 
     checkin = datetime.now() + timedelta(date)
     day = checkin.strftime('%A')[:3]
     month = checkin.strftime('%B')[:3]
-    str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
+    #str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
+    str1 = '{}, {} {}'.format(day, month, checkin.day)
     checkout = datetime.now() + timedelta(date + 3)
     day2 = checkout.strftime('%A')[:3]
     month2 = checkout.strftime('%B')[:3]
-    str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
+    #str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
+    str2 = '{}, {} {}'.format(day2, month2, checkout.day)
 
-    input_elements = './/input[contains(@class, "js-date-from")]'
+    input_elements = './/span[contains(@class, "l-close-icon")]'
+    checkin_elements = './/input[@placeholder="Check-in"]'
+    checkout_elements = './/input[@placeholder="Check-out"]'
+
     input_elements = driver.find_elements_by_xpath(input_elements)
-    for el in input_elements:
+    checkin_elements = driver.find_elements_by_xpath(checkin_elements)
+    checkout_elements = driver.find_elements_by_xpath(checkout_elements)
+    print str1, str2
+
+    for x in input_elements:
         try:
-            el.click()
-            break
+            x.click()
+            time.sleep(5)
+        except:
+            pass
+            
+    for x in checkin_elements:
+        try:
+            #clear_form(x)
+            x.clear()
+            time.sleep(5)
+        except:
+            pass
+        
+    for a in checkin_elements:
+        try:
+            a.send_keys(str1)
+            time.sleep(5)
         except:
             pass
 
-    done = False
-    while not done:    
-        for x in driver.find_elements_by_xpath('.//div[@aria-label="%s"]' % str1):
+    for x in checkout_elements:
+        try:
+            #clear_form(x)
+            x.clear()
+            time.sleep(5)
+        except:
+            pass
+
+    #for x in checkout_elements:
+    #    try:
+    #        x.send_keys(str2)
+    #        time.sleep(5)
+    #    except:
+    #        pass
+
+    time.sleep(20)
+    driver.quit()
+
+'''    done = False
+    while not done:
+        # len(checkin_elements)
+        for x in checkin_elements:
             try:
                 x.click()
-                time.sleep(5)
                 done = True
             except:
-                pass
+                print 'input'
 
         if done == True:
             break
 
-        for y in driver.find_elements_by_xpath('.//div[@title="Next month"]'):
+        for y in nextmonth_elements:
+            print len(nextmonth_elements)
             try:
                 y.click()
-                time.sleep(2)
+                break
             except:
-                pass
+                print 'next month'
+        time.sleep(2)
 
     done = False
     while not done:    
-        for x in driver.find_elements_by_xpath('.//div[@aria-label="%s"]' % str2):
+        for x in checkout_elements:
             try:
                 x.click()
-                time.sleep(5)
                 done = True
             except:
-                pass
+                print 'output'
 
         if done == True:
             break
 
-        for y in driver.find_elements_by_xpath('.//div[@title="Next month"]'):
+        for y in nextmonth_elements:
             try:
                 y.click()
-                time.sleep(2)
+                break
             except:
-                pass
+                print 'next month'
+        time.sleep(2)
 
     review = scrape_review(driver)
                                                             
-    submit_elements = './/em[contains(text(), "View Rates")]'
+    submit_elements = './/button[contains(text(), "VIEW RATES")]'
     submit_elements = driver.find_elements_by_xpath(submit_elements)
     for elm in submit_elements:
         try:
@@ -101,7 +152,7 @@ def scrape_hotel(url, date):
 
     time.sleep(10)
     scrape_rooms(driver, checkin, checkout, review, date)
-    driver.quit()
+    driver.quit()'''
 
 def scrape_rooms(driver, checkin, checkout, review, date):
     checkin = checkin.strftime('%m/%d/%Y')
@@ -110,12 +161,6 @@ def scrape_rooms(driver, checkin, checkout, review, date):
     try:
         room = rooms[0]
         new_price, old_price = scrape_price(room)
-        name = 'Courtyard Guatemala City'
-        rating = 0
-        address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
-        city = 'Guatemala City, Guatemala'
-        source = 'marriott.com'
-        currency = 'USD'
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
         print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
     except Exception, e:
@@ -128,6 +173,12 @@ def spider(url):
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get(url)
     return driver
+
+def clear_form(element):
+    for x in range(5):
+        element.send_keys(Keys.ARROW_RIGHT)
+    for x in range(10):
+        element.send_keys(Keys.BACK_SPACE)
 
 
 if __name__ == '__main__':

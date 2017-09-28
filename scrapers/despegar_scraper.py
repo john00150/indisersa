@@ -18,14 +18,11 @@ dates = [15, 30, 60, 90, 120]
 
 currency = 'USD'
 source = 'us.despegar.com'
-<<<<<<< HEAD
-=======
 
 def scroll_down(driver):
     element = driver.find_element_by_xpath('.//body')
     for x in range(150):
         element.send_keys(Keys.ARROW_DOWN)
->>>>>>> origin/master
 
 def banner(driver):
     try:
@@ -94,11 +91,7 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    #driver = spider(url)
-
-    options = webdriver.ChromeOptions()
-    options.add_argument('--proxy-server=159.203.117.131:3128')
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = spider(url)
     driver.get(url)
 
     banner(driver)
@@ -161,12 +154,6 @@ def get_pages(driver, city, checkin, checkout, date):
     banner(driver)
     count = 0
     while True:
-<<<<<<< HEAD
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(5)
-        hotels = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
-        
-=======
         hotels_1 = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
         hotels_2 = driver.find_elements_by_xpath('.//div[contains(@class, "results-cluster-container")]')
 
@@ -175,7 +162,6 @@ def get_pages(driver, city, checkin, checkout, date):
         else:
             hotels = hotels_1        
 
->>>>>>> origin/master
         for hotel in hotels:
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
@@ -186,12 +172,8 @@ def get_pages(driver, city, checkin, checkout, date):
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
-<<<<<<< HEAD
-            next = driver.find_element_by_xpath('.//div[@class="pagination"]/ul/li[contains(@class, "next")]')
-=======
             next = './/a[@data-ga-el="next"]'
             next = driver.find_element_by_xpath(next)
->>>>>>> origin/master
             next.click()
             banner(driver)
         except:
