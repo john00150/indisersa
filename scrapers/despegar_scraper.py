@@ -91,11 +91,7 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    #driver = spider(url)
-
-    options = webdriver.ChromeOptions()
-    options.add_argument('--proxy-server=159.203.117.131:3128')
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = spider(url)
     driver.get(url)
 
     banner(driver)

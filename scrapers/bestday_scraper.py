@@ -15,6 +15,7 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
+
 url = 'https://www.bestday.com/Hotels/'
 currency = 'USD'
 source = 'bestday.com'

@@ -11,6 +11,13 @@ from datetime import datetime, timedelta
 
 dates = [15, 30, 60, 90, 120]
 
+address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
+city = 'Guatemala City, Guatemala'
+source = 'marriott.com'
+currency = 'USD'
+name = 'Courtyard Guatemala City'
+rating = 0
+
 def scrape_price(element):
     new_price = './/div[contains(@class, "t-price")]/span'
     new_price = element.find_element_by_xpath(new_price).text.strip()
@@ -27,49 +34,44 @@ def scrape_dates():
 
 def scrape_hotel(url, date):
     driver = spider(url)
+    time.sleep(5)
 
     review = scrape_review(driver)
 
     checkin = datetime.now() + timedelta(date)
     day = checkin.strftime('%A')[:3]
     month = checkin.strftime('%B')[:3]
-    str1 = '%s, %s %s, %s' % (day, month, checkin.day, checkin.year)
+    str1 = '{}, {} {}, {}'.format(day, month, checkin.day, checkin.year)
     checkout = datetime.now() + timedelta(date + 3)
     day2 = checkout.strftime('%A')[:3]
     month2 = checkout.strftime('%B')[:3]
-    str2 = '%s, %s %s, %s' % (day2, month2, checkout.day, checkout.year)
+    str2 = '{}, {} {}, {}'.format(day2, month2, checkout.day, checkout.year)
     
-    if len(driver.find_elements_by_xpath('.//input[contains(@class, "js-date-from")]')) != 8:
-        input_elements = './/input[contains(@class, "js-date-from")]'
-        checkin_elms = './/div[@aria-label="{}"]'.format(str1)
-        checkout_elms = './/div[@aria-label="{}"]'.format(str2)
-        nextmonth_elms = './/div[@title="Next month"]'
-        submit_elements = './/em[contains(text(), "View Rates")]'
-    else:
-        input_elements = './/input[contains(@class, "js-date-from")]'
-        checkin_elms = './/div[@aria-label="{}"]'.format(str1)
-        checkout_elms = './/div[@aria-label="{}"]'.format(str2)
-        nextmonth_elms = './/div[@title="Next month"]'
-        submit_elements = './/em[contains(text(), "View Rates")]'
+    input_elements = './/input[contains(@class, "js-date-from")]'
+    checkin_elms = './/div[@aria-label="{}"]'.format(str1)
+    checkout_elms = './/div[@aria-label="{}"]'.format(str2)
+    nextmonth_elms = './/div[@title="Next month"]'
+    submit_elements = './/em[contains(text(), "View Rates")]'
 
     input_elements = driver.find_elements_by_xpath(input_elements)
-
-    for el in input_elements:
+    for x in input_elements:
         try:
-            el.click()
+            x.click()
             break
         except:
             pass
+
+    time.sleep(5)
 
     done = False
     while True:   
         checkin_elements = driver.find_elements_by_xpath(checkin_elms)
         nextmonth_elements = driver.find_elements_by_xpath(nextmonth_elms)
-
         for x in checkin_elements:
             try:
                 x.click()
                 done = True
+                break
             except Exception, e:
                 pass
 
@@ -79,6 +81,7 @@ def scrape_hotel(url, date):
         for y in nextmonth_elements:
             try:
                 y.click()
+                break
             except Exception, e:
                 pass
 
@@ -88,13 +91,14 @@ def scrape_hotel(url, date):
     while True:
         checkout_elements = driver.find_elements_by_xpath(checkout_elms)
         nextmonth_elements = driver.find_elements_by_xpath(nextmonth_elms) 
-   
+  
         for x in checkout_elements:
             try:
                 x.click()
                 done = True
+                break
             except:
-                pass
+                print 'output'
 
         if done == True:
             break
@@ -102,10 +106,11 @@ def scrape_hotel(url, date):
         for y in nextmonth_elements:
             try:
                 y.click()
+                break
             except:
                 pass
 
-        time.sleep(5)
+        time.sleep(2)
 
     review = scrape_review(driver)
 
@@ -118,7 +123,9 @@ def scrape_hotel(url, date):
             pass
 
     time.sleep(10)
+
     scrape_rooms(driver, checkin, checkout, review, date)
+
     driver.quit()
 
 def scrape_rooms(driver, checkin, checkout, review, date):
@@ -128,12 +135,6 @@ def scrape_rooms(driver, checkin, checkout, review, date):
     try:
         room = rooms[0]
         new_price, old_price = scrape_price(room)
-        name = 'Courtyard Guatemala City'
-        rating = 0
-        address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
-        city = 'Guatemala City, Guatemala'
-        source = 'marriott.com'
-        currency = 'USD'
         sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
         print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
     except Exception, e:
