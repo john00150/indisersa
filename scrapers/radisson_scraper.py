@@ -1,6 +1,8 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from processors import sql_write, spider
 import pyodbc, time
@@ -74,9 +76,11 @@ def scrape_city(url, city, date):
         except:
             driver.find_element_by_xpath('.//a[@data-handler="next"]').click()
             time.sleep(2)
-        
-    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="checkoutDate"]'))
-    element_4.click()
+
+    checkout_element = './/input[@id="checkoutDate"]'
+    checkout_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_element)))
+    checkout_element.click()
+    
     while True:
         try:
             driver.find_element_by_xpath('.//td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)).click()
@@ -85,10 +89,14 @@ def scrape_city(url, city, date):
         except:
             driver.find_element_by_xpath('.//a[@data-handler="next"]').click()
             time.sleep(2)
-        
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//a[contains(@title, "Search Destination")]'))
-    element_6.click()
-    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+
+    search_element = './/a[contains(@title, "Go")]'
+    print len(driver.find_elements_by_xpath(search_element))
+    #search_element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, search_element)))
+    #search_element.click()
+    
+    #scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+    
     driver.quit()
 
 def scrape_hotels(driver, city, checkin, checkout, date):

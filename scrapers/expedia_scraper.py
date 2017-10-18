@@ -83,22 +83,33 @@ def scrape_city(url, city, date):
     element_1.send_keys(city)
     banner(driver)
 
+    ### checkin
     checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
+    checkin_el = './/input[@id="hotel-checkin-hlp"]' 
+    checkin_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, checkin_el)))
+    checkin_element.send_keys(checkinn)
+
+    ### checkout
     checkout = datetime.now() + timedelta(date + 3)
     checkoutt = checkout.strftime('%m/%d/%Y')
+    checkout_el = './/input[@id="hotel-checkout-hlp"]'
+    checkout_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, checkout_el)))
+    checkout_element.clear()
+    checkout_element.send_keys(checkoutt)
 
-    element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkin-hlp"]'))
-    element_2.send_keys(checkinn)
-    element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="hotel-checkout-hlp"]'))
-    element_3.clear()
-    element_3.send_keys(checkoutt)
+    ### occupation
+    occupation_el = './/select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'
+    occupation_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, occupation_el)))
+    occupation_element.click()
 
-    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'))
-    element_4.click()
-
-    element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//section[@id="section-hotel-tab-hlp"]/form').find_element_by_xpath('.//button[@type="submit"]'))
-    element_5.click()
+    ### submit
+    submit_el1 = './/section[@id="section-hotel-tab-hlp"]/form'
+    submit_el2 = './/button[@type="submit"]'
+    submit_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, submit_el1)))
+    submit_element = WebDriverWait(submit_element, 10).until(EC.visibility_of_element_located((By.XPATH, submit_el2)))
+    submit_element.click()
+    
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
 def scrape_hotels(driver, city, checkin, checkout, date):

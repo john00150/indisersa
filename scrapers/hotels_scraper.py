@@ -1,7 +1,9 @@
 #encoding: utf8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from processors import sql_write
 import pyodbc, time
 from datetime import datetime, timedelta
@@ -14,32 +16,30 @@ cities = [
 
 dates = [15, 30, 60, 90, 120]
 
+banners = [
+    './/button[@class="cta widget-overlay-close"]',
+    './/button[contains(@class, "cta widget-overlay-close")]',
+    './/button[contains(@class, "close")]',
+    './/div[@class="widget-query-group widget-query-occupancy"]',
+    './/div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]',
+    './/span[contains(@class, "close")]',
+]
+
 def spider(url):
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.managed_default_content_settings.images":2}
     chrome_options.add_experimental_option("prefs",prefs)
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.set_window_size(800, 1200)
     driver.get(url)
     return driver
 
 def banner(driver):
-    try:
-        driver.find_element_by_xpath('.//div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]').click()
-    except:
+    for banner in banners:
         try:
-            driver.find_element_by_xpath('.//button[@class="cta widget-overlay-close"]').click()
+            element = WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, banner)))
+            element.click()
         except:
-            try:
-                driver.find_element_by_xpath('.//button[contains(@class, "cta widget-overlay-close")]').click()
-            except:
-                try:
-                    driver.find_element_by_xpath('.//div[@class="widget-query-group widget-query-occupancy"]').click()
-                except:
-                    try:
-                        driver.find_element_by_xpath('.//button[@class="close"]').click()
-                    except:
-                        pass
+            pass
                 
 def scroll_down(driver):
     c = 0
@@ -57,7 +57,8 @@ def scroll_down(driver):
             break
 
 def scrape_address(driver):
-    elements = driver.find_elements_by_xpath('.//div[@class="contact"]/p')
+    address = './/div[@class="contact"]/p'
+    elements = driver.find_elements_by_xpath(address)
     line = ''
     elements_1 = ' '.join([x.text for x in elements[0].find_elements_by_xpath('./span')])
     elements_2 = elements[1].text
@@ -66,17 +67,21 @@ def scrape_address(driver):
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/ins').text.strip().strip('$').strip()
-        old_price = element.find_element_by_xpath('.//span[@class="old-price-cont"]/del').text.strip().strip('$').strip()
+        new_price = './/span[@class="old-price-cont"]/ins'
+        old_price = './/span[@class="old-price-cont"]/del'
+        new_price = element.find_element_by_xpath(new_price).text.strip().strip('$').strip()
+        old_price = element.find_element_by_xpath(old_price).text.strip().strip('$').strip()
         return new_price, old_price
     except:
         try:
-            new_price = element.find_element_by_xpath('.//b[@class="fewRoomsLeft"]').text.strip().strip('$').strip()
+            new_price = './/b[@class="fewRoomsLeft"]'
+            new_price = element.find_element_by_xpath(new_price).text.strip().strip('$').strip()
             old_price = 0
             return new_price, old_price
         except:
             try:
-                old_price = element.find_element_by_xpath('.//div[@class="price"]/a/b').text.strip().strip('$').strip()
+                old_price = './/div[@class="price"]/a/b'
+                old_price = element.find_element_by_xpath(old_price).text.strip().strip('$').strip()
                 new_price = old_price
                 return new_price, old_price
             except:
@@ -84,14 +89,16 @@ def scrape_price(element):
 
 def scrape_rating(element):
     try:
-        rating = element.find_element_by_xpath('.//div[contains(@class, "guest-rating")]').text.strip()
+        rating = './/div[contains(@class, "guest-rating")]'
+        rating = element.find_element_by_xpath(rating).text.strip()
         return rating
     except:
         return 0
 
 def scrape_review(element):
     try:
-        review = element.find_element_by_xpath('.//div[@class="guest-reviews-link"]/a/span[@class="full-view"]').text
+        review = './/div[@class="guest-reviews-link"]/a/span[@class="full-view"]'
+        review = element.find_element_by_xpath(review).text
         return review
     except:
         return 0
@@ -106,12 +113,15 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
+    
     banner(driver)
+
+    city_element = './/input[@name="q-destination"]'
+    city_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, city_element)))
+    city_element.send_keys(city)
     time.sleep(5)
-    element = driver.find_element_by_xpath('.//input[@name="q-destination"]')
-    element.send_keys(city)
-    time.sleep(5)
-    element.click()
+    city_element.click()
+    
     banner(driver)
 
     checkin = datetime.now() + timedelta(date)
@@ -119,21 +129,27 @@ def scrape_city(url, city, date):
     checkout = datetime.now() + timedelta(date + 3)
     checkoutt = checkout.strftime('%m/%d/%y')
 
-    checkin_element = driver.find_element_by_xpath('//input[@name="q-localised-check-in"]')
+    checkin_element = '//input[@name="q-localised-check-in"]'
+    checkin_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkin_element)))
     checkin_element.clear()
     checkin_element.send_keys(checkinn)
-    time.sleep(5)
+    
     banner(driver)
-    checkout_element = driver.find_element_by_xpath('//input[@name="q-localised-check-out"]')
+
+    checkout_element = '//input[@name="q-localised-check-out"]'
+    checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_element)))
     checkout_element.clear()
     checkout_element.send_keys(checkoutt)
-    time.sleep(5)
+    
     banner(driver)
-    time.sleep(5)
-    driver.find_element_by_xpath('.//select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]').click()
-    time.sleep(5)
-    driver.find_element_by_xpath('//button[@type="submit"]').click()
-    time.sleep(5)
+
+    occupancy_element = './/select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'
+    occupancy_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupancy_element)))
+    occupancy_element.click()
+
+    button_element = '//button[@type="submit"]'
+    button_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, button_element)))
+    button_element.click()
             
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
@@ -145,7 +161,6 @@ def scrape_hotels(driver, city, checkin, checkout, date):
     scroll_down(driver)
     hotel_elms = './/ol[contains(@class, "listings")]/li[@class="hotel"]'
     hotel_elements = driver.find_elements_by_xpath(hotel_elms)
-    print len(hotel_elements)
     for hotel in hotel_elements:
         name = hotel.get_attribute('data-title')
         new_price, old_price = scrape_price(hotel)

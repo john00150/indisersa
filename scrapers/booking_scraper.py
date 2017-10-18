@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from processors import sql_write
-import pyodbc, time, os
+import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
 
@@ -42,17 +42,23 @@ def scroll_down(driver):
             driver.find_element_by_xpath('.//body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
-def scrape_name(element):
-    return element.find_element_by_xpath('.//span[contains(@class, "sr-hotel__name")]').text 
+def scrape_name(element): 
+    el = './/span[contains(@class, "sr-hotel__name")]'
+    element = element.find_element_by_xpath(el).text
+    return element
 
 def scrape_address(element):
-    return element.find_element_by_xpath('.//div[@class="address"]/a').text.strip()
+    el = './/div[@class="address"]/a'
+    element = element.find_element_by_xpath(el).text.strip()
+    return element
 
 def scrape_price(element):
     try:
-        new_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong/b').text.strip().strip('GTQ').strip().replace(',', '')
+        new_price = './/td[contains(@class, "roomPrice sr_discount")]/div/strong/b'
+        new_price = element.find_element_by_xpath(new_price).text.strip().strip('GTQ').strip().replace(',', '')
         try:
-            old_price = element.find_element_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span').text.strip().strip('GTQ').strip().replace(',', '')
+            old_price = './/td[contains(@class, "roomPrice sr_discount")]/div/span[@class="strike-it-red_anim"]/span'
+            old_price = element.find_element_by_xpath(old_price).text.strip().strip('GTQ').strip().replace(',', '')
         except:
             old_price = 0
         return int(new_price)/3, int(old_price)/3
@@ -61,13 +67,16 @@ def scrape_price(element):
 
 def scrape_rating(element):
     try:
-        return element.find_element_by_xpath('.//span[@itemprop="ratingValue"]').text.strip()
+        rating = './/span[@itemprop="ratingValue"]'
+        rating = element.find_element_by_xpath(rating).text.strip()
+        return rating
     except:
         return 0
 
 def scrape_review(element):
     try:
-        review = element.find_element_by_xpath('.//span[@class="score_from_number_of_reviews"]').text
+        review ='.//span[@class="score_from_number_of_reviews"]' 
+        review = element.find_element_by_xpath(review).text
         return review
     except:
         return 0
@@ -82,66 +91,80 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    element_1 = './/input[@id="ss"]'
-    element_1 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_1)))
-    element_1.send_keys(city)
-    time.sleep(5)
+    
+    city_element = './/input[@id="ss"]'
+    city_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, city_element)))
+    city_element.send_keys(city)
+    
     if city == 'Guatemala City, Guatemala':
-        driver.find_element_by_xpath('.//li[contains(@data-label, "Guatemala, Guatemala, Guatemala")]').click()
+        city_element = './/li[contains(@data-label, "Guatemala, Guatemala, Guatemala")]' 
 
     if city == 'Antigua Guatemala, Guatemala':
-        driver.find_element_by_xpath('.//li[contains(@data-label, "Antigua Guatemala, Guatemala")]').click()
+        city_element = './/li[contains(@data-label, "Antigua Guatemala, Guatemala")]'
 
+    city_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, city_element)))
+    city_element.click()
+
+    checkin_checkout_el = './/td[contains(@aria-label, "{}")]'
+    further_el = './/div[contains(@class, "c2-button-further")]'
+
+    ##### checkin
     checkin = datetime.now() + timedelta(date)
-    checkout = datetime.now() + timedelta(date + 3)
-    str1 = '%s %s' % (checkin.strftime('%B'), checkin.year)
-    str2 = '%s %s' % (checkout.strftime('%B'), checkout.year)
-    time.sleep(5)
-
+    line = '{} {}, {} {}'.format(checkin.strftime('%A'), checkin.day, checkin.strftime('%B'), checkin.year)
+    checkin_el = checkin_checkout_el.format(line)
+    print len(driver.find_elements_by_xpath(checkin_el))
+    
     while True:
         try:
-            driver.find_element_by_xpath('.//div[@data-mode="checkin"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str1, checkin.day)).click()
+            element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el)))
+            element.click()
             break
+            
         except Exception, e:
-            #ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]/span[contains(@class, "c2-button-inner")]')
-            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]')
-            for e in ee:
-                try:
-                    e.click()
-                    time.sleep(2)
-                    break
-                except:
-                    pass
+            print traceback.print_exc()
+            further_element = driver.find_elements_by_xpath(further_el)[0]
+            further_element.click()
 
-    driver.find_element_by_xpath('.//div[@data-placeholder="Check-out Date"]').click()
-    time.sleep(5)
+    element = './/div[@data-placeholder="Check-out Date"]'
+    element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, element)))
+    element.click()
 
+    ##### checkout
+    checkout = datetime.now() + timedelta(date + 3)
+    line = '{} {}, {} {}'.format(checkout.strftime('%A'), checkout.day, checkout.strftime('%B'), checkout.year)
+    checkout_el = checkin_checkout_el.format(line)
+    
     while True:
         try:
-            driver.find_element_by_xpath('.//div[@data-mode="checkout"]/following-sibling::div/div[@class="c2-calendar-body"]/div/div/div[@class="c2-months-table"]/div[@class="c2-month"]/table[@class="c2-month-table"][./thead/tr[@class="c2-month-header"]/th[contains(text(), "%s")]]/tbody/tr/td/span[contains(text(), "%s")]' % (str2, checkout.day)).click()
+            element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el)))
+            element.click()
             break
-        except:
-            ee = driver.find_elements_by_xpath('.//div[contains(@class, "c2-button-further")]')
-            for e in ee:
-                try:
-                    e.click()
-                    time.sleep(2)
-                    break
-                except:
-                    pass
+                
+        except Exception, e:
+            traceback.print_exc()
+            further_element = driver.find_elements_by_xpath(further_el)[1]
+            further_element.click() 
 
-    driver.find_element_by_xpath('.//select[@name="group_adults"]/option[contains(@value, "1")]').click()
-    time.sleep(2)
-    driver.find_element_by_xpath('//button[@type="submit"]').click()
-    time.sleep(2)
+    ##### occupancy
+    occupancy_element = './/select[@name="group_adults"]/option[contains(@value, "1")]'
+    occupancy_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, occupancy_element)))
+    occupancy_element.click()
+
+    submit_element = '//button[@type="submit"]'
+    submit_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, submit_element)))
+    submit_element.click()
+    
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+    
     driver.quit()
 
 def get_pages(driver, city, checkin, checkout, date):
     count = 0
     while True:
         scroll_down(driver)
-        hotels = driver.find_elements_by_xpath('.//div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]')
+
+        hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
+        hotels = driver.find_elements_by_xpath(hotels)
         for hotel in hotels:
             count += 1
             name = scrape_name(hotel)

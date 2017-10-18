@@ -29,15 +29,15 @@ if __name__ == '__main__':
     fh.write('start: %s\n' % datetime.now())
     line = list()
 
-    #try:
-    #    execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
-    #except Exception, e:
-    #    fh.write('marriott_scraper failed\n')
-    #    traceback.print_exc(file=fh)
-    #    fh.write('\n')
-    #    line.append('marriott_scraper error')
-    #    print e
-    #print '#' * 50
+    try:
+        execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
+    except Exception, e:
+        fh.write('marriott_scraper failed\n')
+        traceback.print_exc(file=fh)
+        fh.write('\n')
+        line.append('marriott_scraper error')
+        print e
+    print '#' * 50
 
     try:
         execfile('C:\users\indisersa\Desktop\hotels\scrapers\\radisson_scraper.py')
