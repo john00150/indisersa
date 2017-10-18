@@ -46,14 +46,21 @@ def scrape_hotel(url, date):
     day2 = checkout.strftime('%A')[:3]
     month2 = checkout.strftime('%B')[:3]
     str2 = '{}, {} {}, {}'.format(day2, month2, checkout.day, checkout.year)
-    
+
     input_elements = './/input[contains(@class, "js-date-from")]'
+    input_elements = driver.find_elements_by_xpath(input_elements)
+
+    print len(input_elements)
+    if len(input_elements) == 10:
+        input_elements = './/span[contains(@class, "l-close-icon")]'
+    else:
+        pass
+        
     checkin_elms = './/div[@aria-label="{}"]'.format(str1)
     checkout_elms = './/div[@aria-label="{}"]'.format(str2)
     nextmonth_elms = './/div[@title="Next month"]'
     submit_elements = './/em[contains(text(), "View Rates")]'
 
-    input_elements = driver.find_elements_by_xpath(input_elements)
     for x in input_elements:
         try:
             x.click()
@@ -98,7 +105,7 @@ def scrape_hotel(url, date):
                 done = True
                 break
             except:
-                print 'output'
+                pass
 
         if done == True:
             break

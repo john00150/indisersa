@@ -1,0 +1,129 @@
+start: 2017-10-18 01:00:01.957000
+despegar_scraper failed
+Traceback (most recent call last):
+  File "launcher.py", line 73, in <module>
+    execfile('C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py')
+  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 213, in <module>
+    scrape_dates()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 101, in scrape_dates
+    scrape_cities(url, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 105, in scrape_cities
+    scrape_city(url, city, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 165, in scrape_city
+    scrape_occupation(driver)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 97, in scrape_occupation
+    occupation_element3.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: Element is not clickable at point (630, 604)
+  (Session info: chrome=61.0.3163.100)
+  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+
+expedia_scraper failed
+Traceback (most recent call last):
+  File "launcher.py", line 93, in <module>
+    execfile('C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py')
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 137, in <module>
+    scrape_dates()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 74, in scrape_dates
+    scrape_cities(url, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 78, in scrape_cities
+    scrape_city(url, city, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 101, in scrape_city
+    element_5.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: Element is not clickable at point (77, 532)
+  (Session info: chrome=61.0.3163.100)
+  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+
+book_hotel_beds_scraper failed
+Traceback (most recent call last):
+  File "launcher.py", line 103, in <module>
+    execfile('C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py')
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 124, in <module>
+    scrape_dates()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 54, in scrape_dates
+    scrape_cities(url, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 58, in scrape_cities
+    scrape_city(url, city, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 83, in scrape_city
+    driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]').click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: Element is not clickable at point (766, 480)
+  (Session info: chrome=61.0.3163.100)
+  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+
+hotels_scraper failed
+Traceback (most recent call last):
+  File "launcher.py", line 113, in <module>
+    execfile('C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py')
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 185, in <module>
+    scrape_dates()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 108, in scrape_dates
+    scrape_cities(url, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 112, in scrape_cities
+    scrape_city(url, city, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 152, in scrape_city
+    button_element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: Element is not clickable at point (238, 496)
+  (Session info: chrome=61.0.3163.100)
+  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+
+booking_scraper failed
+Traceback (most recent call last):
+  File "launcher.py", line 123, in <module>
+    execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 203, in <module>
+    scrape_dates()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 86, in scrape_dates
+    scrape_cities(url, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 90, in scrape_cities
+    scrape_city(url, city, date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 129, in scrape_city
+    further_elements = driver.find_elements_by_xpath(further_el)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 325, in find_elements_by_xpath
+    return self.find_elements(by=By.XPATH, value=xpath)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 817, in find_elements
+    'value': value})['value']
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: chrome not reachable
+  (Session info: chrome=61.0.3163.100)
+  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+
+finish: 2017-10-18 04:22:38.638000

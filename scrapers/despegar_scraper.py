@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, spider
+from processors import sql_write
 import pyodbc, time, sys
 from datetime import datetime, timedelta
 
@@ -14,10 +14,21 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
+banners = [
+    './/i[@class="nevo-modal-close nevo-icon-close"]',
+    './/span[contains(@class, "eva-close")]',
+]
+
 dates = [15, 30, 60, 90, 120]
 
+url = 'https://www.us.despegar.com/hotels/'
 currency = 'USD'
 source = 'us.despegar.com'
+
+def spider():
+    driver = webdriver.Chrome()
+    driver.get(url)
+    return driver
 
 def scroll_down(driver):
     element = driver.find_element_by_xpath('.//body')
@@ -25,15 +36,12 @@ def scroll_down(driver):
         element.send_keys(Keys.ARROW_DOWN)
 
 def banner(driver):
-    try:
-        banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//i[@class="nevo-modal-close nevo-icon-close"]'))
-        banner.click()
-    except:
+    for banner in banners:
         try:
-            banner = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//span[contains(@class, "eva-close")]'))
-            banner.click()
+            banner_element = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, banner)))
+            banner_element.click()
         except:
-            pass  
+            pass
 
 def scrape_name(element):
     WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//h3[@class="hf-hotel-name"]/a'))
@@ -63,7 +71,9 @@ def scrape_price(element):
 
 def scrape_rating(element):
     try:
-        return element.find_element_by_xpath('.//span[contains(@class, "hf-raiting")]').text.strip()
+        rating = './/span[contains(@class, "hf-raiting")]'
+        rating = element.find_element_by_xpath(rating).text.strip()
+        return rating
     except:
         return 0
 
@@ -72,15 +82,19 @@ def scrape_review(element):
 
 def scrape_occupation(driver):
     try:
-        element = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//select[contains(@class, "sbox-adults")]/option[@value="1"]'))
-        element.click()
+        occupation_element1 = './/select[contains(@class, "sbox-adults")]/option[@value="1"]' 
+        occupation_element1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupation_element1)))
+        occupation_element1.click()
     except:
-        element_1 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//div[contains(@class, "sbox-guests-container")]'))
-        element_1.click()
-        element_2 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//div[contains(@class, "stepper-adults")]/div/div/button[contains(@class, "button--dec")]'))
-        element_2.click()
-        element_3 = WebDriverWait(driver, 5).until(lambda driver: driver.find_element_by_xpath('.//h3[contains(@class, "sbox-ui-heading")]'))
-        element_3.click()
+        occupation_element1 = './/div[contains(@class, "sbox-guests-container")]'
+        occupation_element1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupation_element1)))
+        occupation_element1.click()
+        occupation_element2 = './/div[contains(@class, "stepper-adults")]/div/div/button[contains(@class, "button--dec")]'
+        occupation_element2 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupation_element2)))
+        occupation_element2.click()
+        occupation_element3 = './/div[contains(@class, "full")]'
+        occupation_element3 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, occupation_element3)))
+        occupation_element3.click()
 
 def scrape_dates():
     for date in dates:
@@ -91,67 +105,78 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    driver = spider(url)
-    driver.get(url)
+    driver = spider()
 
     banner(driver)
-    element_1 = './/input[contains(@class, "sbox-destination")]'
-    element_1 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_1)))
-    element_1.send_keys(city)
+    
+    city_element = './/input[contains(@class, "sbox-destination")]'
+    city_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, city_element)))
+    city_element.send_keys(city)
 
     if city == 'Guatemala City, Guatemala':
-        while True:
-            try:
-                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Guatemala City, Guatemala, Guatemala")]')[1].click()
-                time.sleep(2)
-                break
-            except:
-                pass
+        city_el2 = './/*[contains(., "Guatemala City, Guatemala, Guatemala")]'
 
     if city == 'Antigua Guatemala, Guatemala':
-        while True:
-            try:
-                driver.find_element_by_xpath('.//div[@class="geo-searchbox-autocomplete-holder-transition"]').find_elements_by_xpath('.//*[contains(., "Antigua, Sacatepequez, Guatemala")]')[1].click()
-                time.sleep(2)
-                break
-            except:
-                pass
+        city_el2 = './/*[contains(., "Antigua, Sacatepequez, Guatemala")]'
 
-    element_2 = './/input[contains(@class, "sbox-checkin-date")]'
-    element_2 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_2)))
-    element_2.click()       
+    city_el = './/div[@class="geo-searchbox-autocomplete-holder-transition"]'
+
+        
+    while True:
+        try:
+            city_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, city_el)))
+            city_element = city_element.find_elements_by_xpath(city_el2)[1]
+            city_element.click()
+            break
+        except:
+            pass
+
+    checkin_click_element = './/input[contains(@class, "sbox-checkin-date")]'
+    checkin_click_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, checkin_click_element)))
+    checkin_click_element.click()       
 
     checkin = datetime.now() + timedelta(date)
     checkout = datetime.now() + timedelta(date + 3)
 
-    while True:
-        try:
-            element_4 = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'.format(checkin.strftime('%Y-%m'), checkin.day)
-            element_4 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_4)))
-            element_4.click()
-            break
-        except:
-            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
-            time.sleep(2)
+    checkin_el = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'\
+                 .format(checkin.strftime('%Y-%m'), checkin.day)
+    checkout_el = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'\
+                 .format(checkout.strftime('%Y-%m'), checkout.day)
+    next_el = './/div[contains(@class, "dpmg2--controls-next")]'
 
     while True:
         try:
-            element_5 = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'.format(checkout.strftime('%Y-%m'), checkout.day)
-            element_5 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_5)))
-            element_5.click()
+            checkin_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el)))
+            checkin_element.click()
             break
         except:
-            driver.find_element_by_xpath('.//div[contains(@class, "dpmg2--controls-next")]').click()
-            time.sleep(2)
+            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
+            next_element.click()
+            time.sleep(5)
+
+    while True:
+        try:
+            checkout_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el)))
+            checkout_element.click()
+            break
+        except:
+            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
+            next_element.click()
+            time.sleep(5)
     
     scrape_occupation(driver)
-    element_6 = './/a[contains(@class, "sbox-search")]'
-    element_6 = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, element_6)))
-    element_6.click()
+    
+    submit_element = './/a[contains(@class, "sbox-search")]'
+    submit_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, submit_element)))
+    submit_element.click()
+    
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
 def get_pages(driver, city, checkin, checkout, date):
+    next_el = './/a[@data-ga-el="next"]'
+
     banner(driver)
+    
     count = 0
     while True:
         hotels_1 = driver.find_elements_by_xpath('.//ul[@id="hotels"]/li[./div[@class="hf-cluster-card"]]')
@@ -172,9 +197,9 @@ def get_pages(driver, city, checkin, checkout, date):
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         try:
-            next = './/a[@data-ga-el="next"]'
-            next = driver.find_element_by_xpath(next)
-            next.click()
+            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
+            next_element.click()
+            
             banner(driver)
         except:
             driver.quit()
@@ -187,7 +212,6 @@ if __name__ == '__main__':
     global cur
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
-    url = 'https://www.us.despegar.com/hotels/'
     scrape_dates()
     conn.close()
 

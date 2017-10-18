@@ -9,7 +9,6 @@ import pyodbc, time, re
 from datetime import datetime, timedelta
 
 
-f_h = open('lodebernal_prices.txt', 'w')
 
 url = 'http://www.lodebernal.com/'
 dates = [15, 30, 60, 90, 120]
@@ -32,7 +31,6 @@ def get_price(driver):
     element = './/div[@class="room_types"]/div[@class="room"]'
     price = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, element)))
     price = price.find_elements_by_xpath('.//div[contains(@class, "rate_basic_derived")]')[0]
-    f_h.write(price.text+'\n')
     price = int(float(re.sub('Q|,| +', '', price.text)))/3   
     return price
 
@@ -59,17 +57,20 @@ def scrape_hotel(date):
     scrape_room(driver, checkin2, checkout2, date)
 
 def scrape_room(driver, checkin, checkout, date):
-    new_price = get_price(driver)
-    old_price = 0
-    name = 'Hotel Lo de Bernal'
-    review = ''
-    rating = ''
-    address = '1ª. Calle Poniente 23'
-    city = 'Antigua Guatemala, Guatemala'
-    source = 'lodebernal.com'
-    currency = 'GTQ'
-    sql_write(conn, cur, name, rating, review, address.decode('utf8'), new_price, old_price, checkin, checkout, city, currency, source, 1, date)
-    print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
+    try:
+        new_price = get_price(driver)
+        old_price = 0
+        name = 'Hotel Lo de Bernal'
+        review = ''
+        rating = ''
+        address = '1ª. Calle Poniente 23'
+        city = 'Antigua Guatemala, Guatemala'
+        source = 'lodebernal.com'
+        currency = 'GTQ'
+        sql_write(conn, cur, name, rating, review, address.decode('utf8'), new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+        print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
+    except:
+        pass
 
     driver.quit()
 
@@ -81,5 +82,3 @@ if __name__ == "__main__":
     cur = conn.cursor()
     scrape_dates()
     conn.close()
-
-f_h.close()
