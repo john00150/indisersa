@@ -59,42 +59,67 @@ def scrape_cities(url, date):
 
 def scrape_city(url, city, date):
     driver = spider(url)
-    driver.find_element_by_xpath('.//div[@class="hcsb_citySearchWrapper"]/input').send_keys(city)
-    elementt = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, './/ul[@id="ui-id-1"]/li')))
-    elementt.click()
-    #driver.find_element_by_xpath('.//ul[@id="ui-id-1"]/li').click()
-    time.sleep(2)
 
+    ##### city
+    city_el_1 = './/div[@class="hcsb_citySearchWrapper"]/input'
+    city_element_1 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, city_el_1)))
+    city_element_1.send_keys(city)
+
+    city_el_2 = './/ul[@id="ui-id-1"]/li' 
+    city_element_2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, city_el_2)))
+    city_element_2.click()
+    
+    ##### checkin
     checkin = datetime.now() + timedelta(date)
     checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
+
+    checkin_el_1 = '//select[@class="hcsb_checkinMonth"]/option[@value="{}"]'.format(checkin_year_month)
+    checkin_element_1 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_1)))
+    checkin_element_1.click()
+    
+    checkin_el_2 = '//select[@class="hcsb_checkinDay"]/option[@value="{}"]'.format(checkin.day)
+    checkin_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_2)))
+    checkin_element_2.click()
+
+    ##### checkout
     checkout = datetime.now() + timedelta(date + 3)
     checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
-    driver.find_element_by_xpath('//select[@class="hcsb_checkinMonth"]/option[@value="%s"]' % checkin_year_month).click()
-    time.sleep(2)
-    driver.find_element_by_xpath('//select[@class="hcsb_checkinDay"]/option[@value="%s"]' % checkin.day).click()
-    time.sleep(2)
+    checkout_el_1 = '//select[@class="hcsb_checkoutMonth"]/option[@value="{}"]'.format(checkout_year_month)
+    checkout_element_1 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_1)))
+    checkout_element_1.click()
+    
+    checkout_el_2 = '//select[@class="hcsb_checkoutDay"]/option[@value="{}"]'.format(checkout.day)
+    checkout_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_2)))
+    checkout_element_2.click()
 
-    driver.find_element_by_xpath('//select[@class="hcsb_checkoutMonth"]/option[@value="%s"]' % checkout_year_month).click()
-    time.sleep(2)
-    driver.find_element_by_xpath('//select[@class="hcsb_checkoutDay"]/option[@value="%s"]' % checkout.day).click()
-    time.sleep(2)
+    checkout_el_3 = './/button[contains(@class, "ui-datepicker-close")]'
+    checkout_element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_3)))
+    checkout_element_3.click()
 
-    driver.find_element_by_xpath('.//button[contains(@class, "ui-datepicker-close")]').click()
-    time.sleep(2)
-    driver.find_element_by_xpath('.//select[@class="hcsb_guests"]/option[@value="1-1"]').click()
-    time.sleep(2)
-    element_9 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//a[@class="hcsb_searchButton"]')))
-    element_9.click()
+    ##### occupancy
+    occupancy_el = './/select[@class="hcsb_guests"]/option[@value="1-1"]'
+    occupancy_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, occupancy_el)))
+    occupancy_element.click()
+
+    ##### submit
+    submit_el = '//a[@class="hcsb_searchButton"]'
+    submit_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, submit_el)))
+    submit_element.click()
+
     WebDriverWait(driver, 10).until(lambda driver: len(driver.window_handles) > 1)
     driver.switch_to_window(driver.window_handles[1])
+
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
 def scrape_hotels(driver, city, checkin, checkout, date):
+    _next = './/span[contains(@class, "pagination_next")]'
+    hotels_el = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
     count = 0
     while True:
         time.sleep(20)
-        hotels = driver.find_elements_by_xpath('.//div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]')
+        hotels = driver.find_elements_by_xpath(hotels_el)
+
         for hotel in hotels:
             name = scrape_name(hotel)
             new_price, old_price = scrape_price(hotel)
@@ -107,8 +132,10 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
         time.sleep(10)
+
         try:
-            driver.find_element_by_xpath('.//span[contains(@class, "pagination_next")]').click()
+            page_next = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, _next)))
+            page_next.click()
         except Exception, e:
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
             driver.quit()
@@ -118,10 +145,13 @@ def scrape_hotels(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
+
     conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
     cur = conn.cursor()
+
     url = 'http://www.book-hotel-beds.com/'
     scrape_dates()
+
     conn.close()
 
 

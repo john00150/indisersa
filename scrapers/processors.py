@@ -1,6 +1,9 @@
 import pyodbc, time, datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
 
 
@@ -32,5 +35,13 @@ def spider(url):
 def csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source):
         line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source)
         fh.write(line.encode('utf8'))
+
+def close_banner(driver):
+    for banner in banners:
+        try:
+            element = WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, banner)))
+            element.click()
+        except:
+            pass
 
 
