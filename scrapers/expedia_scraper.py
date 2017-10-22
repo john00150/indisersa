@@ -4,13 +4,18 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from processors import spider, sql_write
+from processors import *
 import re, pyodbc, time
 from datetime import datetime, timedelta
 
 cities = [
     'Guatemala City, Guatemala',
     'Antigua Guatemala, Guatemala',
+]
+
+banners = [
+    './/span[contains(@class, "icon-close")]',
+    './/div[@class="hero-banner-box cf"]',
 ]
 
 dates = [15, 30, 60, 90, 120]
@@ -71,15 +76,7 @@ def get_address(element):
     except:
         phone = ''
     line = '%s, %s.' % (address, phone)
-    return line, address
-
-def banner(driver):
-    try:
-        banner = './/div[@class="hero-banner-box cf"]'
-        banner = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, banner)))
-        banner.click()
-    except:
-        pass    
+    return line, address 
 
 def scrape_dates():
     for date in dates:
@@ -96,7 +93,7 @@ def scrape_city(url, city, date):
     city_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, city_element)))
     city_element.send_keys(city)
 
-    banner(driver)
+    close_banner(driver, banners)
 
     ### checkin
     checkin = datetime.now() + timedelta(date)
@@ -118,6 +115,9 @@ def scrape_city(url, city, date):
     occupation_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, occupation_el)))
     occupation_element.click()
 
+    ### scroll down
+    scroll_down.range(driver, 5, 0)
+
     ### submit
     submit_el1 = './/section[@id="section-hotel-tab-hlp"]/form'
     submit_el2 = './/button[@type="submit"]'
@@ -128,6 +128,7 @@ def scrape_city(url, city, date):
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
 def scrape_hotels(driver, city, checkin, checkout, date):
+    _next = './/button[@class="pagination-next"]/abbr'
     count = 0
     while True:
         hotels = './/div[@id="resultsContainer"]/section/article'
@@ -143,13 +144,12 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             address, location = get_address(hotel)
             city = city.split(',')[0]
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
- 
-        try:      
-            _next = './/button[@class="pagination-next"]/abbr' 
-            _next = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath(_next))
-            _next.click()
-            time.sleep(10)
-        except:            
+
+        try:
+            scroll_down.click_element(driver, 500, _next, 0.5)
+            time.sleep(15)
+        except:
+            time.sleep(15)
             driver.quit()
             print '{}, {}, {} hotels, checkin {}, checkout {}, range {}'.format(source, city, count, checkin, checkout, date)
             break

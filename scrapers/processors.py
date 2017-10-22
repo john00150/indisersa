@@ -1,7 +1,8 @@
-import pyodbc, time, datetime
+import pyodbc, time, datetime, sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
@@ -14,6 +15,32 @@ def sql_exec(conn, cur, sql):
     except Exception, e:
         #print e
         pass
+
+class scroll_down(object):
+    @staticmethod
+    def range(driver, ran, delay):
+        el = './/body'
+        for x in range(ran):
+            element = driver.find_element_by_xpath(el)
+            element.send_keys(Keys.ARROW_DOWN)
+            time.sleep(delay)
+            
+    @staticmethod
+    def bottom(driver):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    @staticmethod
+    def click_element(driver, ran, el, delay):
+        status = None
+        for x in range(ran):
+            try:
+                element = WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, el)))
+                element.click()
+                sys.exit(0)
+            except:
+                driver.find_element_by_xpath('.//body').send_keys(Keys.ARROW_DOWN)
+        
+        raise ValueError('error')
 
 def sql_write(conn, cur, hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date):
     hotel = hotel.replace("'", "''")
@@ -36,7 +63,7 @@ def csv_write(fh, name, review, rating, address, currency, new_price, old_price,
         line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source)
         fh.write(line.encode('utf8'))
 
-def close_banner(driver):
+def close_banner(driver, banners):
     for banner in banners:
         try:
             element = WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, banner)))
