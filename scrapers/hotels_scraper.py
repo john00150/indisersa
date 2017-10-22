@@ -116,6 +116,7 @@ def scrape_city(url, city, date):
     
     banner(driver)
 
+    ##### city
     city_element = './/input[@name="q-destination"]'
     city_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, city_element)))
     city_element.send_keys(city)
@@ -124,6 +125,7 @@ def scrape_city(url, city, date):
     
     banner(driver)
 
+    ##### checkin
     checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
     checkout = datetime.now() + timedelta(date + 3)
@@ -136,6 +138,7 @@ def scrape_city(url, city, date):
     
     banner(driver)
 
+    ##### checkout
     checkout_element = '//input[@name="q-localised-check-out"]'
     checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_element)))
     checkout_element.clear()
@@ -143,12 +146,14 @@ def scrape_city(url, city, date):
     
     banner(driver)
 
+    ##### occupancy
     occupancy_element = './/select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'
     occupancy_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupancy_element)))
     occupancy_element.click()
 
+    ##### submit
     button_element = '//button[@type="submit"]'
-    button_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, button_element)))
+    button_element = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, button_element)))
     button_element.click()
             
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
@@ -171,7 +176,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         city = city.split(',')[0]
         
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
 
@@ -179,10 +184,10 @@ def scrape_hotels(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 

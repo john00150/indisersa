@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write
+from processors import sql_write, close_banner
 import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
@@ -14,13 +14,11 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-dates = [15, 30, 60, 90, 120]
+dates = [15, 30, 60, 90, 120] 
 
-def banner(driver):
-    try:
-        driver.find_element_by_xpath('.//body').click()
-    except:
-        pass 
+banners = [
+    './/body',
+]
 
 def spider(url):
     driver = webdriver.Chrome()
@@ -112,7 +110,6 @@ def scrape_city(url, city, date):
     checkin = datetime.now() + timedelta(date)
     line = '{} {}, {} {}'.format(checkin.strftime('%A'), checkin.day, checkin.strftime('%B'), checkin.year)
     checkin_el = checkin_checkout_el.format(line)
-    print len(driver.find_elements_by_xpath(checkin_el))
     
     while True:
         try:
@@ -175,7 +172,7 @@ def get_pages(driver, city, checkin, checkout, date):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
             
         time.sleep(15)
         try:
@@ -189,10 +186,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     url = 'https://www.booking.com/'
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 
