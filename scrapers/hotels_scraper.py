@@ -23,6 +23,8 @@ banners = [
     './/div[@class="widget-query-group widget-query-occupancy"]',
     './/div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]',
     './/span[contains(@class, "close")]',
+    './/span[contains(@class, "close-icon")]',
+    './/button[contains(@class, "cta")]'
 ]
 
 def spider(url):
@@ -128,9 +130,6 @@ def scrape_city(url, city, date):
     ##### checkin
     checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
-    checkout = datetime.now() + timedelta(date + 3)
-    checkoutt = checkout.strftime('%m/%d/%y')
-
     checkin_element = '//input[@name="q-localised-check-in"]'
     checkin_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkin_element)))
     checkin_element.clear()
@@ -139,6 +138,8 @@ def scrape_city(url, city, date):
     banner(driver)
 
     ##### checkout
+    checkout = datetime.now() + timedelta(date + 3)
+    checkoutt = checkout.strftime('%m/%d/%y')
     checkout_element = '//input[@name="q-localised-check-out"]'
     checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_element)))
     checkout_element.clear()
@@ -151,9 +152,11 @@ def scrape_city(url, city, date):
     occupancy_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupancy_element)))
     occupancy_element.click()
 
+    banner(driver)
+
     ##### submit
-    button_element = '//button[@type="submit"]'
-    button_element = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, button_element)))
+    button_element = './/button[contains(@type, "submit")]'
+    button_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, button_element)))
     button_element.click()
             
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
