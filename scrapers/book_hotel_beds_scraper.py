@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from processors import spider, sql_write
-import pyodbc, time, os
+import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
 cities = [
@@ -81,6 +81,10 @@ def scrape_city(url, city, date):
     checkin_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_2)))
     checkin_element_2.click()
 
+    checkin_el_3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
+    checkin_element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_3)))
+    checkin_element_3.click()
+
     ##### checkout
     checkout = datetime.now() + timedelta(date + 3)
     checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
@@ -93,7 +97,7 @@ def scrape_city(url, city, date):
     checkout_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_2)))
     checkout_element_2.click()
 
-    checkout_el_3 = './/button[contains(@class, "ui-datepicker-close")]'
+    checkout_el_3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
     checkout_element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_3)))
     checkout_element_3.click()
 
@@ -113,7 +117,7 @@ def scrape_city(url, city, date):
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
 
 def scrape_hotels(driver, city, checkin, checkout, date):
-    _next = './/span[contains(@class, "pagination_next")]'
+    _next = './/a[contains(text(), "Next")]'
     hotels_el = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
     count = 0
     while True:
@@ -134,7 +138,8 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         time.sleep(10)
 
         try:
-            page_next = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, _next)))
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            page_next = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, _next)))
             page_next.click()
         except Exception, e:
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
