@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from processors import spider, sql_write
+from processors import spider, sql_write, close_banner
 import re, pyodbc, time
 from datetime import datetime, timedelta
 
@@ -18,6 +18,7 @@ dates = [15, 30, 60, 90, 120]
 url = 'https://www.expedia.com/Hotels'
 currency = 'USD'
 source = 'expedia.com'
+
 
 def get_name(element):
     return element.find_element_by_xpath('./h3').text.strip()
@@ -142,7 +143,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             rating = get_rating(hotel)
             address, location = get_address(hotel)
             city = city.split(',')[0]
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
+            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
  
         try:      
             _next = './/button[@class="pagination-next"]/abbr' 
@@ -158,9 +159,9 @@ if __name__ == '__main__':
     global conn
     global cur
 
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 
