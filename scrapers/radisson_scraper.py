@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, spider
+from processors import sql_write, spider, close_banner
 import pyodbc, time
 from datetime import datetime, timedelta
 
@@ -13,14 +13,11 @@ cities = [
 #    'Antigua Guatemala, Guatemala',
 ]
 
-dates = [15, 30, 60, 90, 120]
+banners = [
+    './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
+]
 
-def banner(element):
-    try:
-        banner = WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]'))
-        banner.click()
-    except:
-        pass
+dates = [15, 30, 60, 90, 120]
 
 def scrape_name(element):
     return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//div[@class="innername"]/a').text.strip())
@@ -57,8 +54,8 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    driver = spider(url)
-    banner(driver)
+    driver = spider.chrome(url)
+    close_banner(driver, banners)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="city"]'))
     element_1.send_keys(city)
     element_2 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="checkinDate"]'))
@@ -91,11 +88,10 @@ def scrape_city(url, city, date):
             time.sleep(2)
 
     search_element = './/a[contains(@title, "Go")]'
-    print len(driver.find_elements_by_xpath(search_element))
-    #search_element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, search_element)))
-    #search_element.click()
+    search_element = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, search_element)))
+    search_element.click()
     
-    #scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
     
     driver.quit()
 
@@ -109,7 +105,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
     source = 'radisson.com'
     currency = 'GTQ'
     sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
-    print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
+    print '{}, checkin {}, checkout {}, range {}, price {}'.format(source, checkin, checkout, date, new_price)
 
 
 if __name__ == '__main__':

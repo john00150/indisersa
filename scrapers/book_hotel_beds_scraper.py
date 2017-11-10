@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from processors import spider, sql_write
+from processors import spider, sql_write, process_elements
 import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
@@ -58,57 +58,57 @@ def scrape_cities(url, date):
         scrape_city(url, city, date)
 
 def scrape_city(url, city, date):
-    driver = spider(url)
+    driver = spider.chrome(url)
 
     ##### city
-    city_el_1 = './/div[@class="hcsb_citySearchWrapper"]/input'
-    city_element_1 = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, city_el_1)))
-    city_element_1.send_keys(city)
+    city_el1 = './/div[@class="hcsb_citySearchWrapper"]/input'
+    city_element1 = process_elements.presence(driver, city_el1, 10)
+    city_element1.send_keys(city)
 
-    city_el_2 = './/ul[@id="ui-id-1"]/li' 
-    city_element_2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, city_el_2)))
-    city_element_2.click()
+    city_el2 = './/ul[@id="ui-id-1"]/li' 
+    city_element2 = process_elements.visibility(driver, city_el2, 10)
+    city_element2.click()
     
     ##### checkin
     checkin = datetime.now() + timedelta(date)
     checkin_year_month = '%s-%s' % (checkin.year, checkin.month)
 
-    checkin_el_1 = '//select[@class="hcsb_checkinMonth"]/option[@value="{}"]'.format(checkin_year_month)
-    checkin_element_1 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_1)))
-    checkin_element_1.click()
+    checkin_el1 = '//select[@class="hcsb_checkinMonth"]/option[@value="{}"]'.format(checkin_year_month)
+    checkin_element1 = process_elements.visibility(driver, checkin_el1, 10)
+    checkin_element1.click()
     
-    checkin_el_2 = '//select[@class="hcsb_checkinDay"]/option[@value="{}"]'.format(checkin.day)
-    checkin_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_2)))
-    checkin_element_2.click()
+    checkin_el2 = '//select[@class="hcsb_checkinDay"]/option[@value="{}"]'.format(checkin.day)
+    checkin_element2 = process_elements.visibility(driver, checkin_el2, 10)
+    checkin_element2.click()
 
-    checkin_el_3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
-    checkin_element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el_3)))
-    checkin_element_3.click()
+    checkin_el3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
+    checkin_element3 = process_elements.visibility(driver, checkin_el3, 10)
+    checkin_element3.click()
 
     ##### checkout
     checkout = datetime.now() + timedelta(date + 3)
     checkout_year_month = '%s-%s' % (checkout.year, checkout.month)
 
-    checkout_el_1 = '//select[@class="hcsb_checkoutMonth"]/option[@value="{}"]'.format(checkout_year_month)
-    checkout_element_1 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_1)))
-    checkout_element_1.click()
+    checkout_el1 = '//select[@class="hcsb_checkoutMonth"]/option[@value="{}"]'.format(checkout_year_month)
+    checkout_element1 = process_elements.visibility(driver, checkout_el1, 10)
+    checkout_element1.click()
     
-    checkout_el_2 = '//select[@class="hcsb_checkoutDay"]/option[@value="{}"]'.format(checkout.day)
-    checkout_element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_2)))
-    checkout_element_2.click()
+    checkout_el2 = '//select[@class="hcsb_checkoutDay"]/option[@value="{}"]'.format(checkout.day)
+    checkout_element2 = process_elements.visibility(driver, checkout_el2, 10)
+    checkout_element2.click()
 
-    checkout_el_3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
-    checkout_element_3 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el_3)))
-    checkout_element_3.click()
+    checkout_el3 = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
+    checkout_element3 = process_elements.visibility(driver, checkout_el3, 10)
+    checkout_element3.click()
 
     ##### occupancy
     occupancy_el = './/select[@class="hcsb_guests"]/option[@value="1-1"]'
-    occupancy_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, occupancy_el)))
+    occupancy_element = process_elements.visibility(driver, occupancy_el, 10)
     occupancy_element.click()
 
     ##### submit
     submit_el = '//a[@class="hcsb_searchButton"]'
-    submit_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, submit_el)))
+    submit_element = process_elements.visibility(driver, submit_el, 10)
     submit_element.click()
 
     WebDriverWait(driver, 10).until(lambda driver: len(driver.window_handles) > 1)

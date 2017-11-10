@@ -8,6 +8,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
 
 
+class process_elements(object):
+    @staticmethod
+    def presence(driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
+
+    @staticmethod
+    def visibility(driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
+
 def sql_exec(conn, cur, sql):
     try:
         cur.execute(sql)
@@ -56,6 +65,7 @@ class spider(object):
         prefs = {"profile.managed_default_content_settings.images": 2}
         chrome_options.add_experimental_option("prefs", prefs)
         driver = webdriver.Chrome(chrome_options=chrome_options)
+        driver.maximize_window()
         driver.get(url)
         return driver
 
