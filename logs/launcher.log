@@ -1,4 +1,4 @@
-start: 2017-10-22 01:00:02.244000
+start: 2017-10-23 01:00:02.178000
 marriott_scraper failed
 Traceback (most recent call last):
   File "launcher.py", line 33, in <module>
@@ -7,8 +7,8 @@ Traceback (most recent call last):
     scrape_dates()
   File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 33, in scrape_dates
     scrape_hotel(url, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 76, in scrape_hotel
-    nextmonth_elements = driver.find_elements_by_xpath(nextmonth_elms)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 75, in scrape_hotel
+    checkin_elements = driver.find_elements_by_xpath(checkin_elms)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 325, in find_elements_by_xpath
     return self.find_elements(by=By.XPATH, value=xpath)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 817, in find_elements
@@ -40,33 +40,7 @@ Traceback (most recent call last):
     return _element_if_visible(_find_element(driver, self.locator))
   File "C:\Python27\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 353, in _find_element
     raise e
-NoSuchWindowException: Message: no such window: target window already closed
-from unknown error: web view not found
-  (Session info: chrome=61.0.3163.100)
-  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
-
-
-expedia_scraper failed
-Traceback (most recent call last):
-  File "launcher.py", line 93, in <module>
-    execfile('C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 163, in <module>
-    scrape_dates()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 86, in scrape_dates
-    scrape_cities(url, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 90, in scrape_cities
-    scrape_city(url, city, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 126, in scrape_city
-    submit_element.click()
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
-    self._execute(Command.CLICK_ELEMENT)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
-    return self._parent.execute(command, params)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
-    self.error_handler.check_response(response)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
-    raise exception_class(message, screen, stacktrace)
-WebDriverException: Message: unknown error: Element is not clickable at point (76, 532)
+WebDriverException: Message: chrome not reachable
   (Session info: chrome=61.0.3163.100)
   (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
 
@@ -96,4 +70,4 @@ WebDriverException: Message: chrome not reachable
   (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
 
 
-finish: 2017-10-22 05:00:09.221000
+finish: 2017-10-23 07:57:52.560000

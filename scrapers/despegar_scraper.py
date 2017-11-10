@@ -1,10 +1,9 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write
+from processors import sql_write, close_banner, scroll_down, spider
 import pyodbc, time, sys
 from datetime import datetime, timedelta
 
@@ -25,23 +24,6 @@ url = 'https://www.us.despegar.com/hotels/'
 currency = 'USD'
 source = 'us.despegar.com'
 
-def spider():
-    driver = webdriver.Chrome()
-    driver.get(url)
-    return driver
-
-def scroll_down(driver):
-    element = driver.find_element_by_xpath('.//body')
-    for x in range(150):
-        element.send_keys(Keys.ARROW_DOWN)
-
-def banner(driver):
-    for banner in banners:
-        try:
-            banner_element = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, banner)))
-            banner_element.click()
-        except:
-            pass
 
 def scrape_name(element):
     WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//h3[@class="hf-hotel-name"]/a'))
@@ -105,10 +87,11 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    driver = spider()
+    driver = spider.chrome(url)
 
-    banner(driver)
-    
+    close_banner(driver, banners)
+
+    # city
     city_element = './/input[contains(@class, "sbox-destination")]'
     city_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, city_element)))
     city_element.send_keys(city)
@@ -130,42 +113,25 @@ def scrape_city(url, city, date):
             break
         except:
             pass
+    
+    # checkin
+    checkin = datetime.now() + timedelta(date)
 
     checkin_click_element = './/input[contains(@class, "sbox-checkin-date")]'
     checkin_click_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, checkin_click_element)))
-    checkin_click_element.click()       
+    checkin_click_element.click()
 
-    checkin = datetime.now() + timedelta(date)
+    scroll_down.range(driver, 5, 0.5)
+    checkin_checkout_scrape(driver, checkin)
+
+    # checkout
     checkout = datetime.now() + timedelta(date + 3)
+    checkin_checkout_scrape(driver, checkout)
 
-    checkin_el = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'\
-                 .format(checkin.strftime('%Y-%m'), checkin.day)
-    checkout_el = './/div[@data-month="{}"]/div[contains(@class, "dpmg2--dates")]/span[contains(text(), "{}")]'\
-                 .format(checkout.strftime('%Y-%m'), checkout.day)
-    next_el = './/div[contains(@class, "dpmg2--controls-next")]'
-
-    while True:
-        try:
-            checkin_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el)))
-            checkin_element.click()
-            break
-        except:
-            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
-            next_element.click()
-            time.sleep(5)
-
-    while True:
-        try:
-            checkout_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el)))
-            checkout_element.click()
-            break
-        except:
-            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
-            next_element.click()
-            time.sleep(5)
-    
+    # occupation
     scrape_occupation(driver)
-    
+
+    # submit
     submit_element = './/a[contains(@class, "sbox-search")]'
     submit_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, submit_element)))
     submit_element.click()
@@ -174,8 +140,7 @@ def scrape_city(url, city, date):
 
 def get_pages(driver, city, checkin, checkout, date):
     next_el = './/a[@data-ga-el="next"]'
-
-    banner(driver)
+    close_banner(driver, banners)
     
     count = 0
     while True:
@@ -196,15 +161,42 @@ def get_pages(driver, city, checkin, checkout, date):
             city = city.split(',')[0]
             count += 1
             sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+
+        scroll_down.bottom(driver)
+        
         try:
             next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
             next_element.click()
-            
-            banner(driver)
+            close_banner(driver, banners)
         except:
             driver.quit()
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
             break
+
+def checkin_checkout_scrape(driver, date):
+    els = './/div[contains(@data-month, "{}")]/div/span[contains(text(), "{}")]'
+    next_el = './/div[contains(@class, "dpmg2--controls-next")]'
+    
+    els = els.format(date.strftime('%Y-%m'), date.day)
+    x = False
+    while True:
+        try:
+            elements = driver.find_elements_by_xpath(els)
+            for el in elements:
+                try:
+                    el.click()
+                    x = True
+                    break
+                except:
+                    pass
+                
+            if x == True:
+                break
+            else:
+                raise ValueError()
+        except:
+            next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
+            next_element.click()
 
 
 if __name__ == '__main__':
