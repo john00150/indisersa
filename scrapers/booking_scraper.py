@@ -170,7 +170,7 @@ def get_pages(driver, city, checkin, checkout, date):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
             
         time.sleep(20)
         try:
@@ -185,10 +185,10 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    cur = conn.cursor()
     url = 'https://www.booking.com/'
     scrape_dates()
-    #conn.close()
+    conn.close()
 
 
