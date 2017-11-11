@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write, close_banner
+from processors import *
 import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
@@ -17,18 +17,15 @@ cities = [
 dates = [15, 30, 60, 90, 120] 
 
 banners = [
-    './/body',
+    './/div[contains(@class, "close")]',
 ]
 
-def spider(url):
-    driver = webdriver.Chrome()
-    driver.get(url)
-    return driver 
 
 def scroll_down(driver):
     time.sleep(5)
     try:
-        elements = driver.find_elements_by_xpath('.//td[contains(@class, "roomPrice sr_discount")]/div/strong[contains(@class, "price scarcity_color")]/b')
+        elms = './/td[contains(@class, "roomPrice sr_discount")]/div/strong[contains(@class, "price scarcity_color")]/b'
+        elements = driver.find_elements_by_xpath(elms)
         while True:
             driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
@@ -41,13 +38,13 @@ def scroll_down(driver):
             time.sleep(0.4)
 
 def scrape_name(element): 
-    el = './/span[contains(@class, "sr-hotel__name")]'
-    element = element.find_element_by_xpath(el).text
-    return element
+    name_el = './/span[contains(@class, "sr-hotel__name")]'
+    name_element = element.find_element_by_xpath(name_el).text
+    return name_element
 
 def scrape_address(element):
-    el = './/div[@class="address"]/a'
-    element = element.find_element_by_xpath(el).text.strip()
+    address_el = './/div[@class="address"]/a'
+    address_element = element.find_element_by_xpath(address_el).text.strip()
     return element
 
 def scrape_price(element):
@@ -88,67 +85,67 @@ def scrape_cities(url, date):
         scrape_city(url, city, date)
 
 def scrape_city(url, city, date):
-    driver = spider(url)
+    driver = spider.chrome(url)
+
+    close_banner(driver, banners)
     
-    city_element = './/input[@id="ss"]'
-    city_element = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, city_element)))
-    city_element.send_keys(city)
-    
-    if city == 'Guatemala City, Guatemala':
-        city_element = './/li[contains(@data-label, "Guatemala, Guatemala, Guatemala")]' 
+    city_element_before = './/input[@id="ss"]'
+    city_element_before = process_elements.visibility(driver, city_element_before, 15)
+    city_element_before.send_keys(city)
 
-    if city == 'Antigua Guatemala, Guatemala':
-        city_element = './/li[contains(@data-label, "Antigua Guatemala, Guatemala")]'
+    city_element_after = './/li[contains(@class, "autocomplete")]'
+    city_element_after = process_elements.visibility(driver, city_element_after, 15)
+    city_element_after.click()
 
-    city_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, city_element)))
-    city_element.click()
-
-    checkin_checkout_el = './/td[contains(@aria-label, "{}")]'
+    #####
+    checkin_checkout_el = './/table[contains(@class, "c2-month-table")][./thead/tr/th[contains(text(), "{}")]]/tbody/tr/td/span[contains(text(), "{}")]'
     further_el = './/div[contains(@class, "c2-button-further")]'
 
-    ##### checkin
+    #####
     checkin = datetime.now() + timedelta(date)
-    line = '{} {}, {} {}'.format(checkin.strftime('%A'), checkin.day, checkin.strftime('%B'), checkin.year)
-    checkin_el = checkin_checkout_el.format(line)
-    
+    year = checkin.strftime('%Y')
+    month = checkin.strftime('%B')
+    month_year = '{} {}'.format(month, year)
+    day = checkin.strftime('%d')
+    checkin_el = checkin_checkout_el.format(month_year, day)    
+
     while True:
         try:
-            element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkin_el)))
+            element = process_elements.visibility(driver, checkin_el, 10)
             element.click()
             break
-            
         except Exception, e:
-            print traceback.print_exc()
-            further_element = driver.find_elements_by_xpath(further_el)[0]
+            further_element = process_elements.visibility(driver, further_el, 10)
             further_element.click()
 
-    element = './/div[@data-placeholder="Check-out Date"]'
-    element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, element)))
-    element.click()
+    checkout_element = './/div[@data-placeholder="Check-out Date"]'
+    checkout_element = process_elements.visibility(driver, checkout_element, 10)
+    checkout_element.click()
 
     ##### checkout
     checkout = datetime.now() + timedelta(date + 3)
-    line = '{} {}, {} {}'.format(checkout.strftime('%A'), checkout.day, checkout.strftime('%B'), checkout.year)
-    checkout_el = checkin_checkout_el.format(line)
+    year = checkout.strftime('%Y')
+    month = checkout.strftime('%B')
+    month_year = '{} {}'.format(month, year)
+    day = checkout.strftime('%d')
+    checkout_el = checkin_checkout_el.format(month_year, day)
     
     while True:
         try:
-            element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, checkout_el)))
+            element = driver.find_elements_by_xpath(checkout_el)[1]
             element.click()
             break
-                
         except Exception, e:
-            traceback.print_exc()
             further_element = driver.find_elements_by_xpath(further_el)[1]
             further_element.click() 
 
     ##### occupancy
     occupancy_element = './/select[@name="group_adults"]/option[contains(@value, "1")]'
-    occupancy_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, occupancy_element)))
+    occupancy_element = process_elements.visibility(driver, occupancy_element, 10)
     occupancy_element.click()
 
     submit_element = '//button[@type="submit"]'
-    submit_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, submit_element)))
+    submit_element = process_elements.visibility(driver, submit_element, 10)
     submit_element.click()
     
     get_pages(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
@@ -160,6 +157,7 @@ def get_pages(driver, city, checkin, checkout, date):
     while True:
         scroll_down(driver)
 
+        next_el = './/a[contains(@class, "paging-next")]'
         hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
         hotels = driver.find_elements_by_xpath(hotels)
         for hotel in hotels:
@@ -174,9 +172,10 @@ def get_pages(driver, city, checkin, checkout, date):
             source = 'booking.com'
             #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
             
-        time.sleep(15)
+        time.sleep(20)
         try:
-            driver.find_element_by_xpath('.//a[contains(@class, "paging-next")]').click()
+            next_element = process_elements.visibility(driver, next_el, 10)
+            next_element.click()
         except:
             driver.quit()
             print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
