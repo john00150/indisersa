@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write
+from processors import sql_write, process_elements, 
 import pyodbc, time, os, traceback
 from datetime import datetime, timedelta
 
