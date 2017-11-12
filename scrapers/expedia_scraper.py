@@ -24,6 +24,7 @@ url = 'https://www.expedia.com/Hotels'
 currency = 'USD'
 source = 'expedia.com'
 
+
 def get_name(element):
     return element.find_element_by_xpath('./h3').text.strip()
 
@@ -158,9 +159,9 @@ if __name__ == '__main__':
     global conn
     global cur
 
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    #cur = conn.cursor()
     scrape_dates()
-    conn.close()
+    #conn.close()
 
 

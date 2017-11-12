@@ -1,4 +1,4 @@
-import pyodbc, time, datetime, sys
+import pyodbc, time, datetime, sys, traceback
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -16,6 +16,10 @@ class process_elements(object):
     @staticmethod
     def visibility(driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
+
+    @staticmethod
+    def clickable(driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
 
 def sql_exec(conn, cur, sql):
     try:
@@ -50,6 +54,24 @@ class scroll_down(object):
                 driver.find_element_by_xpath('.//body').send_keys(Keys.ARROW_DOWN)
         
         raise ValueError('error')
+
+    @staticmethod
+    def til_clickable(driver, ran, el, delay, delay2):
+        try:
+            process_elements.visibility(driver, el, delay)
+            
+            for x in range(ran):
+                try:
+                    time.sleep(delay2)
+                    element = process_elements.visibility(driver, el, delay)
+                    element.click()
+                    break
+                except:
+                    driver.find_element_by_xpath('.//body').send_keys(Keys.ARROW_DOWN)
+            ###print 'click is fine'
+        except:
+            ###print 'click error'
+            raise ValueError()
 
 class spider(object):
     @staticmethod

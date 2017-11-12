@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 
 def send_email(line):
     sender = 'scrapers@radissonguat.com'
-    recipients = ['yury0051@gmail.com', 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
+    recipients = ['yury0051@gmail.com']#, 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
     line = ', '.join(line) + '.'
     msg = MIMEText(line)
     msg['Subject'] = 'hotel scrapers'
@@ -16,12 +16,10 @@ def send_email(line):
     s.sendmail(sender, recipients, msg.as_string())
     s.quit()
 
-if __name__ == '__main__':
-    try:
-        os.system('taskkill /f /im chromedriver.exe')
-    except:
+def main():
+    for x in range(2):
         try:
-            os.system('taskkil /f /im geckodriver.exe')
+            os.system('taskkill /f /im chromedriver.exe')
         except:
             pass
     
@@ -135,6 +133,9 @@ if __name__ == '__main__':
         send_email(line)
 
     fh.close()
+
+if __name__ == "__main__":
+    main()
 
 
     
