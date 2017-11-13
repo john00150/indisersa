@@ -21,14 +21,6 @@ class process_elements(object):
     def clickable(driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
 
-def sql_exec(conn, cur, sql):
-    try:
-        cur.execute(sql)
-        conn.commit()
-    except Exception, e:
-        #print e
-        pass
-
 class scroll_down(object):
     @staticmethod
     def range(driver, ran, delay):
@@ -91,12 +83,28 @@ class spider(object):
         driver.get(url)
         return driver
 
-def sql_write(conn, cur, hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date):
-    hotel = hotel.replace("'", "''")
-    address = address.replace("'", "''")
-    city = city.replace("'", "''")
-    sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s)" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, datetime.now().strftime('%m/%d/%Y'), count, date)
-    sql_exec(conn, cur, sql)
+class _db():
+    @staticmethod
+    def connect():
+        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+        cur = conn.cursor()
+        return conn, cur
+
+    @staticmethod
+    def sql_write(conn, cur, hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date):
+        hotel = hotel.replace("'", "''")
+        address = address.replace("'", "''")
+        city = city.replace("'", "''")
+        sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s)" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, datetime.now().strftime('%m/%d/%Y'), count, date)
+        _db.sql_exec(conn, cur, sql)
+
+    @staticmethod
+    def sql_exec(conn, cur, sql):
+        try:
+            cur.execute(sql)
+            conn.commit()
+        except Exception, e:
+            pass
 
 def csv_write(fh, name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source):
         line = '"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (name, review, rating, address, currency, new_price, old_price, checkin, checkout, city, source)
@@ -109,5 +117,6 @@ def close_banner(driver, banners):
             element.click()
         except:
             pass
+
 
 

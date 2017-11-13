@@ -1,25 +1,17 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import *
-import pyodbc, time, os, traceback
+from processors import _db, spider, close_banner, scroll_down
+import time, os, traceback
 from datetime import datetime, timedelta
+from settings import cities, dates
 
-
-cities = [
-    'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
-]
-
-dates = [15, 30, 60, 90, 120] 
 
 banners = [
     './/div[contains(@class, "close")]',
 ]
-
 
 def _scroll_down(driver):
     time.sleep(5)
@@ -183,7 +175,7 @@ def get_pages(driver, city, checkin, checkout, date):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
             
         time.sleep(30)
         
@@ -201,10 +193,11 @@ def get_pages(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+
+    conn, cur = _db.connect()
     url = 'https://www.booking.com/'
     scrape_dates()
     conn.close()
+
 
 

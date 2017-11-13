@@ -1,18 +1,16 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write
-import pyodbc, time, re
+from processors import _db, spider, close_banner
+import time, re
 from datetime import datetime, timedelta
+from settings import dates
 
 
 
 url = 'http://www.lodebernal.com/'
-dates = [15, 30, 60, 90, 120]
-
 
 def scrape_dates():
     for date in dates:
@@ -35,9 +33,7 @@ def get_price(driver):
     return price
 
 def scrape_hotel(date):
-    driver = webdriver.Chrome()
-    driver.get(url)
-    time.sleep(5)
+    driver = spider.chrome(url)
 
     checkin = datetime.now() + timedelta(date)
     checkin2 = checkin.strftime('%m/%d/%Y')
@@ -67,7 +63,7 @@ def scrape_room(driver, checkin, checkout, date):
         city = 'Antigua Guatemala, Guatemala'
         source = 'lodebernal.com'
         currency = 'GTQ'
-        sql_write(conn, cur, name, rating, review, address.decode('utf8'), new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+        _db.sql_write(conn, cur, name, rating, review, address.decode('utf8'), new_price, old_price, checkin, checkout, city, currency, source, 1, date)
         print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
     except:
         pass
@@ -78,7 +74,8 @@ def scrape_room(driver, checkin, checkout, date):
 if __name__ == "__main__":
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    conn, cur = _db.connect()
+
     scrape_dates()
+
     conn.close()

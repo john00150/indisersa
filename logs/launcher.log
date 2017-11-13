@@ -1,73 +1,26 @@
-start: 2017-10-23 01:00:02.178000
-marriott_scraper failed
+start: 2017-11-13 07:46:21.822000
 Traceback (most recent call last):
-  File "launcher.py", line 33, in <module>
-    execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 165, in <module>
+  File "launcher.py", line 50, in <module>
+    execfile(scraper['path'])
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 79, in <module>
     scrape_dates()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 33, in scrape_dates
-    scrape_hotel(url, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py", line 75, in scrape_hotel
-    checkin_elements = driver.find_elements_by_xpath(checkin_elms)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 325, in find_elements_by_xpath
-    return self.find_elements(by=By.XPATH, value=xpath)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 817, in find_elements
-    'value': value})['value']
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 17, in scrape_dates
+    scrape_hotel(date)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 41, in scrape_hotel
+    clear_input(element_1)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 20, in clear_input
+    element.click()
+  File "C:\python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 493, in _execute
+    return self._parent.execute(command, params)
+  File "C:\python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
     self.error_handler.check_response(response)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+  File "C:\python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
     raise exception_class(message, screen, stacktrace)
-WebDriverException: Message: chrome not reachable
+WebDriverException: Message: unknown error: Element <input type="text" class="date" name="widget_date" id="widget_date_2082" value="11/13/2017"> is not clickable at point (745, 25). Other element would receive the click: <div class="queryloader__overlay" id="qLoverlay" style="position: fixed; width: 100%; height: 100%; background-color: rgb(22, 22, 22); z-index: 666999; top: 0px; left: 0px; transition: opacity 300ms;">...</div>
   (Session info: chrome=61.0.3163.100)
   (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
 
 
-despegar_scraper failed
-Traceback (most recent call last):
-  File "launcher.py", line 73, in <module>
-    execfile('C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 215, in <module>
-    scrape_dates()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 101, in scrape_dates
-    scrape_cities(url, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 105, in scrape_cities
-    scrape_city(url, city, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py", line 153, in scrape_city
-    next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, next_el)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 71, in until
-    value = method(self._driver)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 78, in __call__
-    return _element_if_visible(_find_element(driver, self.locator))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 353, in _find_element
-    raise e
-WebDriverException: Message: chrome not reachable
-  (Session info: chrome=61.0.3163.100)
-  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
 
-
-booking_scraper failed
-Traceback (most recent call last):
-  File "launcher.py", line 123, in <module>
-    execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 195, in <module>
-    scrape_dates()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 86, in scrape_dates
-    scrape_cities(url, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 90, in scrape_cities
-    scrape_city(url, city, date)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 125, in scrape_city
-    further_element = driver.find_elements_by_xpath(further_el)[0]
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 325, in find_elements_by_xpath
-    return self.find_elements(by=By.XPATH, value=xpath)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 817, in find_elements
-    'value': value})['value']
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 256, in execute
-    self.error_handler.check_response(response)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
-    raise exception_class(message, screen, stacktrace)
-WebDriverException: Message: chrome not reachable
-  (Session info: chrome=61.0.3163.100)
-  (Driver info: chromedriver=2.30.477700 (0057494ad8732195794a7b32078424f92a5fce41),platform=Windows NT 6.1.7601 SP1 x86_64)
-
-
-finish: 2017-10-23 07:57:52.560000

@@ -1,19 +1,12 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from processors import spider, sql_write, scroll_down, process_elements
-import pyodbc, time
+from processors import _db, spider, scroll_down
+import time
 from datetime import datetime, timedelta
-
-cities = [
-    'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
-]
-
-dates = [15, 30, 60, 90, 120]
+from settings import cities, dates
 
 
 url = 'https://www.bestday.com/Hotels/'
@@ -143,7 +136,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             continue
 
         count += 1
-        sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+        _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
 
@@ -151,9 +144,11 @@ def scrape_hotels(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    
+    conn, cur = _db.connect()
+
     scrape_dates()
+
     conn.close()
 
 

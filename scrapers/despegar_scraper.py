@@ -3,27 +3,21 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, close_banner, scroll_down, spider
-import pyodbc, time, sys
+from processors import _db, spider, close_banner, scroll_down
+from settings import cities, dates
+import time, sys
 from datetime import datetime, timedelta
 
 
-cities = [
-    'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
-]
 
 banners = [
     './/i[@class="nevo-modal-close nevo-icon-close"]',
     './/span[contains(@class, "eva-close")]',
 ]
 
-dates = [15, 30, 60, 90, 120]
-
 url = 'https://www.us.despegar.com/hotels/'
 currency = 'USD'
 source = 'us.despegar.com'
-
 
 def scrape_name(element):
     WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//h3[@class="hf-hotel-name"]/a'))
@@ -160,7 +154,7 @@ def get_pages(driver, city, checkin, checkout, date):
             address = ''
             city = city.split(',')[0]
             count += 1
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+            _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
         scroll_down.bottom(driver)
         
@@ -202,7 +196,7 @@ def checkin_checkout_scrape(driver, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+    conn, cur = _db.connect()
     cur = conn.cursor()
     scrape_dates()
     conn.close()

@@ -1,25 +1,14 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from processors import sql_write
-import time, pyodbc
+from processors import _db, spider
+import time
 from datetime import datetime, timedelta
+from settings import dates
 
 
-dates = [15, 30, 60, 90, 120]
-
-def spider(url):
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {'profile.managed_default_content_settings.images': 2}
-    chrome_options.add_experimental_option('prefs', prefs)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.set_window_size(800, 1200)
-    driver.get(url)
-    return driver
 
 def scrape_name():
     return 'Convento Boutique Hotel'
@@ -49,7 +38,7 @@ def scrape_dates():
         scrape(url, date) 
 
 def scrape(url, date):
-    driver = spider(url)
+    driver = spider.chrome(url)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="date-in"]'))
     element_1.click()
 
@@ -95,7 +84,7 @@ def scrape_hotels(driver, checkin, checkout, date):
     city = 'Antigua Guatemala, Guatemala'
     source = 'elconventoantigua.com'
     currency = 'USD'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
     print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
 
 
@@ -103,10 +92,11 @@ if __name__ == '__main__':
     global conn
     global cur
     
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    conn, cur = _db.connect()
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    scrape_dates()    
+    
+    scrape_dates()
+    
     conn.close()
 
 

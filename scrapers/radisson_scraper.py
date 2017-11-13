@@ -1,23 +1,18 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from processors import sql_write, spider, close_banner
-import pyodbc, time
+from processors import _db, spider, close_banner
+import time
 from datetime import datetime, timedelta
+from settings import cities, dates
 
-cities = [
-    'Guatemala City, Guatemala',
-#    'Antigua Guatemala, Guatemala',
-]
+
 
 banners = [
     './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
 ]
-
-dates = [15, 30, 60, 90, 120]
 
 def scrape_name(element):
     return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//div[@class="innername"]/a').text.strip())
@@ -47,13 +42,10 @@ def scrape_review(element):
 
 def scrape_dates(url):
     for date in dates:
-        scrape_cities(url, date)
+        scrape_city(url, date) 
 
-def scrape_cities(url, date):
-    for city in cities:
-        scrape_city(url, city, date) 
-
-def scrape_city(url, city, date):
+def scrape_city(url, date):
+    city = cities[0]
     driver = spider.chrome(url)
     close_banner(driver, banners)
     element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@name="city"]'))
@@ -104,17 +96,18 @@ def scrape_hotels(driver, city, checkin, checkout, date):
     city = city.split(',')[0]
     source = 'radisson.com'
     currency = 'GTQ'
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
     print '{}, checkin {}, checkout {}, range {}, price {}'.format(source, checkin, checkout, date, new_price)
 
 
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    conn, cur = _db.connect()
     url = 'https://www.radisson.com/'
+    
     scrape_dates(url)
+    
     conn.close()
 
 

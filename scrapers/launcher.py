@@ -1,6 +1,11 @@
 from datetime import datetime
 import traceback, smtplib, os
 from email.mime.text import MIMEText
+from settings import log_path, scrapers
+
+
+
+
 
 
 def send_email(line):
@@ -16,126 +21,45 @@ def send_email(line):
     s.sendmail(sender, recipients, msg.as_string())
     s.quit()
 
-def main():
-    for x in range(2):
-        try:
-            os.system('taskkill /f /im chromedriver.exe')
-        except:
-            pass
+def run_scraper(scraper_path, l, fh):
+    name = ''
+    message_line = "{} error".format(name)
+
+    try:
+        execfile(scraper_path)
+    except Exception, e:
+        print traceback.print_exc()
+        traceback.print_exc(file=fh)
+        fh.write('\n\n')
+        l.append(message_line)
+
+
+if __name__ == "__main__":    
+    try:
+        os.system('taskkill /f /im chromedriver.exe')
+    except:
+        pass
+
     
-    fh = open('C:\users\indisersa\Desktop\hotels\logs\launcher.log', 'w')
+    fh = open(log_path, 'w')
     fh.write('start: %s\n' % datetime.now())
-    line = list()
+    l = list()
 
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py')
-    except Exception, e:
-        fh.write('marriott_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('marriott_scraper error')
-        print e
-    print '#' * 50
+    for scraper in scrapers:
+        try:
+            execfile(scraper['path'])
+            
+        except Exception, e:
+            name = scraper['name']
+            message_line = "{} error".format(name)
+            l.append(message_line)
+            
+            print traceback.print_exc()
+            traceback.print_exc(file=fh)
+            fh.write('\n\n')
 
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\radisson_scraper.py')
-    except Exception, e:
-        fh.write('radisson_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('radisson_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py')
-    except Exception, e:
-        fh.write('lodebernal_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('lodebernal_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\bestday_scraper.py')
-    except Exception, e:
-        fh.write('bestday_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('bestday_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py')
-    except Exception, e:
-        fh.write('despegar_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('despegar_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py')
-    except Exception, e:
-        fh.write('elconventoantigua_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('elconventoantigua_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py')
-    except Exception, e:
-        fh.write('expedia_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('expedia_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py')
-    except Exception, e:
-        fh.write('book_hotel_beds_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('book_hotel_beds_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py')
-    except Exception, e:
-        fh.write('hotels_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('hotels_scraper error')
-        print e
-    print '#' * 50
-
-    try:
-        execfile('C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py')
-    except Exception, e:
-        fh.write('booking_scraper failed\n')
-        traceback.print_exc(file=fh)
-        fh.write('\n')
-        line.append('booking_scraper error')
-        print e
-    print '#' * 50
-
-    fh.write('finish: %s' % datetime.now())
-
-    if len(line) > 0:
-        send_email(line)
-
-    fh.close()
-
-if __name__ == "__main__":
-    main()
+    if len(l) > 0:
+        send_email(l)
 
 
     

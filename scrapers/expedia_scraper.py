@@ -4,21 +4,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from processors import *
-import re, pyodbc, time
+from processors import _db, spider, close_banner, scroll_down
+import re, time
 from datetime import datetime, timedelta
+from settings import dates, cities
 
-cities = [
-    'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
-]
 
 banners = [
     './/span[contains(@class, "icon-close")]',
     './/div[@class="hero-banner-box cf"]',
 ]
-
-dates = [15, 30, 60, 90, 120]
 
 url = 'https://www.expedia.com/Hotels'
 currency = 'USD'
@@ -144,7 +139,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             rating = get_rating(hotel)
             address, location = get_address(hotel)
             city = city.split(',')[0]
-            sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
+            _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
 
         try:
             scroll_down.click_element(driver, 500, _next, 0.5)
@@ -159,9 +154,10 @@ if __name__ == '__main__':
     global conn
     global cur
 
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn, cur = _db.connect()
+
     scrape_dates()
-    #conn.close()
+    
+    conn.close()
 
 

@@ -3,12 +3,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write, spider, close_banner
-import pyodbc, time
+from processors import _db, spider
+import time
 from datetime import datetime, timedelta
+from settings import dates
 
-
-dates = [15, 30, 60, 90, 120]
 
 address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
 city = 'Guatemala City, Guatemala'
@@ -129,7 +128,7 @@ def scrape_rooms(driver, checkin, checkout, review, date):
     
     new_price, old_price = scrape_price(room_element)
     
-    sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
+    _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
     print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
 
 
@@ -137,10 +136,11 @@ def scrape_rooms(driver, checkin, checkout, review, date):
 if __name__ == '__main__':
     global conn
     global cur
-    conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    conn, cur = _db.connect()
     url = 'http://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
+    
     scrape_dates()
+    
     conn.close()
 
 

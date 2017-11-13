@@ -1,20 +1,14 @@
 #encoding: utf8
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from processors import sql_write
-import pyodbc, time
+from processors import _db, spider, close_banner, scroll_down
+import time
 from datetime import datetime, timedelta
+from settings import cities, dates
 
 
-cities = [
-    'Guatemala City, Guatemala',
-    'Antigua Guatemala, Guatemala',
-]
-
-dates = [15, 30, 60, 90, 120]
 
 banners = [
     './/button[@class="cta widget-overlay-close"]',
@@ -26,37 +20,6 @@ banners = [
     './/span[contains(@class, "close-icon")]',
     './/button[contains(@class, "cta")]'
 ]
-
-def spider(url):
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {"profile.managed_default_content_settings.images":2}
-    chrome_options.add_experimental_option("prefs",prefs)
-    driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.get(url)
-    return driver
-
-def banner(driver):
-    for banner in banners:
-        try:
-            element = WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, banner)))
-            element.click()
-        except:
-            pass
-                
-def scroll_down(driver):
-    c = 0
-    while True:
-        driver.find_element_by_xpath('//body').send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.5)
-        c += 1
-        try:
-            driver.find_element_by_xpath('.//div[@class="info unavailable-info"]')
-            break
-        except:
-            pass
-
-        if c == 500:
-            break
 
 def scrape_address(driver):
     address = './/div[@class="contact"]/p'
@@ -114,49 +77,49 @@ def scrape_cities(url, date):
         scrape_city(url, city, date) 
 
 def scrape_city(url, city, date):
-    driver = spider(url)
+    driver = spider.chrome(url)
     
-    banner(driver)
+    close_banner(driver, banners)
 
     ##### city
     city_element = './/input[@name="q-destination"]'
-    city_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, city_element)))
+    city_element = process_element.visibility(driver, city_element, 10)
     city_element.send_keys(city)
     time.sleep(5)
     city_element.click()
     
-    banner(driver)
+    close_banner(driver, banners)
 
     ##### checkin
     checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
     checkin_element = '//input[@name="q-localised-check-in"]'
-    checkin_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkin_element)))
+    checkin_element = process_element.presence(driver, checkin_element, 10)
     checkin_element.clear()
     checkin_element.send_keys(checkinn)
     
-    banner(driver)
+    close_banner(driver, banners)
 
     ##### checkout
     checkout = datetime.now() + timedelta(date + 3)
     checkoutt = checkout.strftime('%m/%d/%y')
     checkout_element = '//input[@name="q-localised-check-out"]'
-    checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_element)))
+    checkout_element = process_element.presence(driver, checkout_element, 10)
     checkout_element.clear()
     checkout_element.send_keys(checkoutt)
     
-    banner(driver)
+    close_banner(driver, banners)
 
     ##### occupancy
     occupancy_element = './/select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'
-    occupancy_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, occupancy_element)))
+    occupancy_element = process_element.visibility(driver, occupancy_element, 10)
     occupancy_element.click()
 
-    banner(driver)
+    close_banner(driver, banners)
 
     ##### submit
     button_element = './/button[contains(@type, "submit")]'
-    button_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, button_element)))
+    button_element = process_element.visibility(driver, button_element, 10)
     button_element.click()
             
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
@@ -166,7 +129,9 @@ def scrape_city(url, city, date):
 def scrape_hotels(driver, city, checkin, checkout, date):
     source = 'hotels.com'
     count = 0
-    scroll_down(driver)
+    
+    scroll_down.range(driver, 500, 0.5)
+    
     hotel_elms = './/ol[contains(@class, "listings")]/li[@class="hotel"]'
     hotel_elements = driver.find_elements_by_xpath(hotel_elms)
     for hotel in hotel_elements:
@@ -179,7 +144,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
         city = city.split(',')[0]
         
         count += 1
-        #sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
+        _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
 
     print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
 
@@ -187,10 +152,11 @@ def scrape_hotels(driver, city, checkin, checkout, date):
 if __name__ == '__main__':
     global conn
     global cur
-    #conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    #cur = conn.cursor()
+    conn, cur = _db.connect()
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
+    
     scrape_dates()
-    #conn.close()
+    
+    conn.close()
 
 
