@@ -13,13 +13,26 @@ class BaseScraper(object):
         self.url = url
         self.dates = dates
         self.cities = cities
-        self.conn, self.cur = self.sql_connect()
+#        self.conn, self.cur = self.sql_connect()
 
     def chrome(self):
         driver = webdriver.Chrome()
         driver.maximize_window()
         driver.get(self.url)
         return driver
+
+    def base_func(self):
+        for date in self.dates:
+            self.date = date
+            self.checkin, self.checkin2 = self.get_checkin()
+            self.checkout, self.checkout2 = self.get_checkout()
+            for city in self.cities:
+                self.city = city
+                self.driver = self.chrome()
+                self.main_page()
+                self.driver.quit()
+
+#        self.conn.close()
 
     def presence(self, driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
@@ -32,6 +45,9 @@ class BaseScraper(object):
 
     def elements(self, driver, elements):
         return driver.find_elements_by_xpath(elements)
+
+    def element(self, driver, element):
+        return driver.find_element_by_xpath(element)
 
     def get_checkin(self):
         checkin = datetime.now() + timedelta(self.date)
