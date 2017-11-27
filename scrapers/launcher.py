@@ -4,10 +4,6 @@ from email.mime.text import MIMEText
 from settings import log_path, scrapers
 
 
-
-
-
-
 def send_email(line):
     sender = 'scrapers@radissonguat.com'
     recipients = ['yury0051@gmail.com']#, 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
@@ -35,10 +31,10 @@ def run_scraper(scraper_path, l, fh):
 
 
 if __name__ == "__main__":    
-    try:
-        os.system('taskkill /f /im chromedriver.exe')
-    except:
-        pass
+#    try:
+#        os.system('taskkill /f /im chromedriver.exe')
+#    except:
+#        pass
 
     
     fh = open(log_path, 'w')
