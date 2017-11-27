@@ -9,7 +9,7 @@ from settings import log_path, scrapers
 
 
 def send_email(line):
-    sender = 'scrapers@radissonguat.com'
+    sender = 'indisersa@radissonguat'
     recipients = ['yury0051@gmail.com']#, 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
     line = ', '.join(line) + '.'
     msg = MIMEText(line)
@@ -34,7 +34,7 @@ def run_scraper(scraper_path, l, fh):
         l.append(message_line)
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     try:
         os.system('taskkill /f /im chromedriver.exe')
     except:

@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from processors import _db, spider, close_banner, scroll_down
+from processors import _db, spider, close_banner, scroll_down, process_elements
 import time, os, traceback
 from datetime import datetime, timedelta
 from settings import cities, dates

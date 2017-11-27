@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from processors import _db, spider, close_banner, scroll_down
+from processors import _db, spider, close_banner, scroll_down, process_elements
 import time
 from datetime import datetime, timedelta
 from settings import cities, dates
@@ -83,7 +83,7 @@ def scrape_city(url, city, date):
 
     ##### city
     city_element = './/input[@name="q-destination"]'
-    city_element = process_element.visibility(driver, city_element, 10)
+    city_element = process_elements.visibility(driver, city_element, 10)
     city_element.send_keys(city)
     time.sleep(5)
     city_element.click()
@@ -94,7 +94,7 @@ def scrape_city(url, city, date):
     checkin = datetime.now() + timedelta(date)
     checkinn = checkin.strftime('%m/%d/%Y')
     checkin_element = '//input[@name="q-localised-check-in"]'
-    checkin_element = process_element.presence(driver, checkin_element, 10)
+    checkin_element = process_elements.presence(driver, checkin_element, 10)
     checkin_element.clear()
     checkin_element.send_keys(checkinn)
     
@@ -104,7 +104,7 @@ def scrape_city(url, city, date):
     checkout = datetime.now() + timedelta(date + 3)
     checkoutt = checkout.strftime('%m/%d/%y')
     checkout_element = '//input[@name="q-localised-check-out"]'
-    checkout_element = process_element.presence(driver, checkout_element, 10)
+    checkout_element = process_elements.presence(driver, checkout_element, 10)
     checkout_element.clear()
     checkout_element.send_keys(checkoutt)
     
@@ -112,14 +112,14 @@ def scrape_city(url, city, date):
 
     ##### occupancy
     occupancy_element = './/select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'
-    occupancy_element = process_element.visibility(driver, occupancy_element, 10)
+    occupancy_element = process_elements.visibility(driver, occupancy_element, 10)
     occupancy_element.click()
 
     close_banner(driver, banners)
 
     ##### submit
     button_element = './/button[contains(@type, "submit")]'
-    button_element = process_element.visibility(driver, button_element, 10)
+    button_element = process_elements.visibility(driver, button_element, 10)
     button_element.click()
             
     scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
