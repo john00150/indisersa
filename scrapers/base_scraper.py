@@ -5,105 +5,87 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from datetime import datetime
-import pyodbc
+from settings import dates, cities
+from datetime import datetime, timedelta
 
-
-class Base_scraper(object):
+class BaseScraper(object):
     def __init__(self, url):
         self.url = url
-        self.banners = banners
-        self.conn, self.cur = self.connect()
+        self.dates = dates
+        self.cities = cities
+        self.conn, self.cur = self.sql_connect()
 
-    def spider(self):
+    def chrome(self):
         driver = webdriver.Chrome()
         driver.maximize_window()
         driver.get(self.url)
         return driver
 
-    def scrape_dates(self):
-        for date in self.dates:
-            self.scrape_city(date) 
+    def presence(self, driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
 
-    def presence(self, element, delay):
-        return WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
+    def visibility(self, driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
 
-    def visibility(self, element, delay):
-        return WebDriverWait(self.driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
+    def clickable(self, driver, element, delay):
+        return WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
 
-    def clickable(self, element, delay):
-        return WebDriverWait(self.driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
+    def elements(self, driver, elements):
+        return driver.find_elements_by_xpath(elements)
 
-    def find_elements(self, elements):
-        return self.driver.find_elements_by_xpath(elements)
+    def get_checkin(self):
+        checkin = datetime.now() + timedelta(self.date)
+        checkin2 = checkin.strftime('%m/%d/%Y')
+        return checkin, checkin2
 
-    def find_element(self, element):
-        return self.driver.find_element_by_xpath(element)
+    def get_checkout(self):
+        checkout = datetime.now() + timedelta(self.date) + timedelta(3)
+        checkout2 = checkout.strftime('%m/%d/%Y')
+        return checkout, checkout2
 
-    def close_banner(self):
-        for banner in self.banners:
-            try:
-                element = self.wait_visibility(banner, 5)
-                element.click()
-            except:
-                pass
-
-    def scroll_range(self, ran, delay):
-        for x in range(ran):
-            element = self.find_element('.//body')
-            element.send_keys(Keys.ARROW_DOWN)
-            time.sleep(delay)
-            
-    def scroll_bottom(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-    def scroll_click(self, ran, el, delay):
-        status = None
-        for x in range(ran):
-            try:
-                self.visibility(el, delay).click()
-                sys.exit(0)
-            except:
-                self.find_element('.//body').send_keys(Keys.ARROW_DOWN)
-        
-            raise ValueError('error')
-
-    def scroll_clickable(self, ran, el, delay, delay2):
-        try:
-            self.visibility(el, delay)
-            
-            for x in range(ran):
-                try:
-                    time.sleep(delay2)
-                    element = self.visibility(el, delay)
-                    element.click()
-                    break
-                except:
-                    self.find_element('.//body').send_keys(Keys.ARROW_DOWN)
-            ###print 'click is fine'
-        except:
-            ###print 'click error'
-            raise ValueError()
-
-    def connect(self):
+    def sql_connect(self):
         conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
         cur = conn.cursor()
         return conn, cur
 
-    def sql_write(self, hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date):
-            hotel = hotel.replace("'", "''")
-            address = address.replace("'", "''")
-            city = city.replace("'", "''")
-            sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s)" % (hotel, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, datetime.now().strftime('%m/%d/%Y'), count, date)
-            self.sql_exec(self.conn, self.cur, sql)
+    def sql_write(self, item):
+        item['name'] = item['name'].replace("'", "''")
+        item['address'] = item['address'].replace("'", "''").decode('utf8')
+        item['date_scraped'] = datetime.now().strftime('%m/%d/%Y')
+        item['checkin'] = self.checkin2
+        item['checkout'] = self.checkout2
+        item['city'] = self.city.replace("'", "''")
+        
+#        print "hotel: {}; rating: {}; review: {}; address: {}; new price: {}; old price: {}; checkin: {}; checkout: {};\
+#               city: {}; currency: {}; source: {}; count: {}; range: {}"\
+#              .format(item['name'.encode('utf8'), item['rating'], item['review'], item['address'].encode('utf8'), item['new_price'],\
+#              item['old_price'], item['checkin'], item['checkout'], item['city'], self.currency, self.source, item['count'], self.date)
 
-    def sql_exec(self, sql):
+        sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price, old_price, checkin, checkout, city,\
+            currency, source, date_scraped, hotel_position, date_range) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',\
+            '%s', '%s', '%s', %s)"
+            
+        self.sql_exec(sql, item)
+
+    def report(self, count):
+        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(self.source, self.city.encode('utf8'), count, self.checkin2, self.checkout2, self.date)
+
+    def sql_exec(self, sql, item):
+        try:
+            self.cur.execute(sql % (item['name'].decode('utf8'), item['rating'], item['review'], item['address'].decode('utf8'), item['new_price'],\
+                item['old_price'], self.checkin2, self.checkout2, item['city'], self.currency, self.source, item['date_scraped'], item['count'], self.date))
+            
+            self.conn.commit()
+        except Exception, e:
+            pass
+
+    def close_banner(self):
+        for banner in self.banners:
             try:
-                self.cur.execute(sql)
-                self.conn.commit()
-            except Exception, e:
+                self.visibility(self.driver, banner, 5).click()
+            except:
                 pass
 
-
-
+    def scroll_to_bottom(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
