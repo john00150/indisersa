@@ -47,8 +47,10 @@ class LodebernalScraper(BaseScraper):
 
     def scrape_new_price(self, element):
         _element = './/div[contains(@class, "rate_basic_derived")]'
-        _element = self.visibility(element, _element, 10).text
-        _element = int(float(re.sub('Q|,| +', '', _element)))/3   
+        _element = self.presence(element, _element, 10)
+        _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
+        _element = re.findall(r'([0-9,]+)', _element)[0]
+        _element = int(_element)/3   
         return _element
 
     def scrape_rooms(self):
@@ -62,9 +64,9 @@ class LodebernalScraper(BaseScraper):
         self.rating = 0
         self.address = '1ª. Calle Poniente 23'
         self.count += 1
-        self.sql_write(item)
+#        self.sql_write()
         self.report()
-#        self.full_report()
+        self.full_report()
         
 
 if __name__ == "__main__":

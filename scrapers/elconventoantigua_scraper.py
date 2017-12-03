@@ -89,6 +89,7 @@ class ElconventoantiguaScraper(BaseScraper):
         element.click()
 
     def submit_element(self):
+        self.scroll_range(5)
         element = './/button[@type="submit"]'
         element = self.visibility(self.driver, element, 5)
         element.click()
@@ -96,6 +97,6 @@ class ElconventoantiguaScraper(BaseScraper):
 
 if __name__ == "__main__":
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    spider = 'chrome'
+    spider = 'chrome_long_window'
     ElconventoantiguaScraper(url, spider)
 
