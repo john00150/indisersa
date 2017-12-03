@@ -1,102 +1,101 @@
-#encoding: utf8
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from processors import _db, spider
-import time
-from datetime import datetime, timedelta
-from settings import dates
+from base_scraper import BaseScraper
+import time, re
 
 
-
-def scrape_name():
-    return 'Convento Boutique Hotel'
-
-def scrape_address():
-    return '2a Avenida Norte #11, Antigua Guatemala +502 7720 7272'
-
-def scrape_location():
-    return 'Antigua Guatemala'
-
-def scrape_price(element):
-    try:
-        new_price = WebDriverWait(element, 20).until(lambda element: element.find_element_by_xpath('.//div[contains(@class, "CardList-price-title")]').text.strip().strip('$').strip())
-    except:
-        new_price = 0
-    old_price = 0
-    return new_price, old_price
-
-def scrape_rating():
-    return 0
-
-def scrape_review():
-    return 0
-
-def scrape_dates():
-    for date in dates:
-        scrape(url, date) 
-
-def scrape(url, date):
-    driver = spider.chrome(url)
-    element_1 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//input[@id="date-in"]'))
-    element_1.click()
-
-    checkin = datetime.now() + timedelta(date)
-    checkout = datetime.now() + timedelta(date + 3)
-
-    while True:
-        try:
-            element_2 = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkin.month-1, checkin.year, checkin.day))))
-            element_2.click()
-            break
-        except:
-            driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
-            time.sleep(2)
-
-    while True:
-        try:
-            element_3 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="%s"][@data-year="%s"]/a[contains(text(), "%s")]' % (checkout.month-1, checkout.year, checkout.day)))
-            element_3.click()
-            break
-        except:
-            driver.find_element_by_xpath('.//a[contains(@class, "ui-datepicker-next")]').click()
-            time.sleep(2)
-        
-    element_4 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@id="adults"]/option[contains(text(), "1")]'))
-    element_4.click()
-    element_5 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//select[@id="rooms"]/option[contains(text(), "1")]'))
-    element_5.click()
-    time.sleep(10)
-    element_6 = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('.//button[@type="submit"]'))
-    element_6.click()
-    WebDriverWait(driver, 10).until(lambda driver: len(driver.window_handles) > 1)
-    driver.switch_to_window(driver.window_handles[1])
-    scrape_hotels(driver, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
-    driver.quit()
-
-def scrape_hotels(driver, checkin, checkout, date):
-    new_price, old_price = scrape_price(driver)
-    name = scrape_name()
-    review = scrape_review()
-    rating = scrape_rating()
-    address = scrape_address()
-    city = 'Antigua Guatemala, Guatemala'
-    source = 'elconventoantigua.com'
-    currency = 'USD'
-    _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
-    print '{}, checkin {}, checkout {}, range {}'.format(source, checkin, checkout, date)
-
-
-if __name__ == '__main__':
-    global conn
-    global cur
+class ElconventoantiguaScraper(BaseScraper):
+    def __init__(self, url, spider):
+        BaseScraper.__init__(self, url, spider)
+        self.cities = [self.cities[1]]
+        self.currency = 'USD'
+        self.source = 'elconventoantigua.com'
+        self.name = 'Convento Boutique Hotel'
+        self.address = '2a Avenida Norte #11, Antigua Guatemala +502 7720 7272'
+        self.banners = []
+        self.base_func()
     
-    conn, cur = _db.connect()
+    def main_page(self):
+        self.checkin_checkout_element = './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'
+        self.further_element = './/a[contains(@class, "ui-datepicker-next")]'
+        self.checkin_element()
+        self.checkout_element()
+        self.occupancy_element()
+        self.room_element()
+        self.submit_element()
+        self.switch_windows(10, 0)
+        self.scrape_rooms()
+
+    def scrape_rooms(self):
+        element = self.get_room_elements()
+
+        self.new_price = self.scrape_new_price(element)
+        self.old_price = '0'
+        self.rating = '0'
+        self.review = '0'
+        self.count += 1
+#        self.sql_write()
+        self.report()
+#        self.full_report()
+
+    def get_room_elements(self):
+        try:
+            element = './/div[contains(@class, "AccommodationsList")]/div'
+            return self.visibility(self.driver, element, 10)
+        except:
+            return 1
+
+    def scrape_new_price(self, element):
+        if element == 1:
+            return 0
+        else:
+            _element = './/div[contains(@class, "CardList-price-title")]'
+            _element = self.element(element, _element)
+            _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
+            return re.findall(r'([0-9.]+)', _element)[0]
+
+    def checkin_element(self):
+        element = './/input[@id="date-in"]'
+        element = self.presence(self.driver, element, 5)
+        element.click()
+
+        element = self.checkin_checkout_element.format(self.checkin.month-1, self.checkin.year, self.checkin.day)
+        while True:
+            try:
+                _element = self.visibility(self.driver, element, 2)
+                _element.click()
+                break
+            except:
+                _further = self.visibility(self.driver, self.further_element, 2)
+                _further.click()
+
+    def checkout_element(self):
+        element = self.checkin_checkout_element.format(self.checkout.month-1, self.checkout.year, self.checkout.day)
+        while True:
+            try:
+                _element = self.visibility(self.driver, element, 2)
+                _element.click()
+                break
+            except:
+                _further = self.visibility(self.driver, self.further_element, 2)
+                _further.click()
+
+    def occupancy_element(self):
+        element = './/select[@id="adults"]/option[contains(text(), "1")]'
+        element = self.visibility(self.driver, element, 5)
+        element.click()
+
+    def room_element(self):
+        element = './/select[@id="rooms"]/option[contains(text(), "1")]'
+        element = self.visibility(self.driver, element, 5)
+        element.click()
+
+    def submit_element(self):
+        element = './/button[@type="submit"]'
+        element = self.visibility(self.driver, element, 5)
+        element.click()
+
+
+if __name__ == "__main__":
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    
-    scrape_dates()
-    
-    conn.close()
-
+    spider = 'chrome'
+    ElconventoantiguaScraper(url, spider)
 
