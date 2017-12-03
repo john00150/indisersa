@@ -10,12 +10,12 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name):
-        os.system('./cleaner.sh')
+#        os.system('./cleaner.sh')
         self.spider_name = spider_name
         self.url = url
         self.dates = dates
         self.cities = cities
-        self.conn, self.cur = self.sql_connect()
+#        self.conn, self.cur = self.sql_connect()
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -53,7 +53,7 @@ class BaseScraper(object):
                 else:
                     pass
 
-        self.conn.close()
+#        self.conn.close()
 
     def get_city(self, city):
         return city, city.split(',')[0].replace("'", "''")
@@ -64,8 +64,13 @@ class BaseScraper(object):
     def visibility(self, driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
 
-    def clickable(self, driver, element, delay):
-        return WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
+    def clickable(self, driver, element):
+        for x in range(50):
+            try:
+                self.element(self.driver, element).click()
+                break
+            except:
+                time.sleep(0.2)
 
     def elements(self, driver, elements):
         return driver.find_elements_by_xpath(elements)
@@ -127,11 +132,12 @@ class BaseScraper(object):
             '%s', '%s', '%s', '%s', '%s', %s)"
             
         try:
-            self.cur_execute(sql, (name, self.rating, self.rewiew, address, self.new_price, self.old_price,\
-                self.checkin2, self.checkout2, self.city2, self.source, date_scraped, self.count, self.date))
+            self.cur.execute(sql % (name, self.rating, self.review, address, self.new_price, self.old_price,\
+                self.checkin2, self.checkout2, self.city2, self.currency, self.source, date_scraped, self.count, self.date))
             self.conn.commit()
         except Exception, e:
-            print e
+#            print e
+            pass
 
     def report(self):
         print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
@@ -171,6 +177,9 @@ class BaseScraper(object):
             if x == _range - 1:
                 raise ValueError()
 
-
+    def scroll_range(self, _range):
+        for x in range(_range):
+            self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
+            time.sleep(0.4)
 
 

@@ -25,6 +25,5 @@ scrapers = [
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py', 'name': 'booking_scraper'},
 ]
 
-#log_path = 'C:\users\indisersa\Desktop\hotels\logs\launcher.log'
-log_path = '/home/john/scripts/upwork_projects/indisersa/logs/launcher.log'
+log_path = 'C:\users\indisersa\Desktop\hotels\logs\launcher.log'
 

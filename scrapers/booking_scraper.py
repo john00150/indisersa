@@ -36,7 +36,6 @@ class BookingScraper(BaseScraper):
             try:
                 _next = self.visibility(self.driver, next, 5)
                 _next.click()
-#                self.scroll_to_click(next, 400, 0.1)
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
 #                traceback.print_exc()
