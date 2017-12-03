@@ -145,7 +145,7 @@ class BaseScraper(object):
 
     def full_report(self):
         print "hotel: {}; rating: {}; review: {}; new price: {}; old price: {}; checkin: {}; checkout: {}; city: {}; currency: {}; source: {}; count: {}; range: {}".format(
-            self.name, self.rating, self.review, self.new_price, self.old_price, self.checkin2,\
+            self.name.encode('utf8'), self.rating, self.review, self.new_price, self.old_price, self.checkin2,\
             self.checkout2, self.city2, self.currency, self.source, self.count, self.date
         )
 
