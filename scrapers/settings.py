@@ -13,7 +13,7 @@ cities = [
 ]
 
 scrapers = [
-#    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py', 'name': 'marriott_scraper'},
+    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\marriott_scraper.py', 'name': 'marriott_scraper'},
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\radisson_scraper.py', 'name': 'radisson_scraper'},
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py', 'name': 'lodebernal_scraper'},
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\bestday_scraper.py', 'name': 'bestbay_scraper'},

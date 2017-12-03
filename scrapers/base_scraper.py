@@ -64,8 +64,13 @@ class BaseScraper(object):
     def visibility(self, driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
 
-    def clickable(self, driver, element, delay):
-        return WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, element)))
+    def clickable(self, driver, element):
+        for x in range(50):
+            try:
+                self.element(self.driver, element).click()
+                break
+            except:
+                time.sleep(0.2)
 
     def elements(self, driver, elements):
         return driver.find_elements_by_xpath(elements)
@@ -172,6 +177,9 @@ class BaseScraper(object):
             if x == _range - 1:
                 raise ValueError()
 
-
+    def scroll_range(self, _range):
+        for x in range(_range):
+            self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
+            time.sleep(0.4)
 
 

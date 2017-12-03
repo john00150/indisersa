@@ -32,7 +32,7 @@ class ElconventoantiguaScraper(BaseScraper):
         self.rating = '0'
         self.review = '0'
         self.count += 1
-#        self.sql_write()
+        self.sql_write()
         self.report()
 #        self.full_report()
 
