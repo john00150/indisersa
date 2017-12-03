@@ -6,7 +6,7 @@ from settings import log_path, scrapers
 
 def send_email(line):
     sender = 'indisersa@radissonguat'
-    recipients = ['yury0051@gmail.com']#, 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
+    recipients = ['yury0051@gmail.com', 'oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupoazur.com']
     line = ', '.join(line) + '.'
     msg = MIMEText(line)
     msg['Subject'] = 'hotel scrapers'

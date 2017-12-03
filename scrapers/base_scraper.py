@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name):
-        os.system('./cleaner.sh')
+#        os.system('./cleaner.sh')
         self.spider_name = spider_name
         self.url = url
         self.dates = dates
@@ -127,11 +127,12 @@ class BaseScraper(object):
             '%s', '%s', '%s', '%s', '%s', %s)"
             
         try:
-            self.cur_execute(sql, (name, self.rating, self.rewiew, address, self.new_price, self.old_price,\
-                self.checkin2, self.checkout2, self.city2, self.source, date_scraped, self.count, self.date))
+            self.cur.execute(sql % (name, self.rating, self.review, address, self.new_price, self.old_price,\
+                self.checkin2, self.checkout2, self.city2, self.currency, self.source, date_scraped, self.count, self.date))
             self.conn.commit()
         except Exception, e:
-            print e
+#            print e
+            pass
 
     def report(self):
         print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
