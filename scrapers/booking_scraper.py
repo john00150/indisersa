@@ -53,7 +53,7 @@ class BookingScraper(BaseScraper):
             self.rating = self.scrape_rating(element)
             self.address = self.scrape_address(element)
 #            self.sql_write()
-            self.full_report()
+#            self.full_report()
 
     def _scroll_down(self):
         _range = 400
