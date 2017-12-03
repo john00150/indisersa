@@ -30,11 +30,13 @@ class BookingScraper(BaseScraper):
         while True:
             self._scroll_down()
             hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
-            self.scrape_hotels(hotels)
+            x = self.scrape_hotels(hotels)
             check_element = self.presence(self.driver, hotels, 5)
 
             try:
-                self.scroll_to_click(next, 400, 0.1)
+                _next = self.visibility(self.driver, next, 5)
+                _next.click()
+#                self.scroll_to_click(next, 400, 0.1)
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
 #                traceback.print_exc()
@@ -52,8 +54,10 @@ class BookingScraper(BaseScraper):
             self.review = self.scrape_review(element)
             self.rating = self.scrape_rating(element)
             self.address = self.scrape_address(element)
-#            self.sql_write()
+            self.sql_write()
 #            self.full_report()
+
+        return 0
 
     def _scroll_down(self):
         _range = 400
