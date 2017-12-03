@@ -1,50 +1,48 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from processors import _db, spider, close_banner
 import time
 from datetime import datetime, timedelta
 from settings import cities, dates
-
+from base_scraper import Base_scraper
 
 
 banners = [
     './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
 ]
 
-def scrape_name(element):
-    return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//div[@class="innername"]/a').text.strip())
+url = 'https://www.radisson.com/'
 
-def scrape_address(element):
-    return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@id="hoteladdress"]').text.split('|')[0].strip())
+class Radisson_scraper(Base_scraper):
+    def __init__(self, url):
+        Base_scraper.__init__(self, url)
 
-def scrape_location(element):
-    return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@id="hoteladdress"]').text.split('|')[1].strip())
+    def get_name(self):
+        return self.WebDriverWait(element, 10).until(lambda'.//div[@class="innername"]/a').text.strip())
 
-def scrape_price(element):
-    try:
-        new_price = WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@class="rateamount"]').text.strip().strip('Q').strip())
-        old_price = 0
-        return new_price, old_price
-    except:
-        return 0, 0
+    def get_address(self):
+        return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@id="hoteladdress"]').text.split('|')[0].strip())
 
-def scrape_rating(element):
-    try:
-        return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//img[@class="rating_circles"]').get_attribute('title'))
-    except:
-        return 0
+    def get_location(self):
+        return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@id="hoteladdress"]').text.split('|')[1].strip())
 
-def scrape_review(element):
-    return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//a[@class="ratingLink"]').text.strip())
+    def get_price(self):
+        try:
+            new_price = WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//td[@class="rateamount"]').text.strip().strip('Q').strip())
+            old_price = 0
+            return new_price, old_price
+        except:
+            return 0, 0
 
-def scrape_dates(url):
-    for date in dates:
-        scrape_city(url, date) 
+    def get_rating(self):
+        try:
+            return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//img[@class="rating_circles"]').get_attribute('title'))
+        except:
+            return 0
 
-def scrape_city(url, date):
+    def get_review(self):
+        return WebDriverWait(element, 10).until(lambda element: element.find_element_by_xpath('.//a[@class="ratingLink"]').text.strip())
+
+def scrape_city(self, date):
     city = cities[0]
     driver = spider.chrome(url)
     close_banner(driver, banners)
@@ -98,16 +96,9 @@ def scrape_hotels(driver, city, checkin, checkout, date):
     currency = 'GTQ'
     _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, 1, date)
     print '{}, checkin {}, checkout {}, range {}, price {}'.format(source, checkin, checkout, date, new_price)
+"""
 
-
-if __name__ == '__main__':
-    global conn
-    global cur
-    conn, cur = _db.connect()
-    url = 'https://www.radisson.com/'
-    
-    scrape_dates(url)
-    
-    conn.close()
+if __name__ == '__main__':    
+    Radisson_scraper(url)
 
 
