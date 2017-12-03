@@ -175,6 +175,7 @@ def get_pages(driver, city, checkin, checkout, date):
             city = city.split(',')[0]
             currency = 'GTQ'
             source = 'booking.com'
+            print name, new_price, old_price , review, rating ###############
             _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
             
         time.sleep(30)
