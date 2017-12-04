@@ -29,6 +29,12 @@ class BaseScraper(object):
         driver.get(self.url)
         return driver
 
+    def chrome_long_window(self):
+        driver = webdriver.Chrome()
+        driver.set_window_size(1000, 1500)
+        driver.get(self.url)
+        return driver
+
     def base_func(self):
         for date in self.dates:
             self.date = date
@@ -43,15 +49,14 @@ class BaseScraper(object):
                     self.driver = self.chrome()
                 elif self.spider_name == 'firefox':
                     self.driver = self.firefox()
+                elif self.spider_name == 'chrome_long_window':
+                    self.driver = self.chrome_long_window()
                 else:
                     pass
 
                 self.main_page()
-    
-                if self.spider_name == 'chrome' or self.spider_name == 'firefox':
-                    self.driver.quit()
-                else:
-                    pass
+
+                self.driver.quit()
 
         self.conn.close()
 

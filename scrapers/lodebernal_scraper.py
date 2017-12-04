@@ -67,7 +67,7 @@ class LodebernalScraper(BaseScraper):
         self.count += 1
         self.sql_write()
         self.report()
-#        self.full_report()
+        self.full_report()
         
 
 if __name__ == "__main__":
