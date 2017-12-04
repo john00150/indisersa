@@ -30,8 +30,8 @@ class BookingScraper(BaseScraper):
         while True:
             self._scroll_down()
             hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
+            check_element = self.presence(self.driver, hotels, 10)
             x = self.scrape_hotels(hotels)
-            check_element = self.presence(self.driver, hotels, 5)
 
             try:
                 _next = self.visibility(self.driver, next, 5)
