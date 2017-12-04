@@ -62,8 +62,8 @@ class BookHotelBedsScraper(BaseScraper):
         element.click()
     
     def checkin_element(self):
-        element = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
-        element = self.visibility(self.driver, element, 10)
+        element = './/body'
+        element = self.element(self.driver, element)
         element.click()
 
         checkin_year_month = '{}-{}'.format(self.checkin.year, self.checkin.month)
