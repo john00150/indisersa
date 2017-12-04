@@ -62,6 +62,10 @@ class BookHotelBedsScraper(BaseScraper):
         element.click()
     
     def checkin_element(self):
+        element = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
+        element = self.visibility(self.driver, element, 10)
+        element.click()
+
         checkin_year_month = '{}-{}'.format(self.checkin.year, self.checkin.month)
 
         element = '//select[@class="hcsb_checkinMonth"]/option[@value="{}"]'.format(checkin_year_month)
@@ -69,10 +73,6 @@ class BookHotelBedsScraper(BaseScraper):
         element.click()
     
         element = '//select[@class="hcsb_checkinDay"]/option[@value="{}"]'.format(self.checkin.day)
-        element = self.visibility(self.driver, element, 10)
-        element.click()
-
-        element = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
 
@@ -84,10 +84,6 @@ class BookHotelBedsScraper(BaseScraper):
         element.click()
     
         element = '//select[@class="hcsb_checkoutDay"]/option[@value="{}"]'.format(self.checkout.day)
-        element = self.visibility(self.driver, element, 10)
-        element.click()
-
-        element = './/div[contains(@class, "hcsb_checkinDateWrapper")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
 
