@@ -187,4 +187,20 @@ class BaseScraper(object):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
+    def scrape_hotels(self, elements):
+        elements = self.elements(self.driver, elements)
+
+        for element in elements:
+            self.count += 1
+            self.name = self.scrape_name(element)
+            self.new_price = self.scrape_new_price(element)
+            self.old_price = self.scrape_old_price(element)
+            self.review = self.scrape_review(element)
+            self.rating = self.scrape_rating(element)
+            self.address = self.scrape_address(element)
+            self.sql_write()
+            self.full_report()
+
+        return 0
+
 

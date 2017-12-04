@@ -14,9 +14,7 @@ class DespegarScraper(BaseScraper):
         ]
         self.base_func()
       
-
     def main_page(self):
-        self.next_element = './/a[@data-ga-el="next"]'
         self.close_banner()
         self.city_element()
         self.checkin_element()
@@ -24,6 +22,25 @@ class DespegarScraper(BaseScraper):
         self.occupation_element()
         self.submit_element()
         self.scrape_pages()
+
+    def scrape_pages(self):
+        element = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
+        next_element = './/a[@data-ga-el="next"]'
+        self.close_banner()
+
+        while True:
+            check_element = self.presence(self.driver, element, 10)
+            x = self.scrape_hotels(element)    
+#            self.scroll_to_bottom()
+        
+            try:
+                _next_element = self.visibility(self.driver, next_element, 5)
+                _next_element.click()
+                self.wait_for_page_to_load(check_element)
+            except:
+                self.driver.quit()
+                self.report()
+                break
 
     def city_element(self):
         element = './/input[contains(@class, "sbox-destination")]'
@@ -96,27 +113,6 @@ class DespegarScraper(BaseScraper):
         element = './/a[contains(@class, "sbox-search")]'
         element = self.visibility(self.driver, element, 5)
         element.click()
-
-    def scrape_pages(self):
-        self.close_banner()
-
-        while True:
-            x = self.scrape_hotels()    
-
-#            self.scroll_to_bottom()
-        
-            try:
-                _next_element = self.visibility(self.driver, next_element, 5)
-                _next_element.click()
-                self.close_banner()
-            except:
-                self.driver.quit()
-                self.report()
-                break
-
-    def get_elements(self):
-        elements = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
-        return self.elements(self.driver, elements)
 
     def scrape_name(self, element):
         _element = './/h3[@class="hf-hotel-name"]/a'
