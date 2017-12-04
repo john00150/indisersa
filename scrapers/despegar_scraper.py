@@ -147,7 +147,7 @@ class DespegarScraper(BaseScraper):
     
 
 if __name__ == '__main__':
-    spider = 'chrome'
+    spider = 'chrome_long_window'
     url = 'https://www.us.despegar.com/hotels/'
     DespegarScraper(url, spider)
 
