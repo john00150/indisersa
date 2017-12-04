@@ -4,38 +4,28 @@ import time, sys, re
 
 
 class DespegarScraper(BaseScraper):
-    def __init__(self, url):
-        BaseScraper.__init__(self, url)
+    def __init__(self, url, spider):
+        BaseScraper.__init__(self, url, spider)
         self.currency = 'USD'
         self.source = 'us.despegar.com'
         self.banners = [
             './/i[@class="nevo-modal-close nevo-icon-close"]',
             './/span[contains(@class, "eva-close")]',
         ]
+        self.base_func()
+      
 
-        for date in self.dates:
-            self.date = date
-            self.checkin, self.checkin2 = self.get_checkin()
-            self.checkout, self.checkout2 = self.get_checkout()
-            for city in self.cities:
-                self.city = city
-                self.driver = self.chrome()
-                self.scrape_city()
-                self.driver.quit()
-
-        self.conn.close()
-
-    def scrape_city(self):
+    def main_page(self):
+        self.next_element = './/a[@data-ga-el="next"]'
         self.close_banner()
-        self.scrape_city_element()
-        self.scrape_checkin_element()
-        self.scrape_checkout_element()
-        self.scrape_occupation_element()
-        self.scrape_submit_element()
-        self.get_pages()
+        self.city_element()
+        self.checkin_element()
+        self.checkout_element()
+        self.occupation_element()
+        self.submit_element()
+        self.scrape_pages()
 
-
-    def scrape_city_element(self):
+    def city_element(self):
         element = './/input[contains(@class, "sbox-destination")]'
         element = self.presence(self.driver, element, 10)
         element.send_keys(self.city)
@@ -78,16 +68,16 @@ class DespegarScraper(BaseScraper):
             _next_element = self.visibility(self.driver, next_element, 5)
             _next_element.click()
 
-    def scrape_checkin_element(self):
+    def checkin_element(self):
         element = './/input[contains(@class, "sbox-checkin-date")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
         self.checkin_checkout_scrape(self.checkin)
 
-    def scrape_checkout_element(self):
+    def checkout_element(self):
         self.checkin_checkout_scrape(self.checkout)
 
-    def scrape_occupation_element(self):
+    def occupation_element(self):
         element = './/div[contains(@class, "sbox-guests-container")]'
         element = self.presence(self.driver, element, 5)
         element.click()
@@ -98,32 +88,18 @@ class DespegarScraper(BaseScraper):
         element3 = self.presence(self.driver, element3, 5)
         element3.click()
 
-    def scrape_submit_element(self):
+    def submit_element(self):
         element = './/a[contains(@class, "sbox-search")]'
         element = self.visibility(self.driver, element, 5)
         element.click()
 
-    def get_pages(self):
-        next_element = './/a[@data-ga-el="next"]'
+    def scrape_pages(self):
         self.close_banner()
-    
-        count = 0
-        while True:
-            hotels = self.get_elements()       
-            for hotel in hotels:
-                item = {}
-                item['name'] = self.scrape_name(hotel)
-                item['new_price'] = self.scrape_new_price(hotel)
-                item['old_price'] = self.scrape_old_price(hotel)
-                item['review'] = self.scrape_review(hotel)
-                item['rating'] = self.scrape_rating(hotel)
-                item['address'] = ''
-                item['city'] = self.city.split(',')[0]
-                count += 1
-                item['count'] = count
-                self.sql_write(item)
 
-            self.scroll_to_bottom()
+        while True:
+            x = self.scrape_hotels()    
+
+#            self.scroll_to_bottom()
         
             try:
                 _next_element = self.visibility(self.driver, next_element, 5)
@@ -131,7 +107,7 @@ class DespegarScraper(BaseScraper):
                 self.close_banner()
             except:
                 self.driver.quit()
-                self.report(count)
+                self.report()
                 break
 
     def get_elements(self):
@@ -171,7 +147,8 @@ class DespegarScraper(BaseScraper):
     
 
 if __name__ == '__main__':
+    spider = 'chrome'
     url = 'https://www.us.despegar.com/hotels/'
-    DespegarScraper(url)
+    DespegarScraper(url, spider)
 
 
