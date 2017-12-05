@@ -55,7 +55,7 @@ if __name__ == "__main__":
             fh_log.write('########## {} ##########\n'.format(name))
             traceback.print_exc(file=fh_log)
 
-    fh_log.write('finish: %s\n' % datetime.now())
+    fh_log.write('finish: %s' % datetime.now())
     fh_log.close()
     fh_report.close()
 
