@@ -31,7 +31,7 @@ class BaseScraper(object):
 
     def chrome_long_window(self):
         driver = webdriver.Chrome()
-        driver.set_window_size(1500, 2000)
+        driver.set_window_size(2000, 3000)
         driver.get(self.url)
         return driver
 

@@ -45,7 +45,11 @@ class DespegarScraper(BaseScraper):
     def city_element(self):
         element = './/input[contains(@class, "sbox-destination")]'
         element = self.presence(self.driver, element, 10)
-        element.send_keys(self.city)
+        
+        if self.city == 'Antigua Guatemala, Guatemala':
+            element.send_keys('Antigua, Sacatepequez, Guatemala')
+        else:
+            element.send_keys(self.city)
 
         element = './/div[@class="geo-searchbox-autocomplete-holder-transition"]'
         if self.city == 'Guatemala City, Guatemala':
