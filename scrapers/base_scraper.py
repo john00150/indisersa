@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name):
-#        os.system('./cleaner.sh')
         self.spider_name = spider_name
         self.url = url
         self.dates = dates

@@ -24,7 +24,7 @@ class MarriottScraper(BaseScraper):
         self.scrape_rooms()
 
     def scrape_rooms(self):    
-        element = './/div[contains(@class, "room-rate-results rate-type")]'
+        element = './/div[contains(@class, "room-rate-results rateType")]'
         element = self.presence(self.driver, element, 20)
     
         self.new_price = self.scrape_new_price(element)
