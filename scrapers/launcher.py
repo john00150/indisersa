@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     fh_report = open(report_path, 'w')
     fh_log = open(log_path, 'w')
-    fh_log.write('start: %s\n' % datetime.now())
+    fh_log.write('start: %s\n\n' % datetime.now())
 
     for scraper in scrapers:
         try:
@@ -54,7 +54,6 @@ if __name__ == "__main__":
             print traceback.print_exc()
             fh_log.write('########## {} ##########\n'.format(name))
             traceback.print_exc(file=fh_log)
-            fh_log.write('\n#######################\n')
 
     fh_log.write('finish: %s\n' % datetime.now())
     fh_log.close()
