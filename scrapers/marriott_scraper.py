@@ -24,7 +24,7 @@ class MarriottScraper(BaseScraper):
         self.scrape_rooms()
 
     def scrape_rooms(self):    
-        element = './/div[contains(@class, "room-rate-results rateType")]'
+        element = './/div[contains(@class, "room-rate-results rate")]'
         element = self.presence(self.driver, element, 20)
     
         self.new_price = self.scrape_new_price(element)
@@ -34,7 +34,7 @@ class MarriottScraper(BaseScraper):
         self.count += 1
         self.sql_write()
         self.report()
-#        self.full_report()
+        self.full_report()
 
     def checkin_element(self):
         elements = './/span[contains(@class, "l-icon-calendar")]'
