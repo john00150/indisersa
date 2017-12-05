@@ -1,7 +1,7 @@
 from datetime import datetime
 import traceback, smtplib, os
 from email.mime.text import MIMEText
-from settings import log_path, scrapers
+from settings import log_path, scrapers, report_path
 
 
 def send_email(line):
