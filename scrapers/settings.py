@@ -26,4 +26,4 @@ scrapers = [
 ]
 
 log_path = 'C:\users\indisersa\Desktop\hotels\logs\launcher.log'
-
+report_path = 'C:\users\indisersa\Desktop\hotels\logs\\report.csv'
