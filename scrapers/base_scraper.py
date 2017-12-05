@@ -155,9 +155,9 @@ class BaseScraper(object):
         )
 
     def full_report(self):
-        print "hotel: {}; rating: {}; review: {}; new price: {}; old price: {}; checkin: {}; checkout: {}; city: {}; currency: {}; source: {}; count: {}; range: {}".format(
+        print """{},{},{},{},{},{},{},{},"{}",{},{},{},{}\n""".format(
             self.name.encode('utf8'), self.rating, self.review, self.new_price, self.old_price, self.checkin2,\
-            self.checkout2, self.city2, self.currency, self.source, self.count, self.date
+            self.checkout2, self.city2, self.address.encode('utf8'), self.currency, self.source, self.count, self.date
         )
 
     def close_banner(self):
@@ -182,12 +182,22 @@ class BaseScraper(object):
             if x == _range - 1:
                 raise ValueError()
 
+    def scroll_to_element(self, _range, element):
+        for x in range(_range):
+            try:
+                self.element(self.driver, element)
+                break
+            except:
+                self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
+                time.sleep(0.2)
+
     def scroll_range(self, _range):
         for x in range(_range):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
     def scrape_hotels(self, elements):
+        self.presence(self.driver, elements, 10)
         elements = self.elements(self.driver, elements)
 
         for element in elements:
@@ -199,7 +209,7 @@ class BaseScraper(object):
             self.rating = self.scrape_rating(element)
             self.address = self.scrape_address(element)
             self.sql_write()
-            self.full_report()
+#            self.full_report()
 
         return 0
 
