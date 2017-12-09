@@ -56,18 +56,21 @@ class LodebernalScraper(BaseScraper):
 
     def scrape_rooms(self):
         element = './/div[@class="room"]'
-        element = self.presence(self.driver, element, 10)
+        try:
+            element = self.presence(self.driver, element, 10)
 
-        self.new_price = self.scrape_new_price(element)
-        self.old_price = 0
-        self.name = 'Hotel Lo de Bernal'
-        self.review = 0
-        self.rating = 0
-        self.address = '1ª. Calle Poniente 23'
-        self.count += 1
-        self.sql_write()
-        self.report()
-        self.full_report()
+            self.new_price = self.scrape_new_price(element)
+            self.old_price = 0
+            self.name = 'Hotel Lo de Bernal'
+            self.review = 0
+            self.rating = 0
+            self.address = '1ª. Calle Poniente 23'
+            self.count += 1
+            self.sql_write()
+            self.report()
+            self.full_report()
+        except:
+            pass
         
 
 if __name__ == "__main__":
