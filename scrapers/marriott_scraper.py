@@ -1,7 +1,7 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
-import time
+import time, re
 
 
 class MarriottScraper(BaseScraper):
@@ -18,19 +18,16 @@ class MarriottScraper(BaseScraper):
     def main_page(self):
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'
         self.further_element = './/div[@title="Next month"]'
+        self.review = self.scrape_review()
+        self.rating = self.scrape_rating()
         self.checkin_element()
         self.checkout_element()
         self.submit_element()
         self.scrape_rooms()
 
     def scrape_rooms(self):    
-        element = './/div[contains(@class, "room-rate-results rate")]'
-        element = self.presence(self.driver, element, 20)
-    
-        self.new_price = self.scrape_new_price(element)
+        self.new_price = self.scrape_new_price()
         self.old_price = 0
-        self.review = self.scrape_review()
-        self.rating = self.scrape_rating()
         self.count += 1
         self.sql_write()
         self.report()
@@ -99,22 +96,24 @@ class MarriottScraper(BaseScraper):
             except:
                 time.sleep(1)
 
-    def scrape_new_price(self, element):
-        _element = './/h2[contains(@class, "l-display-inline-block")]'
-        _element = self.presence(self.driver, _element, 20)
-        _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
-        return _element.strip()
-        
+    def scrape_new_price(self):
+        try:
+            _element = './/h2[contains(@class, "l-display-inline-block")]'       
+            _element = self.presence(self.driver, _element, 10)
+            return self.driver.execute_script('return arguments[0].innerHTML', _element).strip()
+        except:
+            _element = './/h2[contains(text(), "Standard Rates")]/span'
+            _element = self.presence(self.driver, _element, 10)
+            _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
+            return re.findall(r'([0-9]+)', _element)[0]
     
     def scrape_review(self):
-        element = './/span[contains(@class, "reviews-count")]'
-        element = self.visibility(self.driver, element, 5).text.strip()
-        return element
+        element = './/span[contains(text(), "Reviews")]'
+        element = self.visibility(self.driver, element, 5).text
+        return re.findall(r'([0-9]+)', element)[0]
 
     def scrape_rating(self):
-        element = './/span[contains(@class, "user-rating")]'
-        element = self.visibility(self.driver, element, 5).text.strip()
-        return element
+        return 4.5
 
 
 if __name__ == '__main__':

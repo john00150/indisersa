@@ -14,7 +14,7 @@ class BaseScraper(object):
         self.url = url
         self.dates = dates
         self.cities = cities
-#        self.conn, self.cur = self.sql_connect()
+        self.conn, self.cur = self.sql_connect()
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -57,7 +57,7 @@ class BaseScraper(object):
 
                 self.driver.quit()
 
-#        self.conn.close()
+        self.conn.close()
 
     def get_city(self, city):
         return city, city.split(',')[0].replace("'", "''")
