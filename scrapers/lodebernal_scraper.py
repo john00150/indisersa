@@ -55,6 +55,7 @@ class LodebernalScraper(BaseScraper):
         return _element
 
     def scrape_rooms(self):
+        time.sleep(10)
         element = './/div[@class="room"]'
         try:
             element = self.presence(self.driver, element, 10)
