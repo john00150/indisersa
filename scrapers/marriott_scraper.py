@@ -101,7 +101,7 @@ class MarriottScraper(BaseScraper):
 
     def scrape_new_price(self, element):
         _element = './/h2[contains(@class, "l-display-inline-block")]'
-        _element = self.presence(element, _element, 20)
+        _element = self.presence(self.driver, _element, 20)
         _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
         return _element.strip()
         
