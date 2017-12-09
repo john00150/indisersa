@@ -70,8 +70,8 @@ class LodebernalScraper(BaseScraper):
             self.sql_write()
             self.report()
             self.full_report()
-        except:
-            pass
+        except Exception, e:
+            print e
         
 
 if __name__ == "__main__":
