@@ -65,13 +65,13 @@ class LodebernalScraper(BaseScraper):
             self.name = 'Hotel Lo de Bernal'
             self.review = 0
             self.rating = 0
-            self.address = '1ª. Calle Poniente 23'
+            self.address = '1. Calle Poniente 23'
             self.count += 1
             self.sql_write()
             self.report()
             self.full_report()
         except Exception, e:
-            print e
+            pass
         
 
 if __name__ == "__main__":
