@@ -5,14 +5,13 @@ import time, sys, re
 
 class DespegarScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.currency = 'USD'
         self.source = 'us.despegar.com'
         self.banners = [
             './/i[@class="nevo-modal-close nevo-icon-close"]',
             './/span[contains(@class, "eva-close")]',
         ]
-        self.base_func()
+        BaseScraper.__init__(self, url, spider)
       
     def main_page(self):
         self.close_banner()

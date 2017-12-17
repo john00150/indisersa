@@ -6,7 +6,6 @@ import time, re
 
 class HotelsScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.banners = [
             './/button[@class="cta widget-overlay-close"]',
             './/button[contains(@class, "cta widget-overlay-close")]',
@@ -19,15 +18,7 @@ class HotelsScraper(BaseScraper):
         ]
         self.currency = 'USD'
         self.source = 'hotels.com'
-        self.base_func()
-
-    def main_page(self):
-        self.city_element()
-        self.checkin_element()
-        self.checkout_element()
-        self.occupancy_element()
-        self.submit_element()
-        self.scrape_pages()
+        BaseScraper.__init__(self, url, spider)
 
     def scrape_pages(self):
         element_to = './/li[contains(text(), "Travelers also looked at these properties nearby")]'
@@ -35,6 +26,7 @@ class HotelsScraper(BaseScraper):
 
         element = './/ol[contains(@class, "listings")]/li[contains(@class, "hotel")][not(contains(@class, "expanded-area"))]'
         x = self.scrape_hotels(element)
+
         self.report()
 
     def city_element(self):
@@ -102,7 +94,7 @@ class HotelsScraper(BaseScraper):
     def scrape_rating(self, _element):
         try:
             element = './/div[contains(@class, "guest-rating")]'
-            element = self.presence(_element, element, 2).text
+            element = self.element(_element, element, 2).text
             element = re.findall(r'([0-9.]+)', element)[0]
             return element
         except:
@@ -111,7 +103,7 @@ class HotelsScraper(BaseScraper):
     def scrape_review(self, _element):
         try:
             element = './/span[contains(@class, "total-reviews")]'
-            element = self.presence(_element, element, 2).text
+            element = self.element(_element, element, 2).text
             element = re.findall(r'([0-9,]+)', element)[0]
             element = re.sub(r',', '', element)
             return element

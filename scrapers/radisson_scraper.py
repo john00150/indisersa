@@ -6,14 +6,13 @@ import time, re
 
 class RadissonScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.banners = [
             './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
         ]
         self.source = 'radisson.com'
         self.currency = 'GTQ'
         self.cities = [self.cities[0]]
-        self.base_func()
+        BaseScraper.__init__(self, url, spider)
 
     def main_page(self):
         self.checkin_checkout_element = './/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'

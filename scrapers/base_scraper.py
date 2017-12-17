@@ -10,11 +10,14 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name):
+        self.data = []
         self.spider_name = spider_name
         self.url = url
         self.dates = dates
         self.cities = cities
-        self.conn, self.cur = self.sql_connect()
+        self.main_function()
+        self._sql()
+        self.full_report()
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -28,39 +31,8 @@ class BaseScraper(object):
         driver.get(self.url)
         return driver
 
-    def chrome_long_window(self):
-        driver = webdriver.Chrome()
-        driver.set_window_size(2000, 3000)
-        driver.get(self.url)
-        return driver
-
-    def base_func(self):
-        for date in self.dates:
-            self.date = date
-            self.checkin, self.checkin2 = self.get_checkin()
-            self.checkout, self.checkout2 = self.get_checkout()
-
-            for city in self.cities:
-                self.city, self.city2 = self.get_city(city)
-                self.count = 0
-
-                if self.spider_name == 'chrome':
-                    self.driver = self.chrome()
-                elif self.spider_name == 'firefox':
-                    self.driver = self.firefox()
-                elif self.spider_name == 'chrome_long_window':
-                    self.driver = self.chrome_long_window()
-                else:
-                    pass
-
-                self.main_page()
-
-                self.driver.quit()
-
-        self.conn.close()
-
     def get_city(self, city):
-        return city, city.split(',')[0].replace("'", "''")
+        return city, city.split(',')[0]
 
     def presence(self, driver, element, delay):
         return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
@@ -120,45 +92,6 @@ class BaseScraper(object):
         checkout2 = checkout.strftime('%m/%d/%Y')
         return checkout, checkout2
 
-    def sql_connect(self):
-        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-        cur = conn.cursor()
-        return conn, cur
-
-    def sql_write(self):
-        name = self.name.replace("'", "''").encode('utf8')
-        address = self.address.replace("'", "''").encode('utf8')
-        date_scraped = datetime.now().strftime('%m/%d/%Y')
-
-        sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
-            new_price, old_price, checkin, checkout, city, currency, source, date_scraped,\
-            hotel_position, date_range) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',\
-            '%s', '%s', '%s', '%s', '%s', %s)"
-            
-        try:
-            self.cur.execute(sql % (name, self.rating, self.review, address, self.new_price, self.old_price,\
-                self.checkin2, self.checkout2, self.city2, self.currency, self.source, date_scraped, self.count, self.date))
-            self.conn.commit()
-        except Exception, e:
-#            traceback.print_exc()           
-            pass
-
-    def report(self):
-        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
-            self.source, 
-            self.city2, 
-            self.count, 
-            self.checkin2, 
-            self.checkout2, 
-            self.date
-        )
-
-    def full_report(self):
-        print """{},{},{},{},{},{},{},{},"{}",{},{},{},{}\n""".format(
-            self.name.encode('utf8'), self.rating, self.review, self.new_price, self.old_price, self.checkin2,\
-            self.checkout2, self.city2, self.address.encode('utf8'), self.currency, self.source, self.count, self.date
-        )
-
     def close_banner(self):
         for banner in self.banners:
             try:
@@ -195,21 +128,104 @@ class BaseScraper(object):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
+    def main_function(self):
+        for date in self.dates:
+            self.date = date
+            self.checkin, self.checkin2 = self.get_checkin()
+            self.checkout, self.checkout2 = self.get_checkout()
+
+            for city in self.cities:
+                self.city, self.city2 = self.get_city(city)
+                self.count = 0
+
+                if self.spider_name == 'chrome':
+                    self.driver = self.chrome()
+                if self.spider_name == 'firefox':
+                    self.driver = self.firefox()
+                if self.spider_name == 'chrome_long_window':
+                    self.driver = self.chrome_long_window()
+
+                self.main_page()
+                self.driver.quit()
+
+    def main_page(self):
+        self.city_element()
+        self.checkin_element()
+        self.checkout_element()
+        self.occupancy_element()
+        self.submit_element()
+        self.scrape_pages()
+
     def scrape_hotels(self, elements):
         self.presence(self.driver, elements, 10)
         elements = self.elements(self.driver, elements)
 
         for element in elements:
             self.count += 1
-            self.name = self.scrape_name(element)
-            self.new_price = self.scrape_new_price(element)
-            self.old_price = self.scrape_old_price(element)
-            self.review = self.scrape_review(element)
-            self.rating = self.scrape_rating(element)
-            self.address = self.scrape_address(element)
-            self.sql_write()
-#            self.full_report()
+            self.data.append((
+            self.scrape_name(element),
+            self.scrape_rating(element),
+            self.scrape_review(element), 
+            self.scrape_address(element),
+            self.scrape_new_price(element),
+            self.scrape_old_price(element),
+            self.checkin2, 
+            self.checkout2, 
+            self.city2, 
+            self.currency, 
+            self.source, 
+            datetime.now().strftime('%m/%d/%Y'), 
+            self.count, 
+            self.date
+            ))
 
-        return 0
+    def _sql(self):
+        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+        cur = conn.cursor()
 
+        sql = """insert into hotel_info (
+            hotel_name, 
+            hotel_rating, 
+            hotel_review, 
+            hotel_address,
+            new_price, 
+            old_price, 
+            checkin, 
+            checkout, 
+            city, 
+            currency, 
+            source, 
+            date_scraped,
+            hotel_position, 
+            date_range) values(
+                "%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s
+            )"""
+
+        for t in self.data:            
+            try:
+                cur.execute(sql, t)
+            except Exception, e:
+                traceback.print_exc()           
+#                pass
+
+        conn.commit()
+        conn.close()
+
+    def full_report(self):
+        fh = open('report.csv', 'w')
+        for t in self.data:
+            line = """%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n""" % t
+            fh.write(line) 
+
+        fh.close()
+
+    def report(self):
+        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
+            self.source, 
+            self.city2, 
+            self.count, 
+            self.checkin2, 
+            self.checkout2, 
+            self.date
+        )
 

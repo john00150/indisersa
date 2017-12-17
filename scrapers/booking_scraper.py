@@ -6,27 +6,16 @@ import time, os, traceback, re
 
 class BookingScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.currency = 'GTQ'
         self.source = 'booking.com'
         self.banners = [
             './/div[contains(@class, "close")]',
         ]
-        self.base_func()        
-
-    def main_page(self):
-        self.checkin_checkout = './/table[contains(@class, "c2-month-table")][./thead/tr/th[contains(text(), "{}")]]/tbody/tr/td/span[contains(text(), "{}")]'
-        self.further = './/div[contains(@class, "c2-button-further")]'
-        self.close_banner()
-        self.city_element()
-        self.checkin_element()
-        self.checkout_element()
-        self.occupancy_element()
-        self.submit_element()
-        self.scrape_pages()
+        BaseScraper.__init__(self, url, spider)
 
     def scrape_pages(self):
         next = './/a[contains(@class, "paging-next")]'
+
         while True:
             self._scroll_down()
             hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
@@ -41,22 +30,6 @@ class BookingScraper(BaseScraper):
 #                traceback.print_exc()
                 self.report()
                 break
-
-    def scrape_hotels(self, elements):
-        elements = self.elements(self.driver, elements)
-
-        for element in elements:
-            self.count += 1
-            self.name = self.scrape_name(element)
-            self.new_price = self.scrape_new_price(element)
-            self.old_price = self.scrape_old_price(element)
-            self.review = self.scrape_review(element)
-            self.rating = self.scrape_rating(element)
-            self.address = self.scrape_address(element)
-            self.sql_write()
-#            self.full_report()
-
-        return 0
 
     def _scroll_down(self):
         _range = 400
@@ -84,6 +57,8 @@ class BookingScraper(BaseScraper):
 
     def checkin_element(self):
 #        print 'checkin element...'
+        self.checkin_checkout = './/table[contains(@class, "c2-month-table")][./thead/tr/th[contains(text(), "{}")]]/tbody/tr/td/span[contains(text(), "{}")]'
+        self.further = './/div[contains(@class, "c2-button-further")]'
         year = self.checkin.strftime('%Y')
         month = self.checkin.strftime('%B')
         month_year = '{} {}'.format(month, year)
