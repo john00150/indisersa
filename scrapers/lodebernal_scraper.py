@@ -6,12 +6,11 @@ import time, re
 
 class LodebernalScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.banners = []
         self.source = 'lodebernal.com'
         self.cities = [self.cities[1]]
         self.currency = 'GTQ'
-        self.base_func()            
+        BaseScraper.__init__(self, url, spider)
 
     def main_page(self):
         self.checkin_element()

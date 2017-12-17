@@ -1,5 +1,5 @@
 from datetime import datetime
-import traceback, smtplib, os
+import subprocess, smtplib, os
 from email.mime.text import MIMEText
 from settings import log_path, scrapers, report_path
 
@@ -31,36 +31,36 @@ def run_scraper(scraper_path, l, fh):
 
 
 if __name__ == "__main__":
-    try:
-        os.system('taskkill /f /im chromedriver.exe')
-    except:
-        pass
+    subprocess.call(['taskkill /f /im chromedriver.exe'])
     
     l = list()
 
-    fh_report = open(report_path, 'w')
-    fh_log = open(log_path, 'w')
-    fh_log.write('start: %s\n\n' % datetime.now())
+#    fh_report = open(report_path, 'w')
+    with open(log_path, 'w') as fh:
+        fh_log.write('start: %s\n\n' % datetime.now())
 
-    for scraper in scrapers:
-        try:
-            execfile(scraper['path'])
+        for scraper in scrapers:
+            s = subprocess.Popen(scraper['path'], stdout=fh_log)
+            stdout, stderr = s.communicate()
 
-        except Exception, e:
-            name = scraper['name']
-            message_line = "{} error".format(name)
-            l.append(message_line)
+#        try:
+#            execfile(scraper['path'])
+
+#        except Exception, e:
+#            name = scraper['name']
+#            message_line = "{} error".format(name)
+#            l.append(message_line)
             
-            print traceback.print_exc()
-            fh_log.write('########## {} ##########\n'.format(name))
-            traceback.print_exc(file=fh_log)
+#            print traceback.print_exc()
+#            fh_log.write('########## {} ##########\n'.format(name))
+#            traceback.print_exc(file=fh_log)
 
-    fh_log.write('finish: %s' % datetime.now())
-    fh_log.close()
-    fh_report.close()
+        fh_log.write('finish: %s' % datetime.now())
 
-    if len(l) > 0:
-        send_email(l)
+#    fh_report.close()
+
+#    if len(l) > 0:
+#        send_email(l)
 
 
     

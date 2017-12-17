@@ -4,14 +4,13 @@ import time, re
 
 class ElconventoantiguaScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.cities = [self.cities[1]]
         self.currency = 'USD'
         self.source = 'elconventoantigua.com'
         self.name = 'Convento Boutique Hotel'
         self.address = '2a Avenida Norte #11, Antigua Guatemala +502 7720 7272'
         self.banners = []
-        self.base_func()
+        BaseScraper.__init__(self, url, spider)
     
     def main_page(self):
         self.checkin_checkout_element = './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'

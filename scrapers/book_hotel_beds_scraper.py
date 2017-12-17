@@ -6,11 +6,10 @@ import time, os, re
 
 class BookHotelBedsScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.currency = 'GTQ'
         self.source = 'book-hotel-beds.com'
         self.banners = []
-        self.base_func()
+        BaseScraper.__init__(self, url, spider)
 
     def main_page(self):
         self.city_element()

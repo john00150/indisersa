@@ -6,14 +6,12 @@ import time, re
 
 class MarriottScraper(BaseScraper):
     def __init__(self, url, spider):
-        BaseScraper.__init__(self, url, spider)
         self.address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
         self.cities = [self.cities[0]]
         self.source = 'marriott.com'
         self.currency = 'USD'
         self.name = 'Courtyard Guatemala City'
-
-        self.base_func()
+        BaseScraper.__init__(self, url, spider)
 
     def main_page(self):
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'
