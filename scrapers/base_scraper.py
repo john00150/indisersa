@@ -126,8 +126,8 @@ class BaseScraper(object):
         return conn, cur
 
     def sql_write(self):
-        name = self.name.replace("'", "''")
-        address = self.address.replace("'", "''").decode('utf8')
+        name = self.name.replace("'", "''").encode('utf8')
+        address = self.address.replace("'", "''").encode('utf8')
         date_scraped = datetime.now().strftime('%m/%d/%Y')
 
         sql = "insert into hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
