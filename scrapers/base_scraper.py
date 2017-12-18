@@ -172,7 +172,7 @@ class BaseScraper(object):
 
         for element in elements:
             self.count += 1
-            self.data.append((
+            t = (
             self.scrape_name(element),
             self.scrape_rating(element),
             self.scrape_review(element), 
@@ -187,41 +187,41 @@ class BaseScraper(object):
             datetime.now().strftime('%m/%d/%Y'), 
             self.count, 
             self.date
-            ))
+            )
+            self.write_sql(t)
 
-    def _sql(self):
-#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-        cur = conn.cursor()
+    def connect_sql(self):
+        self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+        self.cur = self.conn.cursor()
 
-        sql = """insert into hotel_info (
-            hotel_name, 
+    def write_sql(self, t):
+        sql = """INSERT INTO hotel_info (
+            hotel_name,
             hotel_rating, 
-            hotel_review, 
+            hotel_review,
             hotel_address,
             new_price, 
             old_price, 
-            checkin, 
-            checkout, 
-            city, 
-            currency, 
-            source, 
+            checkin,
+            checkout,
+            city,
+            currency,
+            source,
             date_scraped,
-            hotel_position, 
-            date_range) values(
-                "%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s
-            )"""
+            hotel_position,
+            date_range) VALUES ("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
 
-        for t in self.data:            
-            try:
-                cur.execute(sql, t)
-                print t
-            except Exception, e:
-                traceback.print_exc()           
-#                pass
+        print sql % t
+#        try:
+#            self.cur.execute(sql % t)
+#            self.conn.commit()
+#        except Exception, e:
+#            traceback.print_exc()           
+#           pass
 
-        conn.commit()
-        conn.close()
+    def sql_close(self):
+        self.conn.close()
 
     def full_report(self):
         fh = open('report.csv', 'w')
