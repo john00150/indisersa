@@ -19,15 +19,9 @@ class MarriottScraper(BaseScraper):
         self.checkin_element()
         self.checkout_element()
         self.submit_element()
-        self.scrape_rooms()
 
-    def scrape_rooms(self):    
-        self.new_price = self.scrape_new_price()
-        self.old_price = 0
-        self.count += 1
-        self.sql_write()
-        self.report()
-        self.full_report()
+    def city_element(self):
+        pass
 
     def checkin_element(self):
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'
@@ -84,6 +78,9 @@ class MarriottScraper(BaseScraper):
                 except:
                     time.sleep(1)
 
+    def occupancy_element(self):
+        pass
+
     def submit_element(self):
         element = './/button[contains(@type, "submit")]'
         self.presence(self.driver, element, 10)
@@ -93,6 +90,14 @@ class MarriottScraper(BaseScraper):
                 element.click()
             except:
                 time.sleep(1)
+
+    def scrape_pages(self):  
+        self.new_price = self.scrape_new_price()
+        self.old_price = 0
+        self.count += 1
+        self.sql_write()
+        self.report()
+        self.full_report()
 
     def scrape_new_price(self):
         try:

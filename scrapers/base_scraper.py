@@ -19,6 +19,55 @@ class BaseScraper(object):
         self._sql()
         self.full_report()
 
+    def main_function(self):
+        for date in self.dates:
+            self.date = date
+            self.checkin, self.checkin2 = self.get_checkin()
+            self.checkout, self.checkout2 = self.get_checkout()
+
+            for city in self.cities:
+                self.city, self.city2 = self.get_city(city)
+                self.count = 0
+
+                if self.spider_name == 'chrome':
+                    self.driver = self.chrome()
+                if self.spider_name == 'firefox':
+                    self.driver = self.firefox()
+                if self.spider_name == 'chrome_long_window':
+                    self.driver = self.chrome_long_window()
+
+                self.main_page()
+                self.driver.quit()
+
+    def main_page(self):
+        try:
+            self.city_element()
+        except Exception, e:
+            traceback.print_exc()
+        try:
+            self.checkin_element()
+        except Exception, e:
+            traceback.print_exc()
+        try:
+            self.checkout_element()
+        except Exception, e:
+            traceback.print_exc()
+        try:
+            self.occupancy_element()
+        except Exception, e:
+            traceback.print_exc()
+        try:
+            self.submit_element()
+        except Exception, e:
+            traceback.print_exc()
+        try:
+            self.scrape_pages()
+        except Exception, e:
+            traceback.print_exc()
+
+    def error_func(self):
+        pass
+
     def firefox(self):
         driver = webdriver.Firefox()
         driver.maximize_window()
@@ -127,34 +176,6 @@ class BaseScraper(object):
         for x in range(_range):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
-
-    def main_function(self):
-        for date in self.dates:
-            self.date = date
-            self.checkin, self.checkin2 = self.get_checkin()
-            self.checkout, self.checkout2 = self.get_checkout()
-
-            for city in self.cities:
-                self.city, self.city2 = self.get_city(city)
-                self.count = 0
-
-                if self.spider_name == 'chrome':
-                    self.driver = self.chrome()
-                if self.spider_name == 'firefox':
-                    self.driver = self.firefox()
-                if self.spider_name == 'chrome_long_window':
-                    self.driver = self.chrome_long_window()
-
-                self.main_page()
-                self.driver.quit()
-
-    def main_page(self):
-        self.city_element()
-        self.checkin_element()
-        self.checkout_element()
-        self.occupancy_element()
-        self.submit_element()
-        self.scrape_pages()
 
     def scrape_hotels(self, elements):
         self.presence(self.driver, elements, 10)
