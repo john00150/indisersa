@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name, scraper_name):
+        self.connect_sql()
         self.spider_name = spider_name
         self.scraper_name = scraper_name
         self.connect_sql()
@@ -219,7 +220,7 @@ class BaseScraper(object):
 #            traceback.print_exc()           
 #           pass
 
-    def sql_close(self):
+    def close_sql(self):
         self.conn.close()
 
     def full_report(self):
@@ -239,4 +240,3 @@ class BaseScraper(object):
             self.checkout2, 
             self.date
         )
-
