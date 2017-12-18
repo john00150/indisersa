@@ -13,15 +13,16 @@ class MarriottScraper(BaseScraper):
         BaseScraper.__init__(self, url, spider)
         self.cities = [self.cities[0]]
 
-    def main_page(self):
-        self.review = self.scrape_review()
-        self.rating = self.scrape_rating()
-        self.checkin_element()
-        self.checkout_element()
-        self.submit_element()
+#    def main_page(self):
+#        self.review = self.scrape_review()
+#        self.rating = self.scrape_rating()
+#        self.checkin_element()
+#        self.checkout_element()
+#        self.submit_element()
 
     def city_element(self):
-        pass
+        self.review = self.scrape_review()
+        self.rating = self.scrape_rating()
 
     def checkin_element(self):
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'

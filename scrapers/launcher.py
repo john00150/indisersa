@@ -39,7 +39,7 @@ if __name__ == "__main__":
     subprocess.call('taskkill /f /im chromedriver.exe')
 
     for scraper in scrapers:
-        subprocess.call(['python', scraper['path']], stdout=fh)
+        subprocess.call(['python', scraper['path']], stderr=fh)
             #s.communicate()
 
 #        try:
