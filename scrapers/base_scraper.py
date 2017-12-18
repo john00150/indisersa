@@ -171,45 +171,55 @@ class BaseScraper(object):
 
         for element in elements:
             self.count += 1
-            self.name = self.scrape_name(element)
-            self.rating = self.scrape_rating(element)
-            self.review = self.scrape_review(element) 
-            self.address = self.scrape_address(element)
-            self.new_price = self.scrape_new_price(element)
-            self.old_price = self.scrape_old_price(element)
-            self.write_sql()
+            t = (
+            self.scrape_name(element),
+            self.scrape_rating(element),
+            self.scrape_review(element), 
+            self.scrape_address(element),
+            self.scrape_new_price(element),
+            self.scrape_old_price(element),
+            self.checkin2, 
+            self.checkout2, 
+            self.city2, 
+            self.currency, 
+            self.source, 
+            datetime.now().strftime('%m/%d/%Y'), 
+            self.count, 
+            self.date
+            )
+            self.write_sql(t)
 
     def connect_sql(self):
         self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-#        self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
         self.cur = self.conn.cursor()
 
-    def write_sql(self):
-        sql = """insert into hotel_info(hotel_name,hotel_rating,hotel_review,hotel_address,new_price,old_price,checkin,checkout,city,currency,source,date_scraped,hotel_position,date_range) values("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
+    def write_sql(self, t):
+        sql = """INSERT INTO hotel_info (
+            hotel_name,
+            hotel_rating, 
+            hotel_review,
+            hotel_address,
+            new_price, 
+            old_price, 
+            checkin,
+            checkout,
+            city,
+            currency,
+            source,
+            date_scraped,
+            hotel_position,
+            date_range) VALUES ("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
 
-        try:
-            self.cur.execute(sql % (
-                self.name,
-                self.rating,
-                self.review,
-                self.address,
-                self.new_price,
-                self.old_price,
-                self.checkin2,
-                self.checkout2,
-                self.city2,
-                self.currency,
-                self.source,
-                datetime.now().strftime('%m/%d/%Y'),
-                self.count,
-                self.date
-            ))
-            self.conn.commit()
-        except Exception, e:
-            traceback.print_exc()           
-#            pass
+        print sql % t
+#        try:
+#            self.cur.execute(sql % t)
+#            self.conn.commit()
+#        except Exception, e:
+#            traceback.print_exc()           
+#           pass
 
-    def close_sql(self):
+    def sql_close(self):
         self.conn.close()
 
     def full_report(self):
