@@ -1,11 +1,11 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
-import time, re
+import time, re, sys
 
 
 class HotelsScraper(BaseScraper):
-    def __init__(self, url, spider):
+    def __init__(self, url, spider, scraper_name):
         self.banners = [
             './/button[@class="cta widget-overlay-close"]',
             './/button[contains(@class, "cta widget-overlay-close")]',
@@ -18,7 +18,7 @@ class HotelsScraper(BaseScraper):
         ]
         self.currency = 'USD'
         self.source = 'hotels.com'
-        BaseScraper.__init__(self, url, spider)
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
     def scrape_pages(self):
         element_to = './/li[contains(text(), "Travelers also looked at these properties nearby")]'
@@ -112,8 +112,7 @@ class HotelsScraper(BaseScraper):
 
 
 if __name__ == '__main__':
-    spider = 'chrome'
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
-    HotelsScraper(url, spider)
+    HotelsScraper(url, 'chrome', sys.argv[1])
 
 

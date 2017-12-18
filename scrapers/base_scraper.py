@@ -17,8 +17,7 @@ class BaseScraper(object):
         self.dates = dates
         self.cities = cities
         self.main_function()
-        self._sql()
-#        self.full_report()
+#        self._sql()
 
     def main_function(self):
         for date in self.dates:
@@ -191,7 +190,8 @@ class BaseScraper(object):
             ))
 
     def _sql(self):
-        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
         cur = conn.cursor()
 
         sql = """insert into hotel_info (
@@ -215,6 +215,7 @@ class BaseScraper(object):
         for t in self.data:            
             try:
                 cur.execute(sql, t)
+                print t
             except Exception, e:
                 traceback.print_exc()           
 #                pass

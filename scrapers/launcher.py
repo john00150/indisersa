@@ -17,18 +17,6 @@ def send_email(line):
     s.sendmail(sender, recipients, msg.as_string())
     s.quit()
 
-def run_scraper(scraper_path, l, fh):
-    name = ''
-    message_line = "{} error".format(name)
-
-    try:
-        execfile(scraper_path)
-    except Exception, e:
-        print traceback.print_exc()
-        traceback.print_exc(file=fh)
-        fh.write('\n\n')
-        l.append(message_line)
-
 
 if __name__ == "__main__":    
     subprocess.call('taskkill /f /im chromedriver.exe')
@@ -38,3 +26,5 @@ if __name__ == "__main__":
     for scraper in scrapers:
         subprocess.call(['python', scraper['path'], scraper['name']], stdout=fh)
     
+    fh.close()
+
