@@ -1,16 +1,16 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
-import time, re
+import time, re, sys
 
 
 class MarriottScraper(BaseScraper):
-    def __init__(self, url, spider):
+    def __init__(self, url, spider, scraper_name):
         self.address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
         self.source = 'marriott.com'
         self.currency = 'USD'
         self.name = 'Courtyard Guatemala City'
-        BaseScraper.__init__(self, url, spider)
+        BaseScraper.__init__(self, url, spider, scraper_name)
         self.cities = [self.cities[0]]
 
 #    def main_page(self):
@@ -112,9 +112,10 @@ class MarriottScraper(BaseScraper):
             return re.findall(r'([0-9]+)', _element)[0]
     
     def scrape_review(self):
-        element = './/span[contains(text(), "Reviews")]'
-        element = self.visibility(self.driver, element, 5).text
-        return re.findall(r'([0-9]+)', element)[0]
+#        element = './/span[contains(text(), "Reviews")]'
+#        element = self.visibility(self.driver, element, 10).text
+#        return re.findall(r'([0-9]+)', element)[0]
+        return 0
 
     def scrape_rating(self):
         return 4.5
@@ -123,6 +124,5 @@ class MarriottScraper(BaseScraper):
 if __name__ == '__main__':
 #    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
-    spider = 'chrome'
-    MarriottScraper(url, spider)
+    MarriottScraper(url, 'chrome', sys.argv[1])
 

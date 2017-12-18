@@ -9,15 +9,16 @@ from settings import dates, cities
 from datetime import datetime, timedelta
 
 class BaseScraper(object):
-    def __init__(self, url, spider_name):
+    def __init__(self, url, spider_name, scraper_name):
         self.data = []
         self.spider_name = spider_name
+        self.scraper_name = scraper_name
         self.url = url
         self.dates = dates
         self.cities = cities
         self.main_function()
         self._sql()
-        self.full_report()
+#        self.full_report()
 
     def main_function(self):
         for date in self.dates:
@@ -40,33 +41,22 @@ class BaseScraper(object):
                 self.driver.quit()
 
     def main_page(self):
-        try:
-            self.city_element()
-        except Exception, e:
-            traceback.print_exc()
-        try:
-            self.checkin_element()
-        except Exception, e:
-            traceback.print_exc()
-        try:
-            self.checkout_element()
-        except Exception, e:
-            traceback.print_exc()
-        try:
-            self.occupancy_element()
-        except Exception, e:
-            traceback.print_exc()
-        try:
-            self.submit_element()
-        except Exception, e:
-            traceback.print_exc()
-        try:
-            self.scrape_pages()
-        except Exception, e:
-            traceback.print_exc()
+        self.error_func(self.city_element, 'city_element')
+        self.error_func(self.checkin_element, 'checkin_element')
+        self.error_func(self.checkout_element, 'checkout_element')
+        self.error_func(self.occupancy_element, 'occupancy_element')
+        self.error_func(self.submit_element, 'submit_element')
+        self.error_func(self.scrape_pages, 'scrape_pages')
 
-    def error_func(self):
-        pass
+    def error_func(self, function, func_name):
+        try:
+            function()
+        except Exception, e:
+            print '########## {} ##########'.format(self.scraper_name)
+            print '###        {}        ###'.format(func_name)
+            traceback.print_exc()
+            print '#########################################'
+            raise
 
     def firefox(self):
         driver = webdriver.Firefox()

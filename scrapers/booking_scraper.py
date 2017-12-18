@@ -1,17 +1,17 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
-import time, os, traceback, re
+import time, os, traceback, re, sys
 
 
 class BookingScraper(BaseScraper):
-    def __init__(self, url, spider):
+    def __init__(self, url, spider, scraper_name):
         self.currency = 'GTQ'
         self.source = 'booking.com'
         self.banners = [
             './/div[contains(@class, "close")]',
         ]
-        BaseScraper.__init__(self, url, spider)
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
     def scrape_pages(self):
         next = './/a[contains(@class, "paging-next")]'
@@ -167,7 +167,7 @@ class BookingScraper(BaseScraper):
 if __name__ == '__main__':
     spider = 'chrome'
     url = 'https://www.booking.com/'
-    BookingScraper(url, spider)
+    BookingScraper(url, spider, sys.argv[1])
 
 
 
