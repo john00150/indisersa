@@ -173,10 +173,10 @@ class BaseScraper(object):
         for element in elements:
             self.count += 1
             t = (
-            self.scrape_name(element),
+            self.scrape_name(element).replace("'", "''"),
             self.scrape_rating(element),
             self.scrape_review(element), 
-            self.scrape_address(element),
+            self.scrape_address(element).replace("'", "''"),
             self.scrape_new_price(element),
             self.scrape_old_price(element),
             self.checkin2, 
@@ -192,33 +192,20 @@ class BaseScraper(object):
 
     def connect_sql(self):
         self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
         self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = """INSERT INTO hotel_info (
-            hotel_name,
-            hotel_rating, 
-            hotel_review,
-            hotel_address,
-            new_price, 
-            old_price, 
-            checkin,
-            checkout,
-            city,
-            currency,
-            source,
-            date_scraped,
-            hotel_position,
-            date_range) VALUES ("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
+        sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
+            new_price, old_price, checkin, checkout, city, currency, source, date_scraped,\
+            hotel_position, date_range) VALUES\
+            ('%s', %s, %s, '%s', %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s)"
 
-        print sql % t
-#        try:
-#            self.cur.execute(sql % t)
-#            self.conn.commit()
-#        except Exception, e:
+        try:
+            self.cur.execute(sql % t)
+            self.conn.commit()
+        except Exception, e:
 #            traceback.print_exc()           
-#           pass
+           pass
 
     def close_sql(self):
         self.conn.close()
