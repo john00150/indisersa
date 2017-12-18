@@ -22,7 +22,7 @@ scrapers = [
 #    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py', 'name': 'expedian_scraper'},
 #    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py', 'name': 'book_hotel_beds_scraper'},
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py', 'name': 'hotels_scraper'},
-    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py', 'name': 'booking_scraper'},
+#    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py', 'name': 'booking_scraper'},
 ]
 
 log_path = 'C:\users\indisersa\Desktop\hotels\logs\launcher.log'

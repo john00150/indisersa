@@ -26,7 +26,6 @@ class HotelsScraper(BaseScraper):
 
         element = './/ol[contains(@class, "listings")]/li[contains(@class, "hotel")][not(contains(@class, "expanded-area"))]'
         x = self.scrape_hotels(element)
-
         self.report()
 
     def city_element(self):

@@ -10,14 +10,14 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name, scraper_name):
-        self.data = []
         self.spider_name = spider_name
         self.scraper_name = scraper_name
+        self.connect_sql()
         self.url = url
         self.dates = dates
         self.cities = cities
         self.main_function()
-#        self._sql()
+        self.close_sql()
 
     def main_function(self):
         for date in self.dates:
@@ -52,10 +52,9 @@ class BaseScraper(object):
             function()
         except Exception, e:
             print '########## {} ##########'.format(self.scraper_name)
-            print '###        {}        ###'.format(func_name)
+            print '##########  {}'.format(func_name)
             traceback.print_exc()
-            print '#########################################'
-            raise
+            sys.exit(1)
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -172,56 +171,46 @@ class BaseScraper(object):
 
         for element in elements:
             self.count += 1
-            self.data.append((
-            self.scrape_name(element),
-            self.scrape_rating(element),
-            self.scrape_review(element), 
-            self.scrape_address(element),
-            self.scrape_new_price(element),
-            self.scrape_old_price(element),
-            self.checkin2, 
-            self.checkout2, 
-            self.city2, 
-            self.currency, 
-            self.source, 
-            datetime.now().strftime('%m/%d/%Y'), 
-            self.count, 
-            self.date
+            self.name = self.scrape_name(element)
+            self.rating = self.scrape_rating(element)
+            self.review = self.scrape_review(element) 
+            self.address = self.scrape_address(element)
+            self.new_price = self.scrape_new_price(element)
+            self.old_price = self.scrape_old_price(element)
+            self.write_sql()
+
+    def connect_sql(self):
+        self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+#        self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
+        self.cur = self.conn.cursor()
+
+    def write_sql(self):
+        sql = """insert into hotel_info(hotel_name,hotel_rating,hotel_review,hotel_address,new_price,old_price,checkin,checkout,city,currency,source,date_scraped,hotel_position,date_range) values("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
+
+        try:
+            self.cur.execute(sql % (
+                self.name,
+                self.rating,
+                self.review,
+                self.address,
+                self.new_price,
+                self.old_price,
+                self.checkin2,
+                self.checkout2,
+                self.city2,
+                self.currency,
+                self.source,
+                datetime.now().strftime('%m/%d/%Y'),
+                self.count,
+                self.date
             ))
+            self.conn.commit()
+        except Exception, e:
+            traceback.print_exc()           
+#            pass
 
-    def _sql(self):
-#        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-        conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-        cur = conn.cursor()
-
-        sql = """insert into hotel_info (
-            hotel_name, 
-            hotel_rating, 
-            hotel_review, 
-            hotel_address,
-            new_price, 
-            old_price, 
-            checkin, 
-            checkout, 
-            city, 
-            currency, 
-            source, 
-            date_scraped,
-            hotel_position, 
-            date_range) values(
-                "%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s
-            )"""
-
-        for t in self.data:            
-            try:
-                cur.execute(sql, t)
-                print t
-            except Exception, e:
-                traceback.print_exc()           
-#                pass
-
-        conn.commit()
-        conn.close()
+    def close_sql(self):
+        self.conn.close()
 
     def full_report(self):
         fh = open('report.csv', 'w')
@@ -232,7 +221,7 @@ class BaseScraper(object):
         fh.close()
 
     def report(self):
-        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
+        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
             self.source, 
             self.city2, 
             self.count, 

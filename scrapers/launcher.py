@@ -24,7 +24,11 @@ if __name__ == "__main__":
     fh = open(log_path, 'w')
 
     for scraper in scrapers:
-        subprocess.call(['python', scraper['path'], scraper['name']], stdout=fh)
-    
+        print subprocess.call(
+            ['python', scraper['path'], scraper['name']],
+            stdout=fh,
+            stderr=fh
+        )
+        
     fh.close()
 
