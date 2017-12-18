@@ -7,15 +7,13 @@ import time, re
 class MarriottScraper(BaseScraper):
     def __init__(self, url, spider):
         self.address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
-        self.cities = [self.cities[0]]
         self.source = 'marriott.com'
         self.currency = 'USD'
         self.name = 'Courtyard Guatemala City'
         BaseScraper.__init__(self, url, spider)
+        self.cities = [self.cities[0]]
 
     def main_page(self):
-        self.checkin_checkout_element ='.//div[@aria-label="{}"]'
-        self.further_element = './/div[@title="Next month"]'
         self.review = self.scrape_review()
         self.rating = self.scrape_rating()
         self.checkin_element()
@@ -32,6 +30,8 @@ class MarriottScraper(BaseScraper):
         self.full_report()
 
     def checkin_element(self):
+        self.checkin_checkout_element ='.//div[@aria-label="{}"]'
+        self.further_element = './/div[@title="Next month"]'
         elements = './/span[contains(@class, "l-icon-calendar")]'
         elements = self.elements(self.driver, elements)
         for element in elements:

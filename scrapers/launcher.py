@@ -30,18 +30,17 @@ def run_scraper(scraper_path, l, fh):
         l.append(message_line)
 
 
-if __name__ == "__main__":
-    subprocess.call(['taskkill /f /im chromedriver.exe'])
-    
+if __name__ == "__main__":    
     l = list()
 
 #    fh_report = open(report_path, 'w')
-    with open(log_path, 'w') as fh:
-        fh_log.write('start: %s\n\n' % datetime.now())
+    fh = open(log_path, 'w')
+#    fh.write('start: {}\n\n'.format(datetime.now().strftime('%Y-%m-%d')))
+    subprocess.call('taskkill /f /im chromedriver.exe')
 
-        for scraper in scrapers:
-            s = subprocess.Popen(scraper['path'], stdout=fh_log)
-            stdout, stderr = s.communicate()
+    for scraper in scrapers:
+        subprocess.call(['python', scraper['path']], stdout=fh)
+            #s.communicate()
 
 #        try:
 #            execfile(scraper['path'])
@@ -55,9 +54,8 @@ if __name__ == "__main__":
 #            fh_log.write('########## {} ##########\n'.format(name))
 #            traceback.print_exc(file=fh_log)
 
-        fh_log.write('finish: %s' % datetime.now())
-
-#    fh_report.close()
+#    fh.write('finish: {}'.format(datetime.now().strftime('%Y-%m-%d')))
+    fh.close()
 
 #    if len(l) > 0:
 #        send_email(l)
