@@ -21,7 +21,7 @@ def send_email(line):
 if __name__ == "__main__":    
     subprocess.call('taskkill /f /im chromedriver.exe')
 
-    fh = open(log_path, 'w')
+    fh = open(log_path, 'w+')
 
     for scraper in scrapers:
         subprocess.call(
