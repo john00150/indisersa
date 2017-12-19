@@ -5,22 +5,13 @@ import time, os, re
 
 
 class BookHotelBedsScraper(BaseScraper):
-    def __init__(self, url, spider):
+    def __init__(self, url, spider, scraper_name):
         self.currency = 'GTQ'
         self.source = 'book-hotel-beds.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider)
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
-    def main_page(self):
-        self.city_element()
-        self.checkin_element()
-        self.checkout_element()
-        self.occupancy_element()
-        self.submit_element()
-        self.switch_windows(10, 0)
-        self.scrape_rooms()
-
-    def scrape_rooms(self):
+    def scrape_pages(self):
         next_element = './/a[contains(text(), "Next")]'
         element = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
 
@@ -36,20 +27,6 @@ class BookHotelBedsScraper(BaseScraper):
             except Exception, e:
                 self.report()
                 break
-
-    def scrape_hotels(self, element):
-        elements = self.elements(self.driver, element)
-
-        for element in elements:
-            self.name = self.scrape_name(element)
-            self.new_price = self.scrape_new_price(element)
-            self.old_price = self.scrape_old_price(element)
-            self.review = self.scrape_review(element)
-            self.rating = self.scrape_rating(element)
-            self.address = self.scrape_address(element)
-            self.count += 1
-            self.sql_write()
-#            self.full_report()
 
     def city_element(self):
         element = './/div[@class="hcsb_citySearchWrapper"]/input'
@@ -95,6 +72,7 @@ class BookHotelBedsScraper(BaseScraper):
         element = '//a[@class="hcsb_searchButton"]'
         element = self.visibility(self.driver, element, 10)
         element.click()
+        self.switch_windows(10, 0)
 
     def scrape_address(self, element):
         try:
@@ -149,6 +127,6 @@ class BookHotelBedsScraper(BaseScraper):
 if __name__ == '__main__':
     spider = 'chrome'
     url = 'http://www.book-hotel-beds.com/'
-    BookHotelBedsScraper(url, spider)
+    BookHotelBedsScraper(url, 'chrome', sys.argv[1])
 
 
