@@ -13,7 +13,8 @@ class BookHotelBedsScraper(BaseScraper):
 
     def scrape_pages(self):
         next_element = './/a[contains(text(), "Next")]'
-        element = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
+        element = './/div[@class="hc_sri hc_m_v4"]'
+#        element = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
 
         while True:
             time.sleep(20)

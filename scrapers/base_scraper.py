@@ -45,7 +45,7 @@ class BaseScraper(object):
         self.error_func(self.checkout_element, 'checkout_element')
         self.error_func(self.occupancy_element, 'occupancy_element')
         self.error_func(self.submit_element, 'submit_element')
-        self.error_func(self.scrape_pages, 'scrape_pages')
+        self.scrape_pages()
 
     def error_func(self, function, func_name):
         try:
