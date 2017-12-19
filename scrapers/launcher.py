@@ -24,11 +24,12 @@ if __name__ == "__main__":
     fh = open(log_path, 'w')
 
     for scraper in scrapers:
-        print subprocess.call(
+        subprocess.call(
             ['python', scraper['path'], scraper['name']],
             stdout=fh,
             stderr=fh
         )
         
+    send_email(fh.read())
     fh.close()
 
