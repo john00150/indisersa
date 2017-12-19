@@ -20,13 +20,8 @@ scrapers = [
 #    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py', 'name': 'despegar_scraper'},
 #    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py', 'name': 'elconventoantigua_scraper'},
 #    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py', 'name': 'expedian_scraper'},
-<<<<<<< HEAD
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py', 'name': 'book_hotel_beds_scraper'},
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py', 'name': 'hotels_scraper'},
-=======
-#    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py', 'name': 'book_hotel_beds_scraper'},
-#    {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py', 'name': 'hotels_scraper'},
->>>>>>> origin/master
     {'path': 'C:\users\indisersa\Desktop\hotels\scrapers\\booking_scraper.py', 'name': 'booking_scraper'},
 ]
 

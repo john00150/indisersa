@@ -10,15 +10,14 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self, url, spider_name, scraper_name):
-#        self.connect_sql()
+        self.connect_sql()
         self.spider_name = spider_name
         self.scraper_name = scraper_name
-        self.connect_sql()
         self.url = url
         self.dates = dates
         self.cities = cities
         self.main_function()
-#        self.close_sql()
+        self.close_sql()
 
     def main_function(self):
         for date in self.dates:
@@ -188,7 +187,7 @@ class BaseScraper(object):
             self.count, 
             self.date
             )
-#            self.write_sql(t)
+            self.write_sql(t)
 
     def connect_sql(self):
         self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')

@@ -1,7 +1,7 @@
 #encoding: utf8
 from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
-import time, os, re
+import time, os, re, sys
 
 
 class BookHotelBedsScraper(BaseScraper):
