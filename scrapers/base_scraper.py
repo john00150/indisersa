@@ -13,6 +13,7 @@ class BaseScraper(object):
 #        self.connect_sql()
         self.spider_name = spider_name
         self.scraper_name = scraper_name
+        self.connect_sql()
         self.url = url
         self.dates = dates
         self.cities = cities
@@ -52,10 +53,9 @@ class BaseScraper(object):
             function()
         except Exception, e:
             print '########## {} ##########'.format(self.scraper_name)
-            print '###        {}        ###'.format(func_name)
+            print '##########  {}'.format(func_name)
             traceback.print_exc()
-            print '#########################################'
-            raise
+            sys.exit(1)
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -173,10 +173,10 @@ class BaseScraper(object):
         for element in elements:
             self.count += 1
             t = (
-            self.scrape_name(element),
+            self.scrape_name(element).replace("'", "''"),
             self.scrape_rating(element),
             self.scrape_review(element), 
-            self.scrape_address(element),
+            self.scrape_address(element).replace("'", "''"),
             self.scrape_new_price(element),
             self.scrape_old_price(element),
             self.checkin2, 
@@ -195,29 +195,17 @@ class BaseScraper(object):
         self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = """INSERT INTO hotel_info (
-            hotel_name,
-            hotel_rating, 
-            hotel_review,
-            hotel_address,
-            new_price, 
-            old_price, 
-            checkin,
-            checkout,
-            city,
-            currency,
-            source,
-            date_scraped,
-            hotel_position,
-            date_range) VALUES ("%s", %s, %s, "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s)"""
+        sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
+            new_price, old_price, checkin, checkout, city, currency, source, date_scraped,\
+            hotel_position, date_range) VALUES\
+            ('%s', %s, %s, '%s', %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s)"
 
-        print sql % t
-#        try:
-#            self.cur.execute(sql % t)
-#            self.conn.commit()
-#        except Exception, e:
+        try:
+            self.cur.execute(sql % t)
+            self.conn.commit()
+        except Exception, e:
 #            traceback.print_exc()           
-#           pass
+           pass
 
     def close_sql(self):
         self.conn.close()
@@ -231,7 +219,7 @@ class BaseScraper(object):
         fh.close()
 
     def report(self):
-        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}".format(
+        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
             self.source, 
             self.city2, 
             self.count, 
@@ -239,4 +227,3 @@ class BaseScraper(object):
             self.checkout2, 
             self.date
         )
-
