@@ -7,8 +7,9 @@ import time, re, sys
 class HotelsScraper(BaseScraper):
     def __init__(self, url, spider, scraper_name):
         self.banners = [
+            './/button[contains(@class)]',
             './/button[@class="cta widget-overlay-close"]',
-            './/button[contains(@class, "cta widget-overlay-close")]',
+            './/button[contains(@class, "overlay-close")]',
             './/button[contains(@class, "close")]',
             './/div[@class="widget-query-group widget-query-occupancy"]',
             './/div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]',
@@ -29,6 +30,7 @@ class HotelsScraper(BaseScraper):
         self.report()
 
     def city_element(self):
+        self.close_banner()
         element = './/input[@name="q-destination"]'
         element = self.visibility(self.driver, element, 10)
         element.send_keys(self.city)
