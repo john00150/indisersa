@@ -7,7 +7,7 @@ from settings import log_path, scrapers, report_path
 def send_email(line):
     sender = 'indisersa@radissonguat'
     recipients = [
-        'yury0051@gmail.com'] , 
+        'yury0051@gmail.com', 
 #        'oknoke@indisersa.com', 
 #        'dpaz@grupoazur.com', 
 #        'egonzalez@grupoazur.com'
