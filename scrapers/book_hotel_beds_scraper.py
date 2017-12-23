@@ -22,8 +22,7 @@ class BookHotelBedsScraper(BaseScraper):
             x = self.scrape_hotels(element)
 
             try:
-                _next = self.visibility(self.driver, next_element, 5)
-                _next.click()
+                self.visibility(self.driver, next_element, 5).click()
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
                 self.report()
@@ -84,50 +83,44 @@ class BookHotelBedsScraper(BaseScraper):
 
     def scrape_name(self, element):
         _element = './/a[contains(@data-ceid, "searchresult_hotelname")]'
-        _element = self.presence(element, _element, 5)
-        return _element.get_attribute('title')
+        return self.element(element, _element).get_attribute('title')
 
     def scrape_new_price(self, element):
         _element = './/p[contains(@class, "hc_hotel_price")]'
-        _element = self.presence(element, _element, 2).text
-        _element = re.findall(r'([0-9,]+)', _element)[0]
-        _element = re.sub(r',', '', _element)
-        _element = int(_element) / 3
-        return _element
+        element = self.element(element, _element).text
+        element = re.findall(r'([0-9,]+)', element)[0]
+        element = re.sub(r',', '', element)
+        return int(element) / 3
     
     def scrape_old_price(self, element):  
         try:  
             _element = './/p[contains(@class, "hc_hotel_wasPrice")]'
-            _element = self.visibility(element, _element, 2).text
-            _element = re.findall(r'([0-9,]+)', _element)[0]
-            _element = re.sub(r',', '', _element)
-            _element = int(_element) / 3
-            return _element
+            element = self.element(element, _element).text
+            element = re.findall(r'([0-9,]+)', element)[0]
+            element = re.sub(r',', '', element)
+            return int(element) / 3
         except:
             return 0
 
     def scrape_rating(self, element):
         try:
             _element = './/p[@class="hc_hotel_userRating"]/a'
-            _element = self.visibility(element, _element, 2).text
-            _element = re.findall(r'([0-9.]+)', _element)[0]
-            return _element
+            element = self.element(element, _element).text
+            return re.findall(r'([0-9.]+)', element)[0]
         except:
             return 0
 
     def scrape_review(self, element):
         try:
             _element = './/p[contains(@class, "hc_hotel_numberOfReviews")]/span'
-            _element = self.visibility(element, _element, 2).text.strip()
-            _element = re.sub(r',', '', _element)
-            return _element
+            element = self.element(element, _element).text.strip()
+            return re.sub(r',', '', element)
         except:
             return 0
 
 
 if __name__ == '__main__':
-    spider = 'chrome'
     url = 'http://www.book-hotel-beds.com/'
-    BookHotelBedsScraper(url, 'chrome', sys.argv[1])
+    BookHotelBedsScraper(url, 'chrome', 'book_hotel_beds_scraper')
 
 

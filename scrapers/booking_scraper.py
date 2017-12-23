@@ -23,8 +23,7 @@ class BookingScraper(BaseScraper):
             x = self.scrape_hotels(hotels)
 
             try:
-                _next = self.visibility(self.driver, next, 5)
-                _next.click()
+                self.visibility(self.driver, next, 2).click()
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
 #                traceback.print_exc()
@@ -116,7 +115,7 @@ class BookingScraper(BaseScraper):
 
     def scrape_name(self, element): 
         _element = './/span[contains(@class, "sr-hotel__name")]'
-        return self.presence(element, _element, 5).text
+        return self.element(element, _element).text
 
     def scrape_address(self, element):
         return ''
@@ -124,50 +123,43 @@ class BookingScraper(BaseScraper):
     def scrape_new_price(self, element):
         try:
             _element = './/td[contains(@class, "roomPrice sr_discount")]/div/strong/b'
-            _element = self.visibility(element, _element, 2)
-            _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
-            _element = _element.strip()
-            _element = re.findall(r'([0-9,]+)', _element)[0]
-            _element = re.sub(r',', '', _element)
-            return int(_element)/3
+            element = self.element(element, _element)
+            element = self.driver.execute_script('return arguments[0].innerHTML', element).strip()
+            element = re.findall(r'([0-9,]+)', element)[0]
+            element = re.sub(r',', '', element)
+            return int(element)/3
         except:
             return 0
 
     def scrape_old_price(self, element):
         try:
             _element = './/span[contains(@data-deal-rack, "rackrate")]'
-            _element = self.visibility(element, _element, 2)
-            _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
-            _element = _element.strip()
-            _element = re.findall(r'([0-9,]+)', _element)[0]
-            _element = re.sub(r',', '', _element)
-            return int(_element)/3
+            element = self.element(element, _element)
+            element = self.driver.execute_script('return arguments[0].innerHTML', element).strip()
+            element = re.findall(r'([0-9,]+)', element)[0]
+            element = re.sub(r',', '', element)
+            return int(element)/3
         except:
             return 0
 
     def scrape_rating(self, element):
         try:
             _element = './/span[contains(@class, "review-score-badge")]'
-            _element = self.presence(element, _element, 2).text.strip()
-            return _element
+            return self.element(element, _element).text.strip()
         except:
             return 0
 
     def scrape_review(self, element):
         try: 
             _element = './/span[contains(@class, "review-score-widget__subtext")]'
-            _element = self.presence(element, _element, 2).text.strip()
-            _element = re.findall(r'([0-9,]+)', _element)[0]
-            _element = re.sub(r',', '', _element)
-            return _element
+            element = self.element(element, _element).text.strip()
+            element = re.findall(r'([0-9,]+)', element)[0]
+            return re.sub(r',', '', element)
         except:
             return 0
 
 
 if __name__ == '__main__':
-    spider = 'chrome'
     url = 'https://www.booking.com/'
-    BookingScraper(url, spider, sys.argv[1])
-
-
+    BookingScraper(url, 'chrome', 'booking_scraper')
 

@@ -124,5 +124,5 @@ class MarriottScraper(BaseScraper):
 if __name__ == '__main__':
 #    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
-    MarriottScraper(url, 'chrome', sys.argv[1])
+    MarriottScraper(url, 'chrome', 'marriott_scraper')
 

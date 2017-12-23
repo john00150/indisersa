@@ -5,12 +5,12 @@ import time, re
 
 
 class LodebernalScraper(BaseScraper):
-    def __init__(self, url, spider):
+    def __init__(self, url, spider, scraper_name):
         self.banners = []
         self.source = 'lodebernal.com'
         self.cities = [self.cities[1]]
         self.currency = 'GTQ'
-        BaseScraper.__init__(self, url, spider)
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
     def main_page(self):
         self.checkin_element()
@@ -75,6 +75,5 @@ class LodebernalScraper(BaseScraper):
 
 if __name__ == "__main__":
     url = 'http://www.lodebernal.com/'
-    spider = 'chrome'
-    LodebernalScraper(url, spider)
+    LodebernalScraper(url, 'chrome', 'lodebernal_scraper')
 

@@ -1,154 +1,122 @@
 #encoding: utf8
+from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from processors import _db, spider, scroll_down, process_elements
-import time
-from datetime import datetime, timedelta
-from settings import cities, dates
+import time, sys
 
 
-url = 'https://www.bestday.com/Hotels/'
-currency = 'USD'
-source = 'bestday.com'
+class BestDayScraper(BaseScraper):
+    def __init__(self, url, spider, scraper_name):
+        self.currency = 'USD'
+        self.source = 'bestday.com'
+        self.banners = []
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
-def scrape_name(element):
-    return WebDriverWait(element, 5).until(lambda element: element.find_element_by_xpath('.//a[@class="hotel-name"]').text.strip())
+    def city_element(self):
+        element = './/input[@name="ajhoteles"]'
+        _element = self.presence(self.driver, element, 10)
+        _element.send_keys(self.city)
 
-def scrape_address(element):
-    address = './/div[@class="details"]/a/span'
-    address = element.find_element_by_xpath(address).text.strip()
-    return address
+        if self.city == 'Guatemala City, Guatemala':
+            element = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'
+            _element = self.visibility(self.driver, element, 10)
+            _element.click()
 
-def scrape_price(element):
-    new_price = './/span[@class="currency"]/span[@class="currency-price"]'
-    old_price = './/span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]'
-    try:
-        new_price = element.find_element_by_xpath(new_price).text.strip().strip('us$').strip()
-        try:
-            old_price = element.find_element_by_xpath(old_price).text.strip().strip('us$').strip()
-        except:
-            old_price = 0
-        return new_price, old_price
-    except:
-        return 0, 0
+        else:
+            element = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'
+            _element = self.visibility(self.driver, element, 10)
+            _element.click()
 
-def scrape_rating(element):
-    review = './/span[@class="reviews"]'
-    try:
-        return element.find_element_by_xpath(review).text.strip()
-    except:
-        return 0
+    def checkin_element(self):
+        element = '//input[@name="check-inH"]'
+        self._next = '//span[@id="nextCalendar"]'
+        self.checkin_checkout_element = './/div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(),\
+            "{}")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "{}")]'
 
-def scrape_review(element):
-    pass
+        _element = self.visibility(self.driver, element, 10)
+        _element.click()
 
-def scrape_dates():
-    for date in dates:
-        scrape_cities(url, date)
-
-def scrape_cities(url, date):
-    for city in cities:
-        scrape_city(url, city, date) 
-
-def scrape_city(url, city, date):
-    driver = spider.chrome(url)
+        while True:
+            try:
+                self.presence(
+                    self.driver, self.checkin_checkout_element.format(self.checkin.strftime('%B'), self.checkin.day), 2
+                ).click()
+                break
+            except Exception, e:
+                self.presence(self.driver, self._next, 2).click()
     
-    input_el = './/input[@name="ajhoteles"]'
-    input_element = process_elements.presence(driver, input_el, 10)
-    input_element.send_keys(city)
+    def checkout_element(self):
+        while True:
+            try:
+                self.presence(
+                    self.driver, self.checkin_checkout_element.format(self.checkout.strftime('%B'), self.checkout.day), 2
+                ).click()
+                break
+            except Exception, e:
+                self.presence(self.driver, self._next, 2).click()
 
-    if city == 'Guatemala City, Guatemala':
-        city_el = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'
-        city_element = process_elements.visibility(driver, city_el, 10)
-        city_element.click()
+    def occupancy_element(self):
+        element = './/select[@name="num_adultos"]/option[contains(@value, "1")]'
+        _element = self.visibility(self.driver, element, 10)
+        _element.click()
 
-    else:
-        city_el = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'
-        city_element = process_elements.visibility(driver, city_el, 10)
-        city_element.click()
+    def submit_element(self):
+        element = './/button[@id="btnSubmitHotels"]'
+        _element = self.visibility(self.driver, element, 10)
+        _element.click()
 
-    checkin = datetime.now() + timedelta(date)
-    checkout = datetime.now() + timedelta(date + 3)
-    element_3 = '//input[@name="check-inH"]'
-    element_3 = process_elements.visibility(driver, element_3, 10)
-    element_3.click()
+    def scrape_pages(self):
+        _element = './/span[contains(text(), "See more options")]'
 
-    checkin_el = './/div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "{}")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "{}")]'.format(checkin.strftime('%B'), checkin.day)
-    checkout_el = './/div[./div[contains(@class, "ui-datepicker-header")]/div/span[contains(text(), "{}")]]/table[@class="ui-datepicker-calendar"]/tbody/tr/td/a[contains(text(), "{}")]'.format(checkout.strftime('%B'), checkout.day)
-    next_el = '//span[@id="nextCalendar"]'
+        while True:
+            try:
+                self.presence(self.driver, _element, 20).click()
+            except:
+                break
 
-    while True:
+        element = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
+        x = self.scrape_hotels(element) 
+        self.report()
+
+#            if address not in city:
+#                continue
+
+    def scrape_name(self, element):
+        _element = './/a[@class="hotel-name"]'
+        return self.element(element, _element).text.strip()
+
+    def scrape_rating(self, element):
+        _element = './/span[@class="reviews"]'
+
         try:
-            checkin_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkin_el)))
-            checkin_element.click()
-            break
-        except Exception, e:
-            next_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, next_el)))
-            next_element.click()
-
-    time.sleep(5)            
-
-    while True:
-        try:
-            checkout_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, checkout_el)))
-            checkout_element.click()
-            break
+            return self.element(element, _element).text.strip()
         except:
-            next_element = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, next_el)))
-            next_element.click()
+            return 0
 
-    time.sleep(5)  
+    def scrape_address(self, element):
+        _element = './/div[@class="details"]/a/span'
+        return self.element(element, _element).text.strip()
 
-    occupancy_el = './/select[@name="num_adultos"]/option[contains(@value, "1")]'
-    occupancy_element = process_elements.visibility(driver, occupancy_el, 10)
-    occupancy_element.click()
+    def scrape_new_price(self, element):
+        _element = './/span[@class="currency"]/span[@class="currency-price"]'
 
-    button_el = './/button[@id="btnSubmitHotels"]'
-    button_element = process_elements.visibility(driver, button_el, 10)
-    button_element.click()
+        try:
+            return self.element(element, _element).text.strip()
+        except:
+            return 0
 
-    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
+    def scrape_old_price(self, element):
+        _element = './/span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]'
 
-    driver.quit()
+        try:
+            return self.element(element, _element).text.strip()
+        except:
+            return 0
 
-def scrape_hotels(driver, city, checkin, checkout, date):
-    count = 0
-
-    scrolldown_el = './/span[contains(text(), "See more options")]'
-    try:
-        scroll_down.click_element(driver, 400, scrolldown_el, 0.5)
-    except:
-        pass
-
-    hotel_elms = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
-    hotel_elements = driver.find_elements_by_xpath(hotel_elms)
-    for hotel in hotel_elements:
-        new_price, old_price = scrape_price(hotel)
-        name = scrape_name(hotel)
-        review = 0
-        rating = scrape_rating(hotel)
-        address = scrape_address(hotel)
-        city = city.split(',')[0] 
-
-        if address not in city:
-            continue
-
-        count += 1
-        _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)
-
-    print '%s, %s, %s hotels, checkin %s, checkout %s, range %s' % (source, city, count, checkin, checkout, date)
+    def scrape_review(self, element):
+        return 0
 
 
 if __name__ == '__main__':
-    global conn
-    global cur
-    
-    conn, cur = _db.connect()
-
-    scrape_dates()
-
-    conn.close()
-
+    url = 'https://www.bestday.com/Hotels/'
+    BestDayScraper(url, 'chrome', 'bestday_scraper')
 

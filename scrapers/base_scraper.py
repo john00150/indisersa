@@ -45,7 +45,7 @@ class BaseScraper(object):
         self.error_func(self.checkout_element, 'checkout_element')
         self.error_func(self.occupancy_element, 'occupancy_element')
         self.error_func(self.submit_element, 'submit_element')
-        self.scrape_pages()
+        self.error_func(self.scrape_pages, 'scrape_pages')
 
     def error_func(self, function, func_name):
         try:
@@ -189,9 +189,17 @@ class BaseScraper(object):
             )
             self.write_sql(t)
 
+        try:
+            self.conn.commit()
+        except:
+            pass
+
     def connect_sql(self):
-        self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-        self.cur = self.conn.cursor()
+        try:
+            self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
+            self.cur = self.conn.cursor()
+        except:
+            pass
 
     def write_sql(self, t):
         sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
@@ -201,13 +209,15 @@ class BaseScraper(object):
 
         try:
             self.cur.execute(sql % t)
-            self.conn.commit()
         except Exception, e:
 #            traceback.print_exc()           
            pass
 
     def close_sql(self):
-        self.conn.close()
+        try:
+            self.conn.close()
+        except:
+            pass
 
     def full_report(self):
         fh = open('report.csv', 'w')
@@ -226,3 +236,4 @@ class BaseScraper(object):
             self.checkout2, 
             self.date
         )
+

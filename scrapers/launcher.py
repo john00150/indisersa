@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     for scraper in scrapers:
         subprocess.call(
-            ['python', scraper['path'], scraper['name']],
+            ['python', scraper['path']],
             stdout=fh,
             stderr=fh
         )

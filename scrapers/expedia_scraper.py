@@ -10,14 +10,29 @@ from datetime import datetime, timedelta
 from settings import dates, cities
 
 
-banners = [
-    './/span[contains(@class, "icon-close")]',
-    './/div[@class="hero-banner-box cf"]',
-]
+class ExpediaScraper(BaseScraper):
+    def __init__(self):
+        self.currency = 'USD'
+        self.source = 'expedia.com'
+        self.banners = [
+            './/span[contains(@class, "icon-close")]',
+            './/div[@class="hero-banner-box cf"]',
+        ]
 
-url = 'https://www.expedia.com/Hotels'
-currency = 'USD'
-source = 'expedia.com'
+    def city_element(self):
+        pass
+
+    def checkin_element(self):
+        pass
+
+    def checkout_element(self):
+        pass
+
+    def occupation_element(self):
+        pass
+
+    def submit_element(self):
+        pass
 
 
 def get_name(element):
@@ -151,13 +166,7 @@ def scrape_hotels(driver, city, checkin, checkout, date):
             break
 
 if __name__ == '__main__':
-    global conn
-    global cur
-
-    conn, cur = _db.connect()
-
-    scrape_dates()
-    
-    conn.close()
+    url = 'https://www.expedia.com/Hotels'
+    ExpediaScraper(url, 'chrome', 'expedia_scraper')
 
 

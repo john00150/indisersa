@@ -112,6 +112,6 @@ class HotelsScraper(BaseScraper):
 
 if __name__ == '__main__':
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
-    HotelsScraper(url, 'chrome', sys.argv[1])
+    HotelsScraper(url, 'chrome', 'hotels_scraper')
 
 
