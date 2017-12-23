@@ -2,168 +2,107 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from processors import _db, spider, close_banner, scroll_down, process_elements
+from base_scraper import BaseScraper
 import re, time
-from datetime import datetime, timedelta
-from settings import dates, cities
 
 
 class ExpediaScraper(BaseScraper):
-    def __init__(self):
+    def __init__(self, url, spider, scraper_name):
         self.currency = 'USD'
         self.source = 'expedia.com'
         self.banners = [
             './/span[contains(@class, "icon-close")]',
             './/div[@class="hero-banner-box cf"]',
         ]
+        BaseScraper.__init__(self, url, spider, scraper_name)
 
     def city_element(self):
-        pass
+        element = './/input[@id="hotel-destination-hlp"]'
+        element = self.presence(self.driver, element, 10)
+        element.send_keys(self.city)
+        self.close_banner()
 
     def checkin_element(self):
-        pass
+        element = './/input[@id="hotel-checkin-hlp"]' 
+        element = self.presence(self.driver, element, 10)
+        element.send_keys(self.checkin.strftime('%m/%d/%Y'))
 
     def checkout_element(self):
-        pass
+        element = './/input[@id="hotel-checkout-hlp"]'
+        element = self.presence(self.driver, element, 10)
+        element.clear()
+        element.send_keys(self.checkout.strftime('%m/%d/%Y'))
 
-    def occupation_element(self):
-        pass
+    def occupancy_element(self):
+        element = './/select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'
+        element = self.visibility(self.driver, element, 10)
+        element.click()
 
     def submit_element(self):
-        pass
+        element1 = './/section[@id="section-hotel-tab-hlp"]/form'
+        element2 = './/button[@type="submit"]'
+        element = self.visibility(self.driver, element1, 10)
+        element = self.visibility(element, element2, 10)
+        element.click()
 
+    def scrape_pages(self):
+        _next = './/button[@class="pagination-next"]/abbr'
+        element = './/div[@id="resultsContainer"]/section/article'
 
-def get_name(element):
-    return element.find_element_by_xpath('./h3').text.strip()
+        while True:
+            check_element = self.presence(self.driver, element, 10)
+            x = self.scrape_hotels(element)
 
-def get_review(element):
-    review = './/li[contains(@class, "reviewCount")]/span'
-    try:
-        review = element.find_elements_by_xpath(review)[1].text
-        review = review.strip().strip('(').strip(')')
-        return review
-    except:
-        return 0
+            try:
+                self.presence(self.driver, _next, 5).click()
+                self.wait_for_page_to_load(check_element)
+            except Exception, e:
+                self.driver.quit()
+                self.report()
+                break
 
-def get_rating(element):
-    rating = './/li[@class="reviewOverall"]/span'
-    try:
-        rating = element.find_elements_by_xpath(rating)[1].text.strip()
-        return rating
-    except:
-        return 0
+    def scrape_name(self, element):
+        _element = './h3'
+        return self.presence(element, _element, 2).text.strip()
 
-def get_actualprice(element):
-    try:
-        price = './/ul[@class="hotel-price"]/li[@data-automation="actual-price"]/a'
-        price = element.find_element_by_xpath(price).text.strip()
-        price = re.findall(r'([0-9$]+)', price)[0].strip('$')
-    except:
-        try:
-            price = './/ul[@class="hotel-price"]/li[@data-automation="actual-price"]'
-            price = element.find_element_by_xpath(price).text.strip()
-            price = re.findall(r'([0-9$]+)', price)[0].strip('$')
-        except:
-            price = 0
-    return price
-
-def get_strikeprice(element):
-    try:
-        price = './/ul[@class="hotel-price"]/li[@data-automation="strike-price"]/a'
-        price = element.find_element_by_xpath(price).text.strip()
-        price = re.findall(r'([0-9$]+)', price)[0].strip('$')
-    except:
-        price = 0
-    return price
-
-def get_address(element):
-    address = './/ul[@class="hotel-info"]/li[@class="neighborhood secondary"]'
-    address = element.find_element_by_xpath(address).text.strip()
-    try:
-        phone = './/ul[@class="hotel-info"]/li[@class="phone secondary gt-mobile"]/span'
-        phone = element.find_element_by_xpath(phone).text.strip()
-    except:
-        phone = ''
-    line = '%s, %s.' % (address, phone)
-    return line, address 
-
-def scrape_dates():
-    for date in dates:
-        scrape_cities(url, date)
-
-def scrape_cities(url, date):
-    for city in cities:
-        scrape_city(url, city, date) 
-
-def scrape_city(url, city, date):
-    driver = spider.chrome(url)
-
-    city_el = './/input[@id="hotel-destination-hlp"]'
-    city_element = process_elements.presence(driver, city_el, 10)
-    city_element.send_keys(city)
-
-    close_banner(driver, banners)
-
-    ### checkin
-    checkin = datetime.now() + timedelta(date)
-    checkinn = checkin.strftime('%m/%d/%Y')
-    checkin_el = './/input[@id="hotel-checkin-hlp"]' 
-    checkin_element = process_elements.presence(driver, checkin_el, 10)
-    checkin_element.send_keys(checkinn)
-
-    ### checkout
-    checkout = datetime.now() + timedelta(date + 3)
-    checkoutt = checkout.strftime('%m/%d/%Y')
-    checkout_el = './/input[@id="hotel-checkout-hlp"]'
-    checkout_element = process_elements.presence(driver, checkout_el, 10)
-    checkout_element.clear()
-    checkout_element.send_keys(checkoutt)
-
-    ### occupation
-    occupation_el = './/select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'
-    occupation_element = process_elements.visibility(driver, occupation_el, 10)
-    occupation_element.click()
-
-    ### scroll down
-    scroll_down.range(driver, 5, 0)
-
-    ### submit
-    submit_el1 = './/section[@id="section-hotel-tab-hlp"]/form'
-    submit_el2 = './/button[@type="submit"]'
-    submit_element = process_elements.visibility(driver, submit_el1, 10)
-    submit_element = process_elements.visibility(submit_element, submit_el2, 10)
-    submit_element.click()
-    
-    scrape_hotels(driver, city, checkin.strftime('%m/%d/%Y'), checkout.strftime('%m/%d/%Y'), date)
-
-def scrape_hotels(driver, city, checkin, checkout, date):
-    _next = './/button[@class="pagination-next"]/abbr'
-    count = 0
-    while True:
-        hotels = './/div[@id="resultsContainer"]/section/article'
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, hotels)))
-        hotels = driver.find_elements_by_xpath(hotels)
-        for hotel in hotels:
-            count += 1
-            name = get_name(hotel)
-            new_price = get_actualprice(hotel)
-            old_price = get_strikeprice(hotel)
-            review = get_review(hotel)
-            rating = get_rating(hotel)
-            address, location = get_address(hotel)
-            city = city.split(',')[0]
-            _db.sql_write(conn, cur, name, rating, review, address, new_price, old_price, checkin, checkout, city, currency, source, count, date)   
+    def scrape_review(self, element):
+        _element = './/li[contains(@class, "reviewCount")]/span'
 
         try:
-            scroll_down.click_element(driver, 500, _next, 0.5)
-            time.sleep(15)
+            element = self.element(element, _element)
+            element = self.driver.execute_script('return arguments[0].innerHTML', element)
+            return re.findall(r'([0-9,]+)', element)[0]
         except:
-            time.sleep(15)
-            driver.quit()
-            print '{}, {}, {} hotels, checkin {}, checkout {}, range {}'.format(source, city, count, checkin, checkout, date)
-            break
+            return 0
+
+    def scrape_rating(self, element):
+        _element = './/li[@class="reviewOverall"]/span'
+        try:
+            element = self.element(element, _element)
+            element = self.driver.execute_script('return arguments[0].innerHTML', element)
+            return re.findall(r'([0-9.]+)', element)[0]
+        except:
+            return 0
+
+    def scrape_new_price(self, element):
+        _element = './/li[@data-automation="actual-price"]/a'
+        try:
+            return self.element(element, _element).text.lstrip('$')
+        except:
+            return 0
+
+    def scrape_old_price(self, element):
+        _element = './/li[@data-automation="strike-price"]/a'
+        try:
+            element = self.element(element, _element).text
+            return re.findall(r'([0-9,]+)', element)[0]
+        except:
+            return 0
+
+    def scrape_address(self, element):
+        _element = './/ul[@class="hotel-info"]/li[@class="neighborhood secondary"]'
+        return self.element(element, _element).text.strip()
+
 
 if __name__ == '__main__':
     url = 'https://www.expedia.com/Hotels'

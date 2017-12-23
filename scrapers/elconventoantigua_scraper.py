@@ -4,24 +4,24 @@ import time, re
 
 class ElconventoantiguaScraper(BaseScraper):
     def __init__(self, url, spider, scraper_name):
-        self.cities = [self.cities[1]]
         self.currency = 'USD'
         self.source = 'elconventoantigua.com'
         self.name = 'Convento Boutique Hotel'
         self.address = '2a Avenida Norte #11, Antigua Guatemala +502 7720 7272'
         self.banners = []
         BaseScraper.__init__(self, url, spider, scraper_name)
+        self.cities = [self.cities[1]]
     
-    def main_page(self):
-        self.checkin_checkout_element = './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'
-        self.further_element = './/a[contains(@class, "ui-datepicker-next")]'
-        self.checkin_element()
-        self.checkout_element()
-        self.occupancy_element()
-        self.room_element()
-        self.submit_element()
-        self.switch_windows(10, 0)
-        self.scrape_rooms()
+#    def main_page(self):
+#        self.checkin_checkout_element = './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'
+#        self.further_element = './/a[contains(@class, "ui-datepicker-next")]'
+#        self.checkin_element()
+#        self.checkout_element()
+#        self.occupancy_element()
+#        self.room_element()
+#        self.submit_element()
+#        self.switch_windows(10, 0)
+#        self.scrape_rooms()
 
     def scrape_rooms(self):
         element = self.get_room_elements()
@@ -33,7 +33,6 @@ class ElconventoantiguaScraper(BaseScraper):
         self.count += 1
         self.sql_write()
         self.report()
-#        self.full_report()
 
     def get_room_elements(self):
         try:
@@ -51,7 +50,13 @@ class ElconventoantiguaScraper(BaseScraper):
             _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
             return re.findall(r'([0-9.]+)', _element)[0]
 
+    def city_element(self):
+        pass
+
     def checkin_element(self):
+        self.checkin_checkout_element = './/table[@class="ui-datepicker-calendar"]/tbody/tr/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'
+        self.further_element = './/a[contains(@class, "ui-datepicker-next")]'
+
         element = './/input[@id="date-in"]'
         element = self.presence(self.driver, element, 5)
         element.click()
@@ -91,6 +96,7 @@ class ElconventoantiguaScraper(BaseScraper):
         element = './/button[@type="submit"]'
         element = self.presence(self.driver, element, 10)
         element.click()
+        self.switch_windows(10, 0)
 
 
 if __name__ == "__main__":
