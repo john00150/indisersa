@@ -1,7 +1,7 @@
 from datetime import datetime
 import subprocess, smtplib, os
 from email.mime.text import MIMEText
-from settings import log_path, scrapers, report_path
+from settings import log_path, scraper_paths, report_path
 
 
 def send_email(line):
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     fh = open(log_path, 'w+')
 
-    for path in paths:
+    for path in scraper_paths:
         subprocess.call(
             ['python', path],
             stdout=fh,
