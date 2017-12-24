@@ -38,6 +38,7 @@ class HotelsScraper(BaseScraper):
         self.close_banner()
 
     def checkin_element(self):
+        self.presence(self.driver, './/input[contains(@class, "check-in")]', 5).click()
         element = '//input[@name="q-localised-check-in"]'
         element = self.presence(self.driver, element, 10)
         element.clear()
@@ -45,6 +46,7 @@ class HotelsScraper(BaseScraper):
         self.close_banner()
 
     def checkout_element(self):
+        self.presence(self.driver, './/input[contains(@class, "check-out")]', 5).click()
         element = '//input[@name="q-localised-check-out"]'
         element = self.presence(self.driver, element, 10)
         element.clear()
