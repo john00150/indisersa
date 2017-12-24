@@ -89,7 +89,7 @@ class DespegarScraper(BaseScraper):
     def checkout_element(self):
         self.checkin_checkout_scrape(self.checkout)
 
-    def occupation_element(self):
+    def occupancy_element(self):
         element = './/div[contains(@class, "sbox-guests-container")]'
         element = self.presence(self.driver, element, 5)
         element.click()
@@ -110,8 +110,9 @@ class DespegarScraper(BaseScraper):
         return self.element(element, _element).get_attribute('title') 
 
     def scrape_address(self, element):
-        _element = './/li[@class="hf-cluster-distance"]/span'
-        return self.element(element, _element).text.strip()
+#        _element = './/li[@class="hf-cluster-distance"]/span'
+#        return self.element(element, _element).text.strip()
+        return ''
 
     def scrape_new_price(self, element):
         _element = './div[contains(@class, "analytics")]'
