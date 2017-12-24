@@ -42,8 +42,11 @@ class BaseScraper(object):
                     self.driver = self.firefox()
                 if self.spider_name == 'chrome_long_window':
                     self.driver = self.chrome_long_window()
+                try:
+                    self.main_page()
+                except Exception, e:
+                    traceback.print_exc()
 
-                self.main_page()
                 self.driver.quit()
 
     def main_page(self):
