@@ -7,14 +7,14 @@ import re, time
 
 
 class ExpediaScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name):
+    def __init__(self, url, spider, scraper_name, city_mode):
         self.currency = 'USD'
         self.source = 'expedia.com'
         self.banners = [
             './/span[contains(@class, "icon-close")]',
             './/div[@class="hero-banner-box cf"]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
 
     def city_element(self):
         element = './/input[@id="hotel-destination-hlp"]'
@@ -51,7 +51,7 @@ class ExpediaScraper(BaseScraper):
 
         while True:
             check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element)
+            x = self.scrape_hotels(element, 'm')
 
             try:
                 self.presence(self.driver, _next, 5).click()
@@ -106,6 +106,6 @@ class ExpediaScraper(BaseScraper):
 
 if __name__ == '__main__':
     url = 'https://www.expedia.com/Hotels'
-    ExpediaScraper(url, 'chrome', 'expedia_scraper')
+    ExpediaScraper(url, 'chrome', 'expedia_scraper', 2)
 
 

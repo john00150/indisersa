@@ -5,11 +5,11 @@ import time, sys
 
 
 class BestDayScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name):
+    def __init__(self, url, spider, scraper_name, city_mode):
         self.currency = 'USD'
         self.source = 'bestday.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
 
     def city_element(self):
         element = './/input[@name="ajhoteles"]'
@@ -74,7 +74,7 @@ class BestDayScraper(BaseScraper):
                 break
 
         element = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
-        x = self.scrape_hotels(element) 
+        x = self.scrape_hotels(element, 'm') 
         self.report()
 
 #            if address not in city:
@@ -118,5 +118,5 @@ class BestDayScraper(BaseScraper):
 
 if __name__ == '__main__':
     url = 'https://www.bestday.com/Hotels/'
-    BestDayScraper(url, 'chrome', 'bestday_scraper')
+    BestDayScraper(url, 'chrome', 'bestday_scraper', 2)
 

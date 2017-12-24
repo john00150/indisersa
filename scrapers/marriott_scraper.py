@@ -5,24 +5,18 @@ import time, re, sys
 
 
 class MarriottScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name):
-        self.address = '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
+    def __init__(self, url, spider, scraper_name, city_mode):
         self.source = 'marriott.com'
         self.currency = 'USD'
-        self.name = 'Courtyard Guatemala City'
-        BaseScraper.__init__(self, url, spider, scraper_name)
-        self.cities = [self.cities[0]]
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
 
-#    def main_page(self):
-#        self.review = self.scrape_review()
-#        self.rating = self.scrape_rating()
-#        self.checkin_element()
-#        self.checkout_element()
-#        self.submit_element()
+    def scrape_pages(self):
+        element = './/div'
+        x = self.scrape_hotels(element, 's')
+        self.report()
 
     def city_element(self):
-        self.review = self.scrape_review()
-        self.rating = self.scrape_rating()
+        pass
 
     def checkin_element(self):
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'
@@ -92,37 +86,40 @@ class MarriottScraper(BaseScraper):
             except:
                 time.sleep(1)
 
-    def scrape_pages(self):  
-        self.new_price = self.scrape_new_price()
-        self.old_price = 0
-        self.count += 1
-        self.sql_write()
-        self.report()
-        self.full_report()
+    def scrape_name(self, element):
+        return 'Courtyard Guatemala City'
 
-    def scrape_new_price(self):
+    def scrape_new_price(self, element):
         try:
             _element = './/h2[contains(@class, "l-display-inline-block")]'       
             _element = self.presence(self.driver, _element, 10)
-            return self.driver.execute_script('return arguments[0].innerHTML', _element).strip()
+            _element = self.driver.execute_script('return arguments[0].innerHTML', _element).strip()
+            return _element
         except:
             _element = './/h2[contains(text(), "Standard Rates")]/span'
             _element = self.presence(self.driver, _element, 10)
             _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
-            return re.findall(r'([0-9]+)', _element)[0]
+            _element = re.findall(r'([0-9]+)', _element)[0]
+            return _element
+
+    def scrape_old_price(self, element):
+        return 0
     
-    def scrape_review(self):
+    def scrape_review(self, element):
 #        element = './/span[contains(text(), "Reviews")]'
 #        element = self.visibility(self.driver, element, 10).text
 #        return re.findall(r'([0-9]+)', element)[0]
         return 0
 
-    def scrape_rating(self):
+    def scrape_rating(self, element):
         return 4.5
+
+    def scrape_address(self, element):
+        return '1Avenida 12-47, Zona 10 Guatemala City, 01010 Guatemala'
 
 
 if __name__ == '__main__':
 #    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
-    MarriottScraper(url, 'chrome', 'marriott_scraper')
+    MarriottScraper(url, 'chrome', 'marriott_scraper', 0)
 

@@ -5,13 +5,13 @@ import time, os, traceback, re, sys
 
 
 class BookingScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name):
+    def __init__(self, url, spider, scraper_name, city_mode):
         self.currency = 'GTQ'
         self.source = 'booking.com'
         self.banners = [
             './/div[contains(@class, "close")]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
 
     def scrape_pages(self):
         next = './/a[contains(@class, "paging-next")]'
@@ -20,7 +20,7 @@ class BookingScraper(BaseScraper):
             self._scroll_down()
             hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
             check_element = self.presence(self.driver, hotels, 10)
-            x = self.scrape_hotels(hotels)
+            x = self.scrape_hotels(hotels, 'm')
 
             try:
                 self.visibility(self.driver, next, 2).click()
@@ -161,5 +161,5 @@ class BookingScraper(BaseScraper):
 
 if __name__ == '__main__':
     url = 'https://www.booking.com/'
-    BookingScraper(url, 'chrome', 'booking_scraper')
+    BookingScraper(url, 'chrome', 'booking_scraper', 2)
 

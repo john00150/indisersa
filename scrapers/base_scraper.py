@@ -9,13 +9,20 @@ from settings import dates, cities
 from datetime import datetime, timedelta
 
 class BaseScraper(object):
-    def __init__(self, url, spider_name, scraper_name):
+    def __init__(self, url, spider_name, scraper_name, city_mode):
         self.connect_sql()
         self.spider_name = spider_name
         self.scraper_name = scraper_name
         self.url = url
         self.dates = dates
-        self.cities = cities
+
+        if city_mode == 0:
+            self.cities = [cities[0]]
+        if city_mode == 1:
+            self.cities = [cities[1]]
+        if city_mode == 2:
+            self.cities = cities
+
         self.main_function()
         self.close_sql()
 
@@ -165,9 +172,14 @@ class BaseScraper(object):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
-    def scrape_hotels(self, elements):
-        self.presence(self.driver, elements, 10)
-        elements = self.elements(self.driver, elements)
+    def scrape_hotels(self, elements, mode):
+        if mode == 's':
+            elements = self.presence(self.driver, elements, 10)
+            elements = [elements]
+
+        if mode == 'm':
+            self.presence(self.driver, elements, 10)
+            elements = self.elements(self.driver, elements)
 
         for element in elements:
             self.count += 1

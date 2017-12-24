@@ -5,11 +5,11 @@ import time, os, re, sys
 
 
 class BookHotelBedsScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name):
+    def __init__(self, url, spider, scraper_name, city_mode):
         self.currency = 'GTQ'
         self.source = 'book-hotel-beds.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
 
     def scrape_pages(self):
         next_element = './/a[contains(text(), "Next")]'
@@ -19,7 +19,7 @@ class BookHotelBedsScraper(BaseScraper):
         while True:
             time.sleep(20)
             check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element)
+            x = self.scrape_hotels(element, 'm')
 
             try:
                 self.visibility(self.driver, next_element, 5).click()
@@ -121,6 +121,6 @@ class BookHotelBedsScraper(BaseScraper):
 
 if __name__ == '__main__':
     url = 'http://www.book-hotel-beds.com/'
-    BookHotelBedsScraper(url, 'chrome', 'book_hotel_beds_scraper')
+    BookHotelBedsScraper(url, 'chrome', 'book_hotel_beds_scraper', 2)
 
 
