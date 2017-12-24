@@ -42,29 +42,28 @@ class BaseScraper(object):
                     self.driver = self.firefox()
                 if self.spider_name == 'chrome_long_window':
                     self.driver = self.chrome_long_window()
-                try:
-                    self.main_page()
-                except Exception, e:
-                    traceback.print_exc()
 
+                self.main_page()
                 self.driver.quit()
 
     def main_page(self):
-        self.error_func(self.city_element, 'city_element')
-        self.error_func(self.checkin_element, 'checkin_element')
-        self.error_func(self.checkout_element, 'checkout_element')
-        self.error_func(self.occupancy_element, 'occupancy_element')
-        self.error_func(self.submit_element, 'submit_element')
-        self.error_func(self.scrape_pages, 'scrape_pages')
+        self.error_func(self.city_element, 'city_element', 'e')
+        self.error_func(self.checkin_element, 'checkin_element', 'e')
+        self.error_func(self.checkout_element, 'checkout_element', 'e')
+        self.error_func(self.occupancy_element, 'occupancy_element', 'e')
+        self.error_func(self.submit_element, 'submit_element', 'e')
+        self.error_func(self.scrape_pages, 'scrape_pages', 'c')
 
-    def error_func(self, function, func_name):
+    def error_func(self, function, func_name, mode):
         try:
             function()
         except Exception, e:
             print '########## {} ##########'.format(self.scraper_name)
             print '##########  {}'.format(func_name)
             traceback.print_exc()
-            sys.exit(1)
+
+            if mode = 'e':
+                sys.exit(1)
 
     def firefox(self):
         driver = webdriver.Firefox()
