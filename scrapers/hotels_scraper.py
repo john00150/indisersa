@@ -7,14 +7,10 @@ import time, re, sys
 class HotelsScraper(BaseScraper):
     def __init__(self, url, spider, scraper_name, city_mode):
         self.banners = [
-            './/button[contains(@class)]',
-            './/button[@class="cta widget-overlay-close"]',
-            './/button[contains(@class, "overlay-close")]',
             './/button[contains(@class, "close")]',
             './/div[@class="widget-query-group widget-query-occupancy"]',
             './/div/span[@class="title"][contains(text(), "Save an extra")]/following-sibling::span[@class="close-button"]',
             './/span[contains(@class, "close")]',
-            './/span[contains(@class, "close-icon")]',
             './/button[contains(@class, "cta")]'
         ]
         self.currency = 'USD'
@@ -32,32 +28,26 @@ class HotelsScraper(BaseScraper):
     def city_element(self):
         self.close_banner()
         element = './/input[@name="q-destination"]'
-        element = self.visibility(self.driver, element, 10)
-        element.send_keys(self.city)
-        element.click()
-        self.close_banner()
+        self.visibility(self.driver, element, 10).send_keys(self.city)
+        element = './/h1[contains(@class, "widget-query-heading")]'
+        self.presence(self.driver, element, 10).click()
 
     def checkin_element(self):
-        self.presence(self.driver, './/input[contains(@class, "check-in")]', 5).click()
         element = '//input[@name="q-localised-check-in"]'
-        element = self.presence(self.driver, element, 10)
-        element.clear()
-        element.send_keys(self.checkin2)    
-        self.close_banner()
+        self.clickable(self.driver, element)
+        self.presence(self.driver, element, 10).clear()
+        self.presence(self.driver, element, 10).send_keys(self.checkin2)    
 
     def checkout_element(self):
-        self.presence(self.driver, './/input[contains(@class, "check-out")]', 5).click()
         element = '//input[@name="q-localised-check-out"]'
-        element = self.presence(self.driver, element, 10)
-        element.clear()
-        element.send_keys(self.checkout2)
-        self.close_banner()
+        self.clickable(self.driver, element)
+        self.presence(self.driver, element, 10).clear()
+        self.presence(self.driver, element, 10).send_keys(self.checkout2)
 
     def occupancy_element(self):
         element = './/select[@id="qf-0q-compact-occupancy"]/option[contains(text(), "1 room, 1 adult")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
-        self.close_banner()
 
     def submit_element(self):
         element = './/button[contains(@type, "submit")]'
@@ -117,5 +107,4 @@ class HotelsScraper(BaseScraper):
 if __name__ == '__main__':
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
     HotelsScraper(url, 'chrome', 'hotels_scraper', 2)
-
 
