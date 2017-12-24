@@ -62,7 +62,7 @@ class BaseScraper(object):
             print '##########  {}'.format(func_name)
             traceback.print_exc()
 
-            if mode = 'e':
+            if mode == 'e':
                 sys.exit(1)
 
     def firefox(self):
