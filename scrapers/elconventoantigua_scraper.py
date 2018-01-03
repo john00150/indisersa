@@ -3,11 +3,11 @@ import time, re
 
 
 class ElconventoantiguaScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.currency = 'USD'
         self.source = 'elconventoantigua.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         try:
@@ -89,6 +89,11 @@ class ElconventoantiguaScraper(BaseScraper):
 
 
 if __name__ == "__main__":
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+
     url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    ElconventoantiguaScraper(url, 'chrome', 'elconventoantigua_scraper', 1)
+    ElconventoantiguaScraper(url, 'chrome', 'elconventoantigua_scraper', 1, mode)
 

@@ -5,13 +5,14 @@ import time, os, traceback, re, sys
 
 
 class BookingScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.currency = 'GTQ'
         self.source = 'booking.com'
         self.banners = [
             './/div[contains(@class, "close")]',
+            '',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         next = './/a[contains(@class, "paging-next")]'
@@ -46,7 +47,7 @@ class BookingScraper(BaseScraper):
 
     def city_element(self):
 #        print 'city element...'
-        element_before = './/input[@id="ss"]'
+        element_before = './/input[@id="ss"]ssfdd'
         element_before = self.visibility(self.driver, element_before, 5)
         element_before.send_keys(self.city)
         time.sleep(3)
@@ -160,6 +161,11 @@ class BookingScraper(BaseScraper):
 
 
 if __name__ == '__main__':
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+
     url = 'https://www.booking.com/'
-    BookingScraper(url, 'chrome', 'booking_scraper', 2)
+    BookingScraper(url, 'chrome', 'booking_scraper', 2, mode)
 

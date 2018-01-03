@@ -5,7 +5,7 @@ import time, re, sys
 
 
 class HotelsScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.banners = [
             './/button[contains(@class, "close")]',
             './/div[@class="widget-query-group widget-query-occupancy"]',
@@ -15,7 +15,7 @@ class HotelsScraper(BaseScraper):
         ]
         self.currency = 'USD'
         self.source = 'hotels.com'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         element_to = './/li[contains(text(), "Travelers also looked at these properties nearby")]'
@@ -105,6 +105,11 @@ class HotelsScraper(BaseScraper):
 
 
 if __name__ == '__main__':
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+
     url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
-    HotelsScraper(url, 'chrome', 'hotels_scraper', 2)
+    HotelsScraper(url, 'chrome', 'hotels_scraper', 2, mode)
 

@@ -5,13 +5,13 @@ import time, re, json
 
 
 class RadissonScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.banners = [
             './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
         ]
         self.source = 'radisson.com'
         self.currency = 'GTQ'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         element = './/div[contains(@class, "hotelRow")]'
@@ -89,8 +89,12 @@ class RadissonScraper(BaseScraper):
         return re.findall(r'([0-9,]+)', self.element(element, _element).text)[0]
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+ 
     url = 'https://www.radisson.com/' 
-    RadissonScraper(url, 'chrome', 'radisson_scraper', 0)
-
+    RadissonScraper(url, 'chrome', 'radisson_scraper', 0, mode)
 
