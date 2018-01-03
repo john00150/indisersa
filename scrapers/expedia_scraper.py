@@ -7,14 +7,30 @@ import re, time
 
 
 class ExpediaScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.currency = 'USD'
         self.source = 'expedia.com'
         self.banners = [
             './/span[contains(@class, "icon-close")]',
             './/div[@class="hero-banner-box cf"]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+
+    def scrape_pages(self):
+        _next = './/button[@class="pagination-next"]/abbr'
+        element = './/div[@id="resultsContainer"]/section/article'
+
+        while True:
+            check_element = self.presence(self.driver, element, 10)
+            x = self.scrape_hotels(element, 'm')
+
+            try:
+                self.presence(self.driver, _next, 5).click()
+                self.wait_for_page_to_load(check_element)
+            except Exception, e:
+                self.driver.quit()
+                self.report()
+                break
 
     def city_element(self):
         element = './/input[@id="hotel-destination-hlp"]'
@@ -44,22 +60,6 @@ class ExpediaScraper(BaseScraper):
         element = self.visibility(self.driver, element1, 10)
         element = self.visibility(element, element2, 10)
         element.click()
-
-    def scrape_pages(self):
-        _next = './/button[@class="pagination-next"]/abbr'
-        element = './/div[@id="resultsContainer"]/section/article'
-
-        while True:
-            check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element, 'm')
-
-            try:
-                self.presence(self.driver, _next, 5).click()
-                self.wait_for_page_to_load(check_element)
-            except Exception, e:
-                self.driver.quit()
-                self.report()
-                break
 
     def scrape_name(self, element):
         _element = './h3'
@@ -105,7 +105,11 @@ class ExpediaScraper(BaseScraper):
 
 
 if __name__ == '__main__':
-    url = 'https://www.expedia.com/Hotels'
-    ExpediaScraper(url, 'chrome', 'expedia_scraper', 2)
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
 
+    url = 'https://www.expedia.com/Hotels'
+    ExpediaScraper(url, 'chrome', 'expedia_scraper', 2, mode)
 

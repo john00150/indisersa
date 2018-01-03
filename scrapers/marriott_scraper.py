@@ -5,10 +5,10 @@ import time, re, sys
 
 
 class MarriottScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.source = 'marriott.com'
         self.currency = 'USD'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         element = './/div'
@@ -119,7 +119,12 @@ class MarriottScraper(BaseScraper):
 
 
 if __name__ == '__main__':
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+
 #    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
-    MarriottScraper(url, 'chrome', 'marriott_scraper', 0)
+    MarriottScraper(url, 'chrome', 'marriott_scraper', 0, mode)
 

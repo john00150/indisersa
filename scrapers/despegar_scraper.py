@@ -4,14 +4,14 @@ import time, sys, re
 
 
 class DespegarScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.currency = 'USD'
         self.source = 'us.despegar.com'
         self.banners = [
             './/i[@class="nevo-modal-close nevo-icon-close"]',
             './/span[contains(@class, "eva-close")]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
 
     def scrape_pages(self):
         element = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
@@ -139,7 +139,11 @@ class DespegarScraper(BaseScraper):
     
 
 if __name__ == '__main__':
-    url = 'https://www.us.despegar.com/hotels/'
-    DespegarScraper(url, 'chrome', 'despegar_scraper', 2)
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
 
+    url = 'https://www.us.despegar.com/hotels/'
+    DespegarScraper(url, 'chrome', 'despegar_scraper', 2, mode)
 

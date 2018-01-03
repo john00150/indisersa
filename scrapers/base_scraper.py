@@ -9,7 +9,8 @@ from settings import dates, cities
 from datetime import datetime, timedelta
 
 class BaseScraper(object):
-    def __init__(self, url, spider_name, scraper_name, city_mode):
+    def __init__(self, url, spider_name, scraper_name, city_mode, mode):
+        self.mode = mode
         self.connect_sql()
         self.spider_name = spider_name
         self.scraper_name = scraper_name
@@ -47,23 +48,29 @@ class BaseScraper(object):
                 self.driver.quit()
 
     def main_page(self):
-        self.error_func(self.city_element, 'city_element', 'e')
-        self.error_func(self.checkin_element, 'checkin_element', 'e')
-        self.error_func(self.checkout_element, 'checkout_element', 'e')
-        self.error_func(self.occupancy_element, 'occupancy_element', 'e')
-        self.error_func(self.submit_element, 'submit_element', 'e')
-        self.error_func(self.scrape_pages, 'scrape_pages', 'c')
+        if self.error_func(self.city_element, 'city_element', '') == 0:
+            if self.error_func(self.checkin_element, 'checkin_element', '') == 0:
+                if self.error_func(self.checkout_element, 'checkout_element', '') == 0:
+                    if self.error_func(self.occupancy_element, 'occupancy_element', '') == 0:
+                        if self.error_func(self.submit_element, 'submit_element', '') == 0:
+                            self.error_func(self.scrape_pages, 'scrape_pages', 'pass')
 
     def error_func(self, function, func_name, mode):
         try:
             function()
+            return 0
+
         except Exception, e:
             print '########## {} ##########'.format(self.scraper_name)
             print '##########  {}'.format(func_name)
             traceback.print_exc()
 
-            if mode == 'e':
-                sys.exit(1)
+            if self.mode == 'debug':
+                raise e
+            elif mode == 'pass':
+                return 0
+            else:
+                return 1
 
     def firefox(self):
         driver = webdriver.Firefox()

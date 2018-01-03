@@ -5,11 +5,27 @@ import time, sys
 
 
 class BestDayScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode):
+    def __init__(self, url, spider, scraper_name, city_mode, mode):
         self.currency = 'USD'
         self.source = 'bestday.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode)
+        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+
+    def scrape_pages(self):
+        _element = './/span[contains(text(), "See more options")]'
+
+        while True:
+            try:
+                self.presence(self.driver, _element, 20).click()
+            except:
+                break
+
+        element = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
+        x = self.scrape_hotels(element, 'm') 
+        self.report()
+
+#            if address not in city:
+#                continue
 
     def city_element(self):
         element = './/input[@name="ajhoteles"]'
@@ -64,22 +80,6 @@ class BestDayScraper(BaseScraper):
         _element = self.visibility(self.driver, element, 10)
         _element.click()
 
-    def scrape_pages(self):
-        _element = './/span[contains(text(), "See more options")]'
-
-        while True:
-            try:
-                self.presence(self.driver, _element, 20).click()
-            except:
-                break
-
-        element = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
-        x = self.scrape_hotels(element, 'm') 
-        self.report()
-
-#            if address not in city:
-#                continue
-
     def scrape_name(self, element):
         _element = './/a[@class="hotel-name"]'
         return self.element(element, _element).text.strip()
@@ -117,6 +117,11 @@ class BestDayScraper(BaseScraper):
 
 
 if __name__ == '__main__':
+    try:
+        mode = sys.argv[1]
+    except:
+        mode = ''
+
     url = 'https://www.bestday.com/Hotels/'
-    BestDayScraper(url, 'chrome', 'bestday_scraper', 2)
+    BestDayScraper(url, 'chrome', 'bestday_scraper', 2, mode)
 
