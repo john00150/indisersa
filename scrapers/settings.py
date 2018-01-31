@@ -17,7 +17,7 @@ scraper_paths = [
     'C:\users\indisersa\Desktop\hotels\scrapers\\radisson_scraper.py',
     'C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py',
     'C:\users\indisersa\Desktop\hotels\scrapers\\bestday_scraper.py',
-    'C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py',
+#    'C:\users\indisersa\Desktop\hotels\scrapers\despegar_scraper.py',
     'C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py',
     'C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py',
     'C:\users\indisersa\Desktop\hotels\scrapers\\book_hotel_beds_scraper.py',
