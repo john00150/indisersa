@@ -65,7 +65,7 @@ class BaseScraper(object):
             print '##########  {}'.format(func_name)
             traceback.print_exc()
 
-            if self.mode == 'debug':
+            if self.mode == 'test':
                 raise e
             elif mode == 'pass':
                 return 0

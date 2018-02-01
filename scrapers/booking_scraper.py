@@ -47,7 +47,7 @@ class BookingScraper(BaseScraper):
 
     def city_element(self):
 #        print 'city element...'
-        element_before = './/input[@id="ss"]ssfdd'
+        element_before = './/input[@id="ss"]'
         element_before = self.visibility(self.driver, element_before, 5)
         element_before.send_keys(self.city)
         time.sleep(3)
