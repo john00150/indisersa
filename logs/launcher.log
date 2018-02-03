@@ -1,36 +1,38 @@
-radisson.com, Guatemala City, 1 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+radisson.com, Guatemala City, 1 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-radisson.com, Guatemala City, 1 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+radisson.com, Guatemala City, 1 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-radisson.com, Guatemala City, 1 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+radisson.com, Guatemala City, 1 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-radisson.com, Guatemala City, 1 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+radisson.com, Guatemala City, 1 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-radisson.com, Guatemala City, 1 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+radisson.com, Guatemala City, 1 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+lodebernal.com, Antigua Guatemala, 1 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+lodebernal.com, Antigua Guatemala, 1 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-lbestday.com, Guatemala City, 62 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+lodebernal.com, Antigua Guatemala, 1 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-bestday.com, Antigua Guatemala, 23 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+bestday.com, Guatemala City, 61 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-bestday.com, Guatemala City, 74 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+bestday.com, Antigua Guatemala, 22 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-bestday.com, Antigua Guatemala, 31 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+bestday.com, Guatemala City, 77 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-bestday.com, Guatemala City, 78 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+bestday.com, Antigua Guatemala, 33 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-bestday.com, Antigua Guatemala, 36 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+bestday.com, Guatemala City, 79 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-bestday.com, Guatemala City, 77 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+bestday.com, Antigua Guatemala, 36 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-bestday.com, Antigua Guatemala, 34 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+bestday.com, Guatemala City, 78 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-bestday.com, Guatemala City, 79 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+bestday.com, Antigua Guatemala, 35 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-bestday.com, Antigua Guatemala, 38 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+bestday.com, Guatemala City, 80 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
+
+bestday.com, Antigua Guatemala, 38 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
 Traceback (most recent call last):
   File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
@@ -202,177 +204,63 @@ Traceback (most recent call last):
     raise TimeoutException(message, screen, stacktrace)
 TimeoutException: Message: 
 
-book-hotel-beds.com, Guatemala City, 48 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+book-hotel-beds.com, Guatemala City, 48 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-book-hotel-beds.com, Antigua Guatemala, 49 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+book-hotel-beds.com, Antigua Guatemala, 49 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-book-hotel-beds.com, Guatemala City, 48 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+book-hotel-beds.com, Guatemala City, 48 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-book-hotel-beds.com, Antigua Guatemala, 68 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+book-hotel-beds.com, Antigua Guatemala, 67 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-book-hotel-beds.com, Guatemala City, 49 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+book-hotel-beds.com, Guatemala City, 48 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-book-hotel-beds.com, Antigua Guatemala, 74 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+book-hotel-beds.com, Antigua Guatemala, 63 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-book-hotel-beds.com, Guatemala City, 50 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+book-hotel-beds.com, Guatemala City, 48 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-book-hotel-beds.com, Antigua Guatemala, 71 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+book-hotel-beds.com, Antigua Guatemala, 61 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-book-hotel-beds.com, Guatemala City, 48 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+book-hotel-beds.com, Guatemala City, 47 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-book-hotel-beds.com, Antigua Guatemala, 71 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+book-hotel-beds.com, Antigua Guatemala, 62 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-hotels.com, Guatemala City, 57 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+hotels.com, Guatemala City, 59 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-hotels.com, Antigua Guatemala, 48 hotels, checkin 02/16/2018, checkout 02/19/2018, range 15
+hotels.com, Antigua Guatemala, 48 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-hotels.com, Guatemala City, 59 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+hotels.com, Guatemala City, 58 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-hotels.com, Antigua Guatemala, 71 hotels, checkin 03/03/2018, checkout 03/06/2018, range 30
+hotels.com, Antigua Guatemala, 84 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-hotels.com, Guatemala City, 60 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+hotels.com, Guatemala City, 58 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-hotels.com, Antigua Guatemala, 85 hotels, checkin 04/02/2018, checkout 04/05/2018, range 60
+hotels.com, Antigua Guatemala, 86 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-hotels.com, Guatemala City, 61 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+hotels.com, Guatemala City, 59 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-hotels.com, Antigua Guatemala, 85 hotels, checkin 05/02/2018, checkout 05/05/2018, range 90
+hotels.com, Antigua Guatemala, 81 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-hotels.com, Guatemala City, 58 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+hotels.com, Guatemala City, 57 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-hotels.com, Antigua Guatemala, 82 hotels, checkin 06/01/2018, checkout 06/04/2018, range 120
+hotels.com, Antigua Guatemala, 84 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Guatemala City, 126 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Antigua Guatemala, 248 hotels, checkin 02/17/2018, checkout 02/20/2018, range 15
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Guatemala City, 123 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Antigua Guatemala, 250 hotels, checkin 03/04/2018, checkout 03/07/2018, range 30
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Guatemala City, 45 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Antigua Guatemala, 20 hotels, checkin 04/03/2018, checkout 04/06/2018, range 60
 
-Traceback (most recent########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
- call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Guatemala City, 123 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Antigua Guatemala, 250 hotels, checkin 05/03/2018, checkout 05/06/2018, range 90
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Guatemala City, 123 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 51, in city_element
-    element_before = self.visibility(self.driver, element_before, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-n until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
+booking.com, Antigua Guatemala, 20 hotels, checkin 06/02/2018, checkout 06/05/2018, range 120
 
