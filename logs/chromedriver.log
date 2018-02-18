@@ -1,0 +1,764 @@
+[1.706][INFO]: COMMAND InitSession {
+   "capabilities": {
+      "alwaysMatch": {
+         "browserName": "chrome",
+         "goog:chromeOptions": {
+            "args": [  ],
+            "extensions": [  ]
+         },
+         "platformName": "any"
+      },
+      "firstMatch": [ {
+
+      } ]
+   },
+   "desiredCapabilities": {
+      "browserName": "chrome",
+      "goog:chromeOptions": {
+         "args": [  ],
+         "extensions": [  ]
+      },
+      "platform": "ANY",
+      "version": ""
+   }
+}
+[1.717][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "show_welcome_page": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1.720][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1.805][INFO]: Cannot switch to US keyboard layout - some keys may be interpreted incorrectly
+[1.805][INFO]: Launching chrome: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-background-networking --disable-browser-side-navigation --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension="C:\Users\INDISE~1\AppData\Local\Temp\scoped_dir21792_20325\internal" --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=12097 --safebrowsing-disable-auto-update --test-type=webdriver --use-mock-keychain --user-data-dir="C:\Users\INDISE~1\AppData\Local\Temp\scoped_dir21792_1220" data:,
+[3.082][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[4.164][INFO]: RESPONSE InitSession {
+   "acceptSslCerts": true,
+   "applicationCacheEnabled": false,
+   "browserConnectionEnabled": false,
+   "browserName": "chrome",
+   "chrome": {
+      "chromedriverVersion": "2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f)",
+      "userDataDir": "C:\\Users\\INDISE~1\\AppData\\Local\\Temp\\scoped_dir21792_1220"
+   },
+   "cssSelectorsEnabled": true,
+   "databaseEnabled": false,
+   "handlesAlerts": true,
+   "hasTouchScreen": false,
+   "javascriptEnabled": true,
+   "locationContextEnabled": true,
+   "mobileEmulationEnabled": false,
+   "nativeEvents": true,
+   "networkConnectionEnabled": false,
+   "pageLoadStrategy": "normal",
+   "platform": "Windows NT",
+   "rotatable": false,
+   "setWindowRect": true,
+   "takesHeapSnapshot": true,
+   "~~~": "..."
+}
+[4.167][INFO]: COMMAND MaximizeWindow {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "windowHandle": "current"
+}
+[4.168][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[5.315][INFO]: RESPONSE MaximizeWindow
+[5.317][INFO]: COMMAND Navigate {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "url": "https://www.booking.com/"
+}
+[5.317][INFO]: Waiting for pending navigations...
+[5.338][INFO]: Done waiting for pending navigations. Status: ok
+[6.787][INFO]: Waiting for pending navigations...
+[10.983][INFO]: Done waiting for pending navigations. Status: ok
+[10.983][INFO]: RESPONSE Navigate
+[10.985][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//input[@id=\"ss\"]"
+}
+[10.985][INFO]: Waiting for pending navigations...
+[10.989][INFO]: Done waiting for pending navigations. Status: ok
+[11.021][INFO]: Waiting for pending navigations...
+[11.025][INFO]: Done waiting for pending navigations. Status: ok
+[11.025][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.005086752471385347-1"
+}
+[11.028][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.005086752471385347-1"
+}
+[11.028][INFO]: Waiting for pending navigations...
+[11.031][INFO]: Done waiting for pending navigations. Status: ok
+[11.060][INFO]: Waiting for pending navigations...
+[11.062][INFO]: Done waiting for pending navigations. Status: ok
+[11.062][INFO]: RESPONSE IsElementDisplayed true
+[11.065][INFO]: COMMAND TypeElement {
+   "id": "0.005086752471385347-1",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "text": "Antigua Guatemala, Guatemala",
+   "value": [ "A", "n", "t", "i", "g", "u", "a", " ", "G", "u", "a", "t", "e", "m", "a", "l", "a", ",", " ", "..." ]
+}
+[11.065][INFO]: Waiting for pending navigations...
+[11.067][INFO]: Done waiting for pending navigations. Status: ok
+[11.533][INFO]: Waiting for pending navigations...
+[11.537][INFO]: Done waiting for pending navigations. Status: ok
+[11.537][INFO]: RESPONSE TypeElement
+[14.540][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//li[contains(@class, \"autocomplete\")]"
+}
+[14.541][INFO]: Waiting for pending navigations...
+[14.542][INFO]: Done waiting for pending navigations. Status: ok
+[14.568][INFO]: Waiting for pending navigations...
+[14.571][INFO]: Done waiting for pending navigations. Status: ok
+[14.571][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.005086752471385347-2"
+}
+[14.574][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.005086752471385347-2"
+}
+[14.574][INFO]: Waiting for pending navigations...
+[14.575][INFO]: Done waiting for pending navigations. Status: ok
+[14.600][INFO]: Waiting for pending navigations...
+[14.602][INFO]: Done waiting for pending navigations. Status: ok
+[14.602][INFO]: RESPONSE IsElementDisplayed true
+[14.604][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[14.604][INFO]: Waiting for pending navigations...
+[14.605][INFO]: Done waiting for pending navigations. Status: ok
+[14.784][INFO]: Waiting for pending navigations...
+[14.812][INFO]: Done waiting for pending navigations. Status: ok
+[14.813][INFO]: RESPONSE ClickElement
+[19.816][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//table[contains(@class, \"c2-month-table\")][./thead/tr/th[contains(text(), \"June 2018\")]]/tbody/tr/td/span[contains(text(), \"18\")]"
+}
+[19.816][INFO]: Waiting for pending navigations...
+[19.818][INFO]: Done waiting for pending navigations. Status: ok
+[19.847][INFO]: Waiting for pending navigations...
+[19.867][INFO]: Done waiting for pending navigations. Status: ok
+[19.867][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-3"
+} ]
+[19.869][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[19.870][INFO]: Waiting for pending navigations...
+[19.888][INFO]: Done waiting for pending navigations. Status: ok
+[19.921][INFO]: Waiting for pending navigations...
+[19.922][INFO]: Done waiting for pending navigations. Status: ok
+[19.922][INFO]: RESPONSE ClickElement element not visible
+  (Session info: chrome=64.0.3282.167)
+[19.924][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[contains(@class, \"c2-button-further\")]"
+}
+[19.924][INFO]: Waiting for pending navigations...
+[19.925][INFO]: Done waiting for pending navigations. Status: ok
+[19.952][INFO]: Waiting for pending navigations...
+[19.953][INFO]: Done waiting for pending navigations. Status: ok
+[19.954][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-4"
+} ]
+[19.956][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-4",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[19.956][INFO]: Waiting for pending navigations...
+[19.957][INFO]: Done waiting for pending navigations. Status: ok
+[20.050][INFO]: Waiting for pending navigations...
+[20.053][INFO]: Done waiting for pending navigations. Status: ok
+[20.053][INFO]: RESPONSE ClickElement
+[25.055][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//table[contains(@class, \"c2-month-table\")][./thead/tr/th[contains(text(), \"June 2018\")]]/tbody/tr/td/span[contains(text(), \"18\")]"
+}
+[25.055][INFO]: Waiting for pending navigations...
+[25.056][INFO]: Done waiting for pending navigations. Status: ok
+[25.071][INFO]: Waiting for pending navigations...
+[25.072][INFO]: Done waiting for pending navigations. Status: ok
+[25.072][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-3"
+} ]
+[25.074][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[25.074][INFO]: Waiting for pending navigations...
+[25.075][INFO]: Done waiting for pending navigations. Status: ok
+[25.090][INFO]: Waiting for pending navigations...
+[25.091][INFO]: Done waiting for pending navigations. Status: ok
+[25.091][INFO]: RESPONSE ClickElement element not visible
+  (Session info: chrome=64.0.3282.167)
+[25.094][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[contains(@class, \"c2-button-further\")]"
+}
+[25.094][INFO]: Waiting for pending navigations...
+[25.095][INFO]: Done waiting for pending navigations. Status: ok
+[25.106][INFO]: Waiting for pending navigations...
+[25.107][INFO]: Done waiting for pending navigations. Status: ok
+[25.107][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-4"
+} ]
+[25.109][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-4",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[25.109][INFO]: Waiting for pending navigations...
+[25.110][INFO]: Done waiting for pending navigations. Status: ok
+[25.155][INFO]: Waiting for pending navigations...
+[25.155][INFO]: Done waiting for pending navigations. Status: ok
+[25.156][INFO]: RESPONSE ClickElement
+[30.157][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//table[contains(@class, \"c2-month-table\")][./thead/tr/th[contains(text(), \"June 2018\")]]/tbody/tr/td/span[contains(text(), \"18\")]"
+}
+[30.158][INFO]: Waiting for pending navigations...
+[30.159][INFO]: Done waiting for pending navigations. Status: ok
+[30.172][INFO]: Waiting for pending navigations...
+[30.173][INFO]: Done waiting for pending navigations. Status: ok
+[30.173][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-3"
+} ]
+[30.175][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[30.175][INFO]: Waiting for pending navigations...
+[30.176][INFO]: Done waiting for pending navigations. Status: ok
+[30.194][INFO]: Waiting for pending navigations...
+[30.195][INFO]: Done waiting for pending navigations. Status: ok
+[30.195][INFO]: RESPONSE ClickElement element not visible
+  (Session info: chrome=64.0.3282.167)
+[30.197][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[contains(@class, \"c2-button-further\")]"
+}
+[30.197][INFO]: Waiting for pending navigations...
+[30.198][INFO]: Done waiting for pending navigations. Status: ok
+[30.212][INFO]: Waiting for pending navigations...
+[30.213][INFO]: Done waiting for pending navigations. Status: ok
+[30.213][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-4"
+} ]
+[30.215][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-4",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[30.215][INFO]: Waiting for pending navigations...
+[30.216][INFO]: Done waiting for pending navigations. Status: ok
+[30.271][INFO]: Waiting for pending navigations...
+[30.272][INFO]: Done waiting for pending navigations. Status: ok
+[30.272][INFO]: RESPONSE ClickElement
+[35.275][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//table[contains(@class, \"c2-month-table\")][./thead/tr/th[contains(text(), \"June 2018\")]]/tbody/tr/td/span[contains(text(), \"18\")]"
+}
+[35.275][INFO]: Waiting for pending navigations...
+[35.276][INFO]: Done waiting for pending navigations. Status: ok
+[35.293][INFO]: Waiting for pending navigations...
+[35.295][INFO]: Done waiting for pending navigations. Status: ok
+[35.295][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-3"
+} ]
+[35.297][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[35.297][INFO]: Waiting for pending navigations...
+[35.298][INFO]: Done waiting for pending navigations. Status: ok
+[35.528][INFO]: Waiting for pending navigations...
+[35.537][INFO]: Done waiting for pending navigations. Status: ok
+[35.537][INFO]: RESPONSE ClickElement
+[35.540][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[contains(@data-placeholder, \"Check-out Date\")]"
+}
+[35.540][INFO]: Waiting for pending navigations...
+[35.541][INFO]: Done waiting for pending navigations. Status: ok
+[35.574][INFO]: Waiting for pending navigations...
+[35.585][INFO]: Done waiting for pending navigations. Status: ok
+[35.585][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-5"
+}, {
+   "ELEMENT": "0.005086752471385347-6"
+} ]
+[37.588][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-5",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[37.588][INFO]: Waiting for pending navigations...
+[37.589][INFO]: Done waiting for pending navigations. Status: ok
+[37.882][INFO]: Waiting for pending navigations...
+[37.898][INFO]: Done waiting for pending navigations. Status: ok
+[37.899][INFO]: RESPONSE ClickElement
+[42.901][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//table[contains(@class, \"c2-month-table\")][./thead/tr/th[contains(text(), \"June 2018\")]]/tbody/tr/td/span[contains(text(), \"21\")]"
+}
+[42.901][INFO]: Waiting for pending navigations...
+[42.903][INFO]: Done waiting for pending navigations. Status: ok
+[42.948][INFO]: Waiting for pending navigations...
+[42.949][INFO]: Done waiting for pending navigations. Status: ok
+[42.949][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.005086752471385347-7"
+}, {
+   "ELEMENT": "0.005086752471385347-8"
+} ]
+[42.951][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-7",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[42.951][INFO]: Waiting for pending navigations...
+[42.952][INFO]: Done waiting for pending navigations. Status: ok
+[42.988][INFO]: Waiting for pending navigations...
+[42.989][INFO]: Done waiting for pending navigations. Status: ok
+[42.989][INFO]: RESPONSE ClickElement element not visible
+  (Session info: chrome=64.0.3282.167)
+[42.992][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-8",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[42.992][INFO]: Waiting for pending navigations...
+[42.993][INFO]: Done waiting for pending navigations. Status: ok
+[43.172][INFO]: Waiting for pending navigations...
+[43.181][INFO]: Done waiting for pending navigations. Status: ok
+[43.181][INFO]: RESPONSE ClickElement
+[43.183][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//select[@name=\"group_adults\"]/option[contains(@value, \"1\")]"
+}
+[43.183][INFO]: Waiting for pending navigations...
+[43.189][INFO]: Done waiting for pending navigations. Status: ok
+[43.219][INFO]: Waiting for pending navigations...
+[43.235][INFO]: Done waiting for pending navigations. Status: ok
+[43.236][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.005086752471385347-9"
+}
+[43.238][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.005086752471385347-9"
+}
+[43.238][INFO]: Waiting for pending navigations...
+[43.239][INFO]: Done waiting for pending navigations. Status: ok
+[43.269][INFO]: Waiting for pending navigations...
+[43.272][INFO]: Done waiting for pending navigations. Status: ok
+[43.272][INFO]: RESPONSE IsElementDisplayed true
+[43.275][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-9",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[43.275][INFO]: Waiting for pending navigations...
+[43.278][INFO]: Done waiting for pending navigations. Status: ok
+[43.389][INFO]: Waiting for pending navigations...
+[43.396][INFO]: Done waiting for pending navigations. Status: ok
+[43.396][INFO]: RESPONSE ClickElement
+[43.398][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": "//button[@type=\"submit\"]"
+}
+[43.398][INFO]: Waiting for pending navigations...
+[43.401][INFO]: Done waiting for pending navigations. Status: ok
+[43.436][INFO]: Waiting for pending navigations...
+[43.452][INFO]: Done waiting for pending navigations. Status: ok
+[43.452][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.005086752471385347-10"
+}
+[43.467][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.005086752471385347-10"
+}
+[43.467][INFO]: Waiting for pending navigations...
+[43.471][INFO]: Done waiting for pending navigations. Status: ok
+[43.498][INFO]: Waiting for pending navigations...
+[43.501][INFO]: Done waiting for pending navigations. Status: ok
+[43.501][INFO]: RESPONSE IsElementDisplayed true
+[43.504][INFO]: COMMAND ClickElement {
+   "id": "0.005086752471385347-10",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[43.504][INFO]: Waiting for pending navigations...
+[43.512][INFO]: Done waiting for pending navigations. Status: ok
+[43.640][INFO]: Waiting for pending navigations...
+[50.508][INFO]: Done waiting for pending navigations. Status: ok
+[50.508][INFO]: RESPONSE ClickElement
+[50.511][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//td[contains(@class, \"roomPrice sr_discount\")]/div/strong[contains(@class, \"price scarcity_color\")]/b"
+}
+[50.511][INFO]: Waiting for pending navigations...
+[50.543][INFO]: Done waiting for pending navigations. Status: ok
+[50.615][INFO]: Waiting for pending navigations...
+[50.628][INFO]: Done waiting for pending navigations. Status: ok
+[50.628][INFO]: RESPONSE FindElements [  ]
+[50.630][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": "//body"
+}
+[50.631][INFO]: Waiting for pending navigations...
+[50.637][INFO]: Done waiting for pending navigations. Status: ok
+[50.667][INFO]: Waiting for pending navigations...
+[50.676][INFO]: Done waiting for pending navigations. Status: ok
+[50.676][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.7037959760628156-1"
+}
+[50.679][INFO]: COMMAND TypeElement {
+   "id": "0.7037959760628156-1",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "text": "",
+   "value": [ "" ]
+}
+[50.679][INFO]: Waiting for pending navigations...
+[50.680][INFO]: Done waiting for pending navigations. Status: ok
+[50.755][INFO]: Waiting for pending navigations...
+[50.756][INFO]: Done waiting for pending navigations. Status: ok
+[50.756][INFO]: RESPONSE TypeElement
+[50.758][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[@id=\"hotellist_inner\"]/div[contains(@class, \"sr_item\")]"
+}
+[50.759][INFO]: Waiting for pending navigations...
+[50.759][INFO]: Done waiting for pending navigations. Status: ok
+[50.786][INFO]: Waiting for pending navigations...
+[50.800][INFO]: Done waiting for pending navigations. Status: ok
+[50.800][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.7037959760628156-2"
+}
+[50.802][INFO]: COMMAND FindElement {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[@id=\"hotellist_inner\"]/div[contains(@class, \"sr_item\")]"
+}
+[50.802][INFO]: Waiting for pending navigations...
+[50.806][INFO]: Done waiting for pending navigations. Status: ok
+[50.854][INFO]: Waiting for pending navigations...
+[51.918][INFO]: Done waiting for pending navigations. Status: ok
+[51.918][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.7037959760628156-2"
+}
+[51.921][INFO]: COMMAND FindElements {
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//div[@id=\"hotellist_inner\"]/div[contains(@class, \"sr_item\")]"
+}
+[51.921][INFO]: Waiting for pending navigations...
+[51.929][INFO]: Done waiting for pending navigations. Status: ok
+[51.970][INFO]: Waiting for pending navigations...
+[52.021][INFO]: Done waiting for pending navigations. Status: ok
+[52.021][INFO]: RESPONSE FindElements [ {
+   "ELEMENT": "0.7037959760628156-2"
+}, {
+   "ELEMENT": "0.7037959760628156-3"
+}, {
+   "ELEMENT": "0.7037959760628156-4"
+}, {
+   "ELEMENT": "0.7037959760628156-5"
+}, {
+   "ELEMENT": "0.7037959760628156-6"
+}, {
+   "ELEMENT": "0.7037959760628156-7"
+}, {
+   "ELEMENT": "0.7037959760628156-8"
+}, {
+   "ELEMENT": "0.7037959760628156-9"
+}, {
+   "ELEMENT": "0.7037959760628156-10"
+}, {
+   "ELEMENT": "0.7037959760628156-11"
+}, {
+   "ELEMENT": "0.7037959760628156-12"
+}, {
+   "ELEMENT": "0.7037959760628156-13"
+}, {
+   "ELEMENT": "0.7037959760628156-14"
+}, {
+   "ELEMENT": "0.7037959760628156-15"
+}, {
+   "ELEMENT": "0.7037959760628156-16"
+}, {
+   "ELEMENT": "0.7037959760628156-17"
+}, {
+   "ELEMENT": "0.7037959760628156-18"
+}, {
+   "ELEMENT": "0.7037959760628156-19"
+}, {
+   "ELEMENT": "0.7037959760628156-20"
+}, "..." ]
+[52.024][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"sr-hotel__name\")]"
+}
+[52.024][INFO]: Waiting for pending navigations...
+[52.071][INFO]: Done waiting for pending navigations. Status: ok
+[52.123][INFO]: Waiting for pending navigations...
+[52.173][INFO]: Done waiting for pending navigations. Status: ok
+[52.174][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-25"
+}
+[52.176][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-25"
+}
+[52.176][INFO]: Waiting for pending navigations...
+[52.226][INFO]: Done waiting for pending navigations. Status: ok
+[52.301][INFO]: Waiting for pending navigations...
+[52.326][INFO]: Done waiting for pending navigations. Status: ok
+[52.326][INFO]: RESPONSE GetElementText "Selina Antigua"
+[52.329][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"review-score-badge\")]"
+}
+[52.329][INFO]: Waiting for pending navigations...
+[52.377][INFO]: Done waiting for pending navigations. Status: ok
+[52.439][INFO]: Waiting for pending navigations...
+[52.489][INFO]: Done waiting for pending navigations. Status: ok
+[52.490][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-26"
+}
+[52.492][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-26"
+}
+[52.492][INFO]: Waiting for pending navigations...
+[52.539][INFO]: Done waiting for pending navigations. Status: ok
+[52.597][INFO]: Waiting for pending navigations...
+[52.617][INFO]: Done waiting for pending navigations. Status: ok
+[52.617][INFO]: RESPONSE GetElementText "8.7"
+[52.620][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"review-score-widget__subtext\")]"
+}
+[52.620][INFO]: Waiting for pending navigations...
+[52.668][INFO]: Done waiting for pending navigations. Status: ok
+[52.740][INFO]: Waiting for pending navigations...
+[52.763][INFO]: Done waiting for pending navigations. Status: ok
+[52.763][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-27"
+}
+[52.765][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-27"
+}
+[52.765][INFO]: Waiting for pending navigations...
+[52.804][INFO]: Done waiting for pending navigations. Status: ok
+[52.851][INFO]: Waiting for pending navigations...
+[52.871][INFO]: Done waiting for pending navigations. Status: ok
+[52.871][INFO]: RESPONSE GetElementText "189 reviews"
+[52.874][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//td[contains(@class, \"roomPrice sr_discount\")]/div/strong/b"
+}
+[52.874][INFO]: Waiting for pending navigations...
+[52.903][INFO]: Done waiting for pending navigations. Status: ok
+[52.984][INFO]: Waiting for pending navigations...
+[53.008][INFO]: Done waiting for pending navigations. Status: ok
+[53.008][INFO]: RESPONSE FindChildElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[contains(@class, "roomPrice sr_discount")]/div/strong/b"}
+  (Session info: chrome=64.0.3282.167)
+[53.012][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-2",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@data-deal-rack, \"rackrate\")]"
+}
+[53.012][INFO]: Waiting for pending navigations...
+[53.060][INFO]: Done waiting for pending navigations. Status: ok
+[53.128][INFO]: Waiting for pending navigations...
+[53.156][INFO]: Done waiting for pending navigations. Status: ok
+[53.156][INFO]: RESPONSE FindChildElement no such element: Unable to locate element: {"method":"xpath","selector":".//span[contains(@data-deal-rack, "rackrate")]"}
+  (Session info: chrome=64.0.3282.167)
+[53.184][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"sr-hotel__name\")]"
+}
+[53.184][INFO]: Waiting for pending navigations...
+[53.188][INFO]: Done waiting for pending navigations. Status: ok
+[53.257][INFO]: Waiting for pending navigations...
+[53.283][INFO]: Done waiting for pending navigations. Status: ok
+[53.283][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-28"
+}
+[53.286][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-28"
+}
+[53.286][INFO]: Waiting for pending navigations...
+[53.334][INFO]: Done waiting for pending navigations. Status: ok
+[53.408][INFO]: Waiting for pending navigations...
+[53.434][INFO]: Done waiting for pending navigations. Status: ok
+[53.434][INFO]: RESPONSE GetElementText "Good Hotel Antigua"
+[53.436][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"review-score-badge\")]"
+}
+[53.437][INFO]: Waiting for pending navigations...
+[53.488][INFO]: Done waiting for pending navigations. Status: ok
+[53.557][INFO]: Waiting for pending navigations...
+[53.586][INFO]: Done waiting for pending navigations. Status: ok
+[53.586][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-29"
+}
+[53.589][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-29"
+}
+[53.589][INFO]: Waiting for pending navigations...
+[53.590][INFO]: Done waiting for pending navigations. Status: ok
+[53.618][INFO]: Waiting for pending navigations...
+[53.619][INFO]: Done waiting for pending navigations. Status: ok
+[53.619][INFO]: RESPONSE GetElementText "9.1"
+[53.622][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"review-score-widget__subtext\")]"
+}
+[53.622][INFO]: Waiting for pending navigations...
+[53.623][INFO]: Done waiting for pending navigations. Status: ok
+[53.648][INFO]: Waiting for pending navigations...
+[53.649][INFO]: Done waiting for pending navigations. Status: ok
+[53.649][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-30"
+}
+[53.651][INFO]: COMMAND GetElementText {
+   "id": "0.7037959760628156-30"
+}
+[53.651][INFO]: Waiting for pending navigations...
+[53.652][INFO]: Done waiting for pending navigations. Status: ok
+[53.681][INFO]: Waiting for pending navigations...
+[53.682][INFO]: Done waiting for pending navigations. Status: ok
+[53.682][INFO]: RESPONSE GetElementText "218 reviews"
+[53.684][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//td[contains(@class, \"roomPrice sr_discount\")]/div/strong/b"
+}
+[53.684][INFO]: Waiting for pending navigations...
+[53.685][INFO]: Done waiting for pending navigations. Status: ok
+[53.710][INFO]: Waiting for pending navigations...
+[53.711][INFO]: Done waiting for pending navigations. Status: ok
+[53.711][INFO]: RESPONSE FindChildElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[contains(@class, "roomPrice sr_discount")]/div/strong/b"}
+  (Session info: chrome=64.0.3282.167)
+[53.713][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-3",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@data-deal-rack, \"rackrate\")]"
+}
+[53.714][INFO]: Waiting for pending navigations...
+[53.714][INFO]: Done waiting for pending navigations. Status: ok
+[53.738][INFO]: Waiting for pending navigations...
+[53.739][INFO]: Done waiting for pending navigations. Status: ok
+[53.739][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.7037959760628156-31"
+}
+[53.742][INFO]: COMMAND ExecuteScript {
+   "args": [ {
+      "ELEMENT": "0.7037959760628156-31",
+      "element-6066-11e4-a52e-4f735466cecf": "0.7037959760628156-31"
+   } ],
+   "script": "return arguments[0].innerHTML",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc"
+}
+[53.742][INFO]: Waiting for pending navigations...
+[53.743][INFO]: Done waiting for pending navigations. Status: ok
+[53.746][INFO]: Waiting for pending navigations...
+[53.747][INFO]: Done waiting for pending navigations. Status: ok
+[53.747][INFO]: RESPONSE ExecuteScript "GTQ&nbsp;3,143\n    "
+[53.751][INFO]: COMMAND FindChildElement {
+   "id": "0.7037959760628156-4",
+   "sessionId": "db25c6a0aaefeceaa2f1231253347ddc",
+   "using": "xpath",
+   "value": ".//span[contains(@class, \"sr-hotel__name\")]"
+}
+[53.751][INFO]: Waiting for pending navigations...
+[53.751][INFO]: Done waiting for pending navigations. Status: ok
+[53.777][INFO]: Waiting for pending navigations...
+[53.778][INFO]: Done waiting for pending navigations. Status: ok
+[53.778][INFO]: RESPONSE FindChildElement no such element: Unable to locate element: {"method":"xpath","selector":".//span[contains(@class, "sr-hotel__name")]"}
+  (Session info: chrome=64.0.3282.167)
+[53.864][INFO]: COMMAND Quit {
+
+}
+[53.958][INFO]: RESPONSE Quit
