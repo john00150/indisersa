@@ -1,19 +1,25 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
+from settings import cities
 import time, re, sys
 
 
 class MarriottScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
+        self.cities = cities[:1]
+        self.mode = mode
         self.source = 'marriott.com'
         self.currency = 'USD'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
-        element = './/div'
-        x = self.scrape_hotels(element, 's')
-        self.report()
+        elements = './/div'
+        elements = self.presence(self.driver, elements, 10)
+        elements = [elements]
+        self.scrape_hotels(element)
+#        self.report()
 
     def city_element(self):
         pass
@@ -125,6 +131,5 @@ if __name__ == '__main__':
         mode = ''
 
 #    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
-    url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
-    MarriottScraper(url, 'chrome', 'marriott_scraper', 0, mode)
+    MarriottScraper(mode)
 

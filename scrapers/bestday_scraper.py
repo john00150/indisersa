@@ -1,15 +1,19 @@
 #encoding: utf8
 from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
+from settings import cities
 import time, sys
 
 
 class BestDayScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.bestday.com/Hotels/'
         self.currency = 'USD'
+        self.cities = cities
         self.source = 'bestday.com'
+        self.mode = mode
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         _element = './/span[contains(text(), "See more options")]'
@@ -20,12 +24,11 @@ class BestDayScraper(BaseScraper):
             except:
                 break
 
-        element = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
-        x = self.scrape_hotels(element, 'm') 
-        self.report()
-
-#            if address not in city:
-#                continue
+        elements = './/ul[@id="hotelList"]/li[contains(@class, "hotel-item")]'
+        self.presence(self.driver, elements, 10)
+        elements = self.elements(self.driver, elements)
+        self.scrape_hotels(elements) 
+        #self.report()
 
     def city_element(self):
         element = './/input[@name="ajhoteles"]'
@@ -122,6 +125,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'https://www.bestday.com/Hotels/'
-    BestDayScraper(url, 'chrome', 'bestday_scraper', 2, mode)
+    BestDayScraper(mode)
 

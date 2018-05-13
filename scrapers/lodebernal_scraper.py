@@ -1,20 +1,27 @@
 #encoding: utf8
 from base_scraper import BaseScraper
+from settings import cities
 from selenium.webdriver.common.keys import Keys
+
 import time, re
 
 
 class LodebernalScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'http://www.lodebernal.com/'
+        self.cities = cities[1:]
+        self.mode = mode
         self.banners = []
         self.source = 'lodebernal.com'
         self.currency = 'GTQ'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         try:
-            element = './/div[@class="room"]'
-            x = self.scrape_hotels(element, 's')
+            elements = './/div[@class="room"]'
+            elements = self.presence(self.driver, elements, 10)
+            elements = [elements]
+            self.scrape_hotels(elements)
             self.report()
         except:
             pass
@@ -81,6 +88,5 @@ if __name__ == "__main__":
     except:
         mode = ''
 
-    url = 'http://www.lodebernal.com/'
-    LodebernalScraper(url, 'chrome', 'lodebernal_scraper', 1, mode)
+    LodebernalScraper(url, mode)
 

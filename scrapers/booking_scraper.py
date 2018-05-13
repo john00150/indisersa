@@ -2,26 +2,31 @@
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
 import time, os, traceback, re, sys
-
+from settings import cities
 
 class BookingScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
         self.currency = 'GTQ'
         self.source = 'booking.com'
+        self.url = 'https://www.booking.com/'
+        self.cities = cities
+        self.mode = mode
         self.banners = [
             './/div[contains(@class, "close")]',
             '',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         next = './/a[contains(@class, "paging-next")]'
 
         while True:
             self._scroll_down()
-            hotels = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
-            check_element = self.presence(self.driver, hotels, 10)
-            x = self.scrape_hotels(hotels, 'm')
+            elements = './/div[@id="hotellist_inner"]/div[contains(@class, "sr_item")]'
+            check_element = self.presence(self.driver, elements, 10)
+            self.presence(self.driver, elements, 10)
+            elements = self.elements(self.driver, elements)
+            self.scrape_hotels(elements)
 
             try:
                 self.visibility(self.driver, next, 2).click()
@@ -166,6 +171,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'https://www.booking.com/'
-    BookingScraper(url, 'chrome', 'booking_scraper', 2, mode)
+    BookingScraper(url, mode)
 

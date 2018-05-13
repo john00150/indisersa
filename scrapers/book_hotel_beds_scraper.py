@@ -1,25 +1,31 @@
 #encoding: utf8
 from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
+from settings import cities
 import time, os, re, sys
 
 
 class BookHotelBedsScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
         self.currency = 'GTQ'
+        self.url = 'http://www.book-hotel-beds.com/'
+        self.mode = mode
+        self.citis = cities
         self.source = 'book-hotel-beds.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         next_element = './/a[contains(text(), "Next")]'
-        element = './/div[@class="hc_sri hc_m_v4"]'
+        elements = './/div[@class="hc_sri hc_m_v4"]'
 #        element = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
 
         while True:
             time.sleep(20)
-            check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element, 'm')
+            check_element = self.presence(self.driver, elements, 10)
+            self.presence(self.driver, elements, 10)
+            elements = self.elements(self.driver, elements)
+            x = self.scrape_hotels(elements)
 
             try:
                 self.visibility(self.driver, next_element, 5).click()
@@ -125,6 +131,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'http://www.book-hotel-beds.com/'
-    BookHotelBedsScraper(url, 'chrome', 'book_hotel_beds_scraper', 2, mode)
+    BookHotelBedsScraper(url, mode)
 

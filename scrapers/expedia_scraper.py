@@ -3,26 +3,32 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from base_scraper import BaseScraper
+from settings import cities
 import re, time
 
 
 class ExpediaScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.expedia.com/Hotels'
+        self.cities = cities
+        self.mode = mode
         self.currency = 'USD'
         self.source = 'expedia.com'
         self.banners = [
             './/span[contains(@class, "icon-close")]',
             './/div[@class="hero-banner-box cf"]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         _next = './/button[@class="pagination-next"]/abbr'
-        element = './/div[@id="resultsContainer"]/section/article'
+        elements = './/div[@id="resultsContainer"]/section/article'
 
         while True:
-            check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element, 'm')
+            check_element = self.presence(self.driver, elements, 10)
+            self.presence(self.driver, elements, 10)
+            elements = self.elements(self.driver, elements)
+            self.scrape_hotels(elements)
 
             try:
                 self.presence(self.driver, _next, 5).click()
@@ -110,6 +116,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'https://www.expedia.com/Hotels'
-    ExpediaScraper(url, 'chrome', 'expedia_scraper', 2, mode)
+    ExpediaScraper(url, mode)
 

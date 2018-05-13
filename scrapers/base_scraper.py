@@ -1,3 +1,4 @@
+from __future__ import print_function
 import pyodbc, time, datetime, sys, traceback, os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -5,27 +6,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from settings import dates, cities
+from settings import dates, hostname
 from datetime import datetime, timedelta
 
 class BaseScraper(object):
-    def __init__(self, url, spider_name, scraper_name, city_mode, mode):
-        self.mode = mode
-        self.connect_sql()
-        self.spider_name = spider_name
-        self.scraper_name = scraper_name
-        self.url = url
+    def __init__(self):
+        if hostname != 'john-Vostro-3558':
+            self.connect_sql()
+
         self.dates = dates
 
-        if city_mode == 0:
-            self.cities = [cities[0]]
-        if city_mode == 1:
-            self.cities = [cities[1]]
-        if city_mode == 2:
-            self.cities = cities
-
         self.main_function()
-        self.close_sql()
+
+        if hostname != 'john-Vostro-3558':
+            self.close_sql()
 
     def main_function(self):
         for date in self.dates:
@@ -37,40 +31,27 @@ class BaseScraper(object):
                 self.city, self.city2 = self.get_city(city)
                 self.count = 0
 
-                if self.spider_name == 'chrome':
-                    self.driver = self.chrome()
-                if self.spider_name == 'firefox':
-                    self.driver = self.firefox()
-                if self.spider_name == 'chrome_long_window':
-                    self.driver = self.chrome_long_window()
+                #if self.spider_name == 'chrome':
+                self.driver = self.chrome()
+                #if self.spider_name == 'firefox':
+                #    self.driver = self.firefox()
+                #if self.spider_name == 'chrome_long_window':
+                #    self.driver = self.chrome_long_window()
 
-                self.main_page()
+                self.city_element()
+                time.sleep(3)
+                self.checkin_element()
+                time.sleep(3)
+                self.checkout_element()
+                time.sleep(3)
+                self.occupancy_element()
+                time.sleep(3)
+                self.submit_element()
+                time.sleep(3)
+                self.scrape_pages()
+                self.report()
+
                 self.driver.quit()
-
-    def main_page(self):
-        if self.error_func(self.city_element, 'city_element', '') == 0:
-            if self.error_func(self.checkin_element, 'checkin_element', '') == 0:
-                if self.error_func(self.checkout_element, 'checkout_element', '') == 0:
-                    if self.error_func(self.occupancy_element, 'occupancy_element', '') == 0:
-                        if self.error_func(self.submit_element, 'submit_element', '') == 0:
-                            self.error_func(self.scrape_pages, 'scrape_pages', 'pass')
-
-    def error_func(self, function, func_name, mode):
-        try:
-            function()
-            return 0
-
-        except Exception, e:
-            print '########## {} ##########'.format(self.scraper_name)
-            print '##########  {}'.format(func_name)
-            traceback.print_exc()
-
-            if self.mode == 'test':
-                raise e
-            elif mode == 'pass':
-                return 0
-            else:
-                return 1
 
     def firefox(self):
         driver = webdriver.Firefox()
@@ -114,7 +95,7 @@ class BaseScraper(object):
             try:
                 element.click()
                 break
-            except Exception, e:
+            except Exception as e:
                 time.sleep(1)
 
     def wait_for_page_to_load(self, element):
@@ -174,71 +155,85 @@ class BaseScraper(object):
                 break
             except:
                 self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
-                time.sleep(0.2)
+                time.sleep(0.5)
 
     def scroll_range(self, _range):
         for x in range(_range):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
-    def scrape_hotels(self, elements, mode):
-        if mode == 's':
-            elements = self.presence(self.driver, elements, 10)
-            elements = [elements]
+#        if hotel_mode == 'single':
+#            elements = self.presence(self.driver, elements, 10)
+#            elements = [elements]
+#
+#        if hotel_mode == 'multiple':
+#            self.presence(self.driver, elements, 10)
+#            elements = self.elements(self.driver, elements)
 
-        if mode == 'm':
-            self.presence(self.driver, elements, 10)
-            elements = self.elements(self.driver, elements)
-
+    def scrape_hotels(self, elements):
         for element in elements:
             self.count += 1
-            t = (
-            self.scrape_name(element).replace("'", "''"),
-            self.scrape_rating(element),
-            self.scrape_review(element), 
-            self.scrape_address(element).replace("'", "''"),
-            self.scrape_new_price(element),
-            self.scrape_old_price(element),
-            self.checkin2, 
-            self.checkout2, 
-            self.city2, 
-            self.currency, 
-            self.source, 
-            datetime.now().strftime('%m/%d/%Y'), 
-            self.count, 
-            self.date
-            )
-            self.write_sql(t)
 
-        try:
-            self.conn.commit()
-        except:
-            pass
+            t = (
+                self.scrape_name(element).replace("'", "''").encode('utf8'),
+                self.scrape_rating(element),
+                self.scrape_review(element), 
+                self.scrape_address(element).replace("'", "''").encode('utf8'),
+                self.scrape_new_price(element),
+                self.scrape_old_price(element),
+                self.checkin2, 
+                self.checkout2, 
+                self.city2, 
+                self.currency, 
+                self.source, 
+                datetime.now().strftime('%m/%d/%Y'), 
+                self.count, 
+                self.date
+            )
+
+            self.write_sql(t)
+            if self.mode == 'print': 
+                t = [str(x) for x in t]
+                t = '|'.join(t)
+                print(t)                
 
     def connect_sql(self):
-        try:
-            self.conn = pyodbc.connect(r'DRIVER={SQL Server};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;CharacterSet=UTF-8;')
-            self.cur = self.conn.cursor()
-        except:
-            pass
+        self.conn = pyodbc.connect(
+            r"""DRIVER={SQL Server};
+            SERVER=(local);
+            DATABASE=hotels;
+            Trusted_Connection=Yes;
+            CharacterSet=UTF-8;"""
+        )
+        self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address,\
-            new_price, old_price, checkin, checkout, city, currency, source, date_scraped,\
-            hotel_position, date_range) VALUES\
-            ('%s', %s, %s, '%s', %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s)"
+        sql = """INSERT INTO hotel_info (
+            hotel_name, 
+            hotel_rating, 
+            hotel_review, 
+            hotel_address,
+            new_price, 
+            old_price, 
+            checkin, 
+            checkout, 
+            city, 
+            currency, 
+            source, 
+            date_scraped,
+            hotel_position, 
+            date_range
+        ) VALUES ('%s', %s, %s, '%s', %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s)"""
 
-        try:
-            self.cur.execute(sql % t)
-        except Exception, e:
-#            traceback.print_exc()           
-           pass
+        if hostname != 'john-Vostro-3558':
+            try:
+                self.cur.execute(sql % t)
+                self.conn.commit()
+            except Exception as e:
+                traceback.print_exc()           
 
     def close_sql(self):
-        try:
-            self.conn.close()
-        except:
-            pass
+        self.conn.close()
 
     def full_report(self):
         fh = open('report.csv', 'w')
@@ -249,12 +244,12 @@ class BaseScraper(object):
         fh.close()
 
     def report(self):
-        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
+        print("{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
             self.source, 
             self.city2, 
             self.count, 
             self.checkin2, 
             self.checkout2, 
             self.date
-        )
+        ))
 

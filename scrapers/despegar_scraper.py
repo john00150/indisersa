@@ -1,26 +1,32 @@
 #encoding: utf8
 from base_scraper import BaseScraper
+from settings import cities
 import time, sys, re
 
 
 class DespegarScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.us.despegar.com/hotels/'
         self.currency = 'USD'
+        self.mode = mode
+        self.cities = cities
         self.source = 'us.despegar.com'
         self.banners = [
             './/i[@class="nevo-modal-close nevo-icon-close"]',
             './/span[contains(@class, "eva-close")]',
         ]
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
-        element = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
+        elements = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
         next_element = './/a[@data-ga-el="next"]'
         self.close_banner()
 
         while True:
-            check_element = self.presence(self.driver, element, 10)
-            x = self.scrape_hotels(element, 'm')    
+            check_element = self.presence(self.driver, elements, 10)
+            self.presence(self.driver, elements, 10)
+            elements = self.elements(self.driver, elements)
+            self.scrape_hotels(elements)    
 #            self.scroll_to_bottom()
         
             try:
@@ -144,6 +150,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'https://www.us.despegar.com/hotels/'
-    DespegarScraper(url, 'chrome', 'despegar_scraper', 2, mode)
+    DespegarScraper(url, mode)
 

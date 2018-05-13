@@ -1,11 +1,15 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
+from settings import cities
 import time, re, sys
 
 
 class HotelsScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
+        self.mode = mode
+        self.cities = cities
         self.banners = [
             './/button[contains(@class, "close")]',
             './/div[@class="widget-query-group widget-query-occupancy"]',
@@ -15,15 +19,16 @@ class HotelsScraper(BaseScraper):
         ]
         self.currency = 'USD'
         self.source = 'hotels.com'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         element_to = './/li[contains(text(), "Travelers also looked at these properties nearby")]'
-        self.scroll_to_element(500, element_to)
+        self.scroll_to_element(800, element_to)
 
-        element = './/ol[contains(@class, "listings")]/li[contains(@class, "hotel")][not(contains(@class, "expanded-area"))]'
-        x = self.scrape_hotels(element, 'm')
-        self.report()
+        elements = './/ol[contains(@class, "listings")]/li[contains(@class, "hotel")][not(contains(@class, "expanded-area"))]'
+        self.presence(self.driver, elements, 10)
+        elements = self.elements(self.driver, elements)
+        self.scrape_hotels(elements)
 
     def city_element(self):
         self.close_banner()
@@ -110,6 +115,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    url = 'https://www.hotels.com/?pos=HCOM_US&locale=en_US'
-    HotelsScraper(url, 'chrome', 'hotels_scraper', 2, mode)
+    HotelsScraper(mode)
 
