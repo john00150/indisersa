@@ -1,489 +1,1245 @@
-radisson.com, Guatemala City, 1 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-radisson.com, Guatemala City, 1 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-radisson.com, Guatemala City, 1 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-radisson.com, Guatemala City, 1 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-radisson.com, Guatemala City, 1 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-lodebernal.com, Antigua Guatemala, 1 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_sbestday.com, Guatemala City, 76 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-bestday.com, Antigua Guatemala, 34 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-bestday.com, Guatemala City, 79 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-bestday.com, Antigua Guatemala, 37 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-bestday.com, Guatemala City, 73 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-bestday.com, Antigua Guatemala, 31 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-bestday.com, Guatemala City, 78 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-bestday.com, Antigua Guatemala, 37 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-bestday.com, Guatemala City, 80 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-bestday.com, Antigua Guatemala, 37 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
 Traceback (most recent call last):
   File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
     function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 54, in occupancy_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 25, in scrape_pages
-    x = self.scrape_hotels(element, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 66, in scrape_name
-    return self.presence(element, _element, 2).text.strip()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 91, in presence
-    return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call laTraceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 25, in scrape_pages
-    x = self.scrape_hotels(element, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 66, in scrape_name
-    return self.presence(element, _element, 2).text.strip()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 91, in presence
-    return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 54, in occupancy_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 54, in occupancy_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 54, in occupancy_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 54, in occupancy_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 25, in scrape_pages
-    x = self.scrape_hotels(element, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\ho########## expedia_scraper ##########
-##########  scrape_pages
-########## expedia_scraper ##########
-##########  occupancy_element
-########## expedia_scraper ##########
-##########  occupancy_element
-########## expedia_scraper ##########
-##########  occupancy_element
-########## expedia_scraper ##########
-##########  occupancy_element
-########## expedia_scraper ##########
-##########  scrape_pages
-########## expedia_scraper ##########
-##########  scrape_pages
-########## expedia_scraper ##########
-##########  scrape_pages
-########## expedia_scraper ##########
-##########  scrape_pages
-########## expedia_scraper ##########
-##########  occupancy_element
-tels\scrapers\expedia_scraper.py", line 66, in scrape_name
-    return self.presence(element, _element, 2).text.strip()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 91, in presence
-    return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 25, in scrape_pages
-    x = self.scrape_hotels(element, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 66, in scrape_name
-    return self.presence(element, _element, 2).text.strip()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 91, in presence
-    return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 25, in scrape_pages
-    x = self.scrape_hotels(element, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 66, in scrape_name
-    return self.presence(element, _element, 2).text.strip()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 91, in presence
-    return WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TTraceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driverbook-hotel-beds.com, Guatemala City, 48 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-########## book_hotel_beds_scraper ##########
-##########  city_element
-indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 33, in city_element
-    element = self.visibility(self.driver, element, 10)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    rehotels.com, Guatemala City, 98 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-hotels.com, Antigua Guatemala, 78 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-hotels.com, Guatemala City, 56 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-hotels.com, Antigua Guatemala, 86 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-hotels.com, Guatemala City, 59 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-hotels.com, Antigua Guatemala, 69 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-hotels.com, Guatemala City, 58 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-hotels.com, Antigua Guatemala, 81 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-hotels.com, Guatemala City, 60 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-hotels.com, Antigua Guatemala, 88 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-########## booking_scraper ##########
-##########  city_element
-booking.com, Antigua Guatemala, 34 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-booking.com, Guatemala City, 129 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-booking.com, Antigua Guatemala, 40 hotels, checkin 03/20/2018, checkout 03/23/2018, range 30
-
-booking.com, Guatemala City, 130 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-########## booking_scraper ##########
-##########  city_element
-booking.com, Guatemala City, 16 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-booking.com, Antigua Guatemala, 263 hotels, checkin 05/19/2018, checkout 05/22/2018, range 90
-
-booking.com, Guatemala City, 130 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-########## booking_scraper ##########
-##########  scrape_pages
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_after = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_after = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 24, in scrape_pages
-    x = self.scrape_hotels(hotels, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 119, in scrape_name
-    return self.element(element, _element).text
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 108, in element
-    return driver.find_element_by_xpath(element)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 263, in find_element_by_xpath
-    return self.find_element(by=By.XPATH, value=xpath)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 518, in find_element
-    {"using": by, "value": value})['value']
+  File "C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py", line 25, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
     return self._parent.execute(command, params)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
     self.error_handler.check_response(response)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
     raise exception_class(message, screen, stacktrace)
-NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":".//span[contains(@class, "sr-hotel__name")]"}
-  (Session info: chrome=64.0.3282.167)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
   (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
 
-33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
-
 Traceback (most recent call last):
   File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
     function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_after = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_after = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_after = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 55, in city_element
-    element_aftebooking.com, Guatemala City, 135 hotels, checkin 03/05/2018, checkout 03/08/2018, range 15
-
-########## booking_scraper ##########
-##########  scrape_pages
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  city_element
-booking.com, Antigua Guatemala, 284 hotels, checkin 04/19/2018, checkout 04/22/2018, range 60
-
-########## booking_scraper ##########
-##########  city_element
-########## booking_scraper ##########
-##########  scrape_pages
-booking.com, Guatemala City, 130 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-booking.com, Antigua Guatemala, 260 hotels, checkin 06/18/2018, checkout 06/21/2018, range 120
-
-r = self.visibility(self.driver, element_after, 5)
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 94, in visibility
-    return WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, element)))
-  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
-    raise TimeoutException(message, screen, stacktrace)
-TimeoutException: Message: 
-
-Traceback (most recent call last):
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
-    function()
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 24, in scrape_pages
-    x = self.scrape_hotels(hotels, 'm')
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 196, in scrape_hotels
-    self.scrape_name(element).replace("'", "''"),
-  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 119, in scrape_name
-    return self.element(element, _element).text
-  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 108, in element
-    return driver.find_element_by_xpath(element)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 263, in find_element_by_xpath
-    return self.find_element(by=By.XPATH, value=xpath)
-  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 518, in find_element
-    {"using": by, "value": value})['value']
+  File "C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py", line 25, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
     return self._parent.execute(command, params)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
     self.error_handler.check_response(response)
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
     raise exception_class(message, screen, stacktrace)
-NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":".//span[contains(@class, "sr-hotel__name")]"}
-  (Session info: chrome=64.0.3282.167)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py", line 25, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py", line 25, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Pyth########## radisson_scraper ##########
+##########  city_element
+########## radisson_scraper ##########
+##########  city_element
+########## radisson_scraper ##########
+##########  city_element
+########## radisson_scraper ##########
+##########  city_element
+########## radisson_scraper ##########
+##########  city_element
+on27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\radisson_scraper.py", line 25, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 28, in checkin_element
+    self.clear_input(element)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 49, in clear_input
+    element.send_keys(Keys.ARROW_RIGHT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 28, in checkin_element
+    self.clear_input(element)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 49, in clear_input
+    element.send_keys(Keys.ARROW_RIGHT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 28, in checkin_element
+    self.clear_input(element)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 49, in clear_input
+    element.send_keys(Keys.ARROW_RIGHT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 28, in checkin_element
+    self.clear_input(element)
+  File "C:\users\indisersa\De########## lodebernal_scraper ##########
+##########  checkin_element
+########## lodebernal_scraper ##########
+##########  checkin_element
+########## lodebernal_scraper ##########
+##########  checkin_element
+########## lodebernal_scraper ##########
+##########  checkin_element
+########## lodebernal_scraper ##########
+##########  checkin_element
+sktop\hotels\scrapers\lodebernal_scraper.py", line 49, in clear_input
+    element.send_keys(Keys.ARROW_RIGHT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 28, in checkin_element
+    self.clear_input(element)
+  File "C:\users\indisersa\Desktop\hotels\scrapers\lodebernal_scraper.py", line 49, in clear_input
+    element.send_keys(Keys.ARROW_RIGHT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\r########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+########## bestday_scraper ##########
+##########  city_element
+emote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\bestday_scraper.py", line 33, in city_element
+    _element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py", line 78, in occupancy_element
+    element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py", line 78, in occupancy_element
+    element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py", line 78, in occupancy_element
+    element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py", line 78, in occupancy_element
+    element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Pyth########## elconventoantigua_scraper ##########
+##########  occupancy_element
+########## elconventoantigua_scraper ##########
+##########  occupancy_element
+########## elconventoantigua_scraper ##########
+##########  occupancy_element
+########## elconventoantigua_scraper ##########
+##########  occupancy_element
+########## elconventoantigua_scraper ##########
+##########  occupancy_element
+on27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\elconventoantigua_scraper.py", line 78, in occupancy_element
+    element.click()
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\we########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+########## expedia_scraper ##########
+##########  city_element
+belement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\expedia_scraper.py", line 38, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  ########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+########## book_hotel_beds_scraper ##########
+##########  city_element
+File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\book_hotel_beds_scraper.py", line 34, in city_element
+    element.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", lin########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+########## hotels_scraper ##########
+##########  city_element
+e 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\hotels_scraper.py", line 31, in city_element
+    self.visibility(self.driver, element, 10).send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+########## booking_scraper ##########
+##########  city_element
+\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
+  (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
+
+Traceback (most recent call last):
+  File "C:\users\indisersa\Desktop\hotels\scrapers\base_scraper.py", line 60, in error_func
+    function()
+  File "C:\users\indisersa\Desktop\hotels\scrapers\booking_scraper.py", line 52, in city_element
+    element_before.send_keys(self.city)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 352, in send_keys
+    'value': keys_to_typing(value)})
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 501, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 308, in execute
+    self.error_handler.check_response(response)
+  File "C:\Python27\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 194, in check_response
+    raise exception_class(message, screen, stacktrace)
+WebDriverException: Message: unknown error: call function result missing 'value'
+  (Session info: chrome=66.0.3359.139)
   (Driver info: chromedriver=2.33.506120 (e3e53437346286c0bc2d2dc9aa4915ba81d9023f),platform=Windows NT 6.1.7601 SP1 x86_64)
 
