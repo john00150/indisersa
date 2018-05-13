@@ -208,7 +208,7 @@ class BaseScraper(object):
 
         if hostname != 'john-Vostro-3558':
             try:
-                self.cur.execute(sql)
+                self.cur.execute(sql.encode('utf8'))
                 self.conn.commit()
             except Exception as e:
                 print(e)
