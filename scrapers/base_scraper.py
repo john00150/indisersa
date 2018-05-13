@@ -211,8 +211,8 @@ class BaseScraper(object):
                 self.cur.execute(sql)
                 self.conn.commit()
             except Exception as e:
-                print(sql)
-                traceback.print_exc()           
+                print(e)
+                #traceback.print_exc()           
 
     def close_sql(self):
         self.conn.close()
