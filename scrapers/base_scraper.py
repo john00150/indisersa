@@ -167,10 +167,10 @@ class BaseScraper(object):
             self.count += 1
 
             t = (
-                self.scrape_name(element).replace("'", "''").encode('utf8'),
+                self.scrape_name(element).encode('utf8'),
                 self.scrape_rating(element),
                 self.scrape_review(element), 
-                self.scrape_address(element).replace("'", "''").encode('utf8'),
+                self.scrape_address(element).encode('utf8'),
                 self.scrape_new_price(element),
                 self.scrape_old_price(element),
                 self.checkin2, 
@@ -215,7 +215,7 @@ class BaseScraper(object):
             date_scraped,
             hotel_position, 
             date_range
-        ) VALUES ('%s', %s, %s, '%s', %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s)"""
+        ) VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")"""
 
         if hostname != 'john-Vostro-3558':
             try:

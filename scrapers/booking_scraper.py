@@ -33,7 +33,6 @@ class BookingScraper(BaseScraper):
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
 #                traceback.print_exc()
-                self.report()
                 break
 
     def _scroll_down(self):
