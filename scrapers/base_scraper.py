@@ -200,7 +200,7 @@ class BaseScraper(object):
         self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = """REPLACE INTO hotel_info (
+        sql = """INSERT INTO hotel_info (
             hotel_name, 
             hotel_rating, 
             hotel_review, 
