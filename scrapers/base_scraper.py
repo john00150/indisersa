@@ -167,10 +167,10 @@ class BaseScraper(object):
             self.count += 1
 
             t = (
-                self.scrape_name(element).replace("'", '"').decode('utf8'),
+                self.scrape_name(element).replace("'", '"').encode('utf8'),
                 self.scrape_rating(element),
                 self.scrape_review(element), 
-                self.scrape_address(element).replace("'", '"').decode('utf8'),
+                self.scrape_address(element).replace("'", '"').encode('utf8'),
                 self.scrape_new_price(element),
                 self.scrape_old_price(element),
                 self.checkin2, 
@@ -184,6 +184,7 @@ class BaseScraper(object):
             )
 
             self.write_sql(t)
+
             if self.mode == 'print': 
                 print(t)                
 
@@ -208,8 +209,7 @@ class BaseScraper(object):
                 self.cur.execute(sql)
                 self.conn.commit()
             except Exception as e:
-                print(t, '\n###################################################################')
-                #traceback.print_exc()           
+                print(e)
 
     def close_sql(self):
         self.conn.close()
