@@ -216,10 +216,11 @@ class BaseScraper(object):
             hotel_position, 
             date_range
         ) VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")"""
+        sql = sql % t
 
         if hostname != 'john-Vostro-3558':
             try:
-                self.cur.execute(sql % t)
+                self.cur.execute(sql)
                 self.conn.commit()
             except Exception as e:
                 print(sql)
