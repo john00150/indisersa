@@ -1,22 +1,28 @@
 #encoding: utf8
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
+from settings import cities
 import time, re, json
 
 
 class RadissonScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'https://www.radisson.com/'
+        self.cities = cities[:1]
+        self.mode = mode 
         self.banners = [
             './/div[@class="cookieControl"]/div/div/table/tbody/tr/td/a[@class="commit"]',
         ]
         self.source = 'radisson.com'
         self.currency = 'GTQ'
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
-        element = './/div[contains(@class, "hotelRow")]'
+        elements = './/div[contains(@class, "hotelRow")]'
+        elements = self.presence(self.driver, elements, 10)
+        elements = [elements]
 #        print self.presence(self.driver, element, 10).get_attribute('hoteldata')
-        x = self.scrape_hotels(element, 's')
+        x = self.scrape_hotels(element)
         self.report()        
 
     def city_element(self):
@@ -95,6 +101,5 @@ if __name__ == '__main__':
     except:
         mode = ''
  
-    url = 'https://www.radisson.com/' 
-    RadissonScraper(url, 'chrome', 'radisson_scraper', 0, mode)
+    RadissonScraper(url, mode)
 

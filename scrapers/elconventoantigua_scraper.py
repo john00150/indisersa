@@ -1,18 +1,24 @@
 from base_scraper import BaseScraper
+from settings import cities
 import time, re
 
 
 class ElconventoantiguaScraper(BaseScraper):
-    def __init__(self, url, spider, scraper_name, city_mode, mode):
+    def __init__(self, mode):
+        self.url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
+        self.mode = mode
+        self.cities = cities[1:]
         self.currency = 'USD'
         self.source = 'elconventoantigua.com'
         self.banners = []
-        BaseScraper.__init__(self, url, spider, scraper_name, city_mode, mode)
+        BaseScraper.__init__(self)
 
     def scrape_pages(self):
         try:
-            element = './/div[contains(@class, "AccommodationsList")]/div'
-            x = self.scrape_hotels(element, 's')
+            elements = './/div[contains(@class, "AccommodationsList")]/div'
+            elements = self.presence(self.driver, elements, 10)
+            elements = [elements]
+            x = self.scrape_hotels(element)
             self.report()
         except:
             pass
@@ -94,6 +100,5 @@ if __name__ == "__main__":
     except:
         mode = ''
 
-    url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
-    ElconventoantiguaScraper(url, 'chrome', 'elconventoantigua_scraper', 1, mode)
+    ElconventoantiguaScraper(url, mode)
 

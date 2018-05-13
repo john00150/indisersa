@@ -1,4 +1,7 @@
 #encoding: utf-8
+import socket
+
+hostname = socket.gethostname()
 
 host = 'indisersa.database.windows.net'
 username = 'otto'
