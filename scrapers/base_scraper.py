@@ -244,12 +244,12 @@ class BaseScraper(object):
         fh.close()
 
     def report(self):
-        print("{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
+        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
             self.source, 
             self.city2, 
             self.count, 
             self.checkin2, 
             self.checkout2, 
             self.date
-        ))
+        )
 
