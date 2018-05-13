@@ -167,15 +167,15 @@ class BaseScraper(object):
             self.count += 1
 
             t = (
-                self.scrape_name(element).replace("'", '"').encode('utf8'),
+                self.scrape_name(element).replace("'", '"').decode('utf8'),
                 self.scrape_rating(element),
                 self.scrape_review(element), 
-                self.scrape_address(element).replace("'", '"').encode('utf8'),
+                self.scrape_address(element).replace("'", '"').decode('utf8'),
                 self.scrape_new_price(element),
                 self.scrape_old_price(element),
                 self.checkin2, 
                 self.checkout2, 
-                self.city2.replace("'", '"').encode('utf8'), 
+                self.city2.replace("'", '"').decode('utf8'), 
                 self.currency, 
                 self.source, 
                 datetime.now().strftime('%m/%d/%Y'), 
@@ -185,8 +185,6 @@ class BaseScraper(object):
 
             self.write_sql(t)
             if self.mode == 'print': 
-                t = [str(x) for x in t]
-                t = '|'.join(t)
                 print(t)                
 
     def connect_sql(self):
