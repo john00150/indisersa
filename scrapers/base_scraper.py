@@ -167,15 +167,15 @@ class BaseScraper(object):
             self.count += 1
 
             t = (
-                self.scrape_name(element).encode('utf8'),
+                self.scrape_name(element).replace("'", '"').encode('utf8'),
                 self.scrape_rating(element),
                 self.scrape_review(element), 
-                self.scrape_address(element).encode('utf8'),
+                self.scrape_address(element).replace("'", '"').encode('utf8'),
                 self.scrape_new_price(element),
                 self.scrape_old_price(element),
                 self.checkin2, 
                 self.checkout2, 
-                self.city2, 
+                self.city2.replace("'", '"').encode('utf8'), 
                 self.currency, 
                 self.source, 
                 datetime.now().strftime('%m/%d/%Y'), 
@@ -200,9 +200,9 @@ class BaseScraper(object):
         self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = 'INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price,\
+        sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price,\
             old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range)\
-            VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")'
+            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
 
         sql = sql % t
 
