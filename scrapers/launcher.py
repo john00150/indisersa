@@ -1,7 +1,9 @@
 from datetime import datetime
-import subprocess, smtplib, os
+from hotels_scraper import HotelsScraper
+from booking_scraper import BookingScraper
+import smtplib, os
 from email.mime.text import MIMEText
-from settings import log_path, scraper_paths, report_path
+from settings import path, hostname
 
 
 def send_email(line):
@@ -23,18 +25,16 @@ def send_email(line):
     s.quit()
 
 
-if __name__ == "__main__":    
-    subprocess.call('taskkill /f /im chromedriver.exe')
+if __name__ == "__main__":
+    print(path) #################    
+#    fh = open(log_path, 'w+')
 
-    fh = open(log_path, 'w+')
+    #if hostname != 'john-Vostro-3558': 
+    #    subprocess.call('taskkill /f /im chromedriver.exe')
 
-    for path in scraper_paths:
-        subprocess.call(
-            ['python', path],
-            stdout=fh,
-            stderr=fh
-        )
+    #HotelsScraper()
+    #BookingScraper()
         
-    send_email(fh.read())
-    fh.close()
+#    send_email(fh.read())
+#    fh.close()
 

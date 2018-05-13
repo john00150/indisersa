@@ -127,12 +127,13 @@ class BookingScraper(BaseScraper):
 
     def scrape_new_price(self, element):
         try:
-            _element = './/td[contains(@class, "roomPrice sr_discount")]/div/strong/b'
+            _element = './/strong[contains(@class, "price")]/b'
             element = self.element(element, _element)
             element = self.driver.execute_script('return arguments[0].innerHTML', element).strip()
             element = re.findall(r'([0-9,]+)', element)[0]
             element = re.sub(r',', '', element)
-            return int(element)/3
+            element = int(element)/3
+            return element
         except:
             return 0
 
@@ -143,7 +144,9 @@ class BookingScraper(BaseScraper):
             element = self.driver.execute_script('return arguments[0].innerHTML', element).strip()
             element = re.findall(r'([0-9,]+)', element)[0]
             element = re.sub(r',', '', element)
-            return int(element)/3
+            element = int(element)/3
+            print(element)
+            return element
         except:
             return 0
 
