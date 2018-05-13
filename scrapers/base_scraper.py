@@ -200,14 +200,13 @@ class BaseScraper(object):
         self.cur = self.conn.cursor()
 
     def write_sql(self, t):
-        sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price,\
-            old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range)\
-            VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
-
-        sql = sql % t
-
         if hostname != 'john-Vostro-3558':
             try:
+                sql = "INSERT INTO hotel_info (hotel_name, hotel_rating, hotel_review, hotel_address, new_price,\
+                    old_price, checkin, checkout, city, currency, source, date_scraped, hotel_position, date_range)\
+                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+
+                sql = sql % t
                 self.cur.execute(sql)
                 self.conn.commit()
             except Exception as e:
