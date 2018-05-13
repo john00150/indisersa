@@ -162,14 +162,6 @@ class BaseScraper(object):
             self.element(self.driver, './/body').send_keys(Keys.ARROW_DOWN)
             time.sleep(0.4)
 
-#        if hotel_mode == 'single':
-#            elements = self.presence(self.driver, elements, 10)
-#            elements = [elements]
-#
-#        if hotel_mode == 'multiple':
-#            self.presence(self.driver, elements, 10)
-#            elements = self.elements(self.driver, elements)
-
     def scrape_hotels(self, elements):
         for element in elements:
             self.count += 1
@@ -244,12 +236,12 @@ class BaseScraper(object):
         fh.close()
 
     def report(self):
-        print "{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
+        print ("{}, {}, {} hotels, checkin {}, checkout {}, range {}\n".format(
             self.source, 
             self.city2, 
             self.count, 
             self.checkin2, 
             self.checkout2, 
             self.date
-        )
+        ))
 
