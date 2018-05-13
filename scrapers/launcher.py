@@ -26,15 +26,12 @@ def send_email(line):
 
 
 if __name__ == "__main__":
-    print(path) #################    
-#    fh = open(log_path, 'w+')
+    with open(path + '/logs/launcher.log', 'w+') as fh:
+        if hostname != 'john-Vostro-3558': 
+            subprocess.call('taskkill /f /im chromedriver.exe')
 
-    #if hostname != 'john-Vostro-3558': 
-    #    subprocess.call('taskkill /f /im chromedriver.exe')
-
-    #HotelsScraper()
-    #BookingScraper()
-        
-#    send_email(fh.read())
-#    fh.close()
+        HotelsScraper('')
+        BookingScraper('')
+            
+    #    send_email(fh.read())
 

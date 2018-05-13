@@ -168,10 +168,8 @@ class BookingScraper(BaseScraper):
 
 
 if __name__ == '__main__':
-    try:
-        mode = sys.argv[1]
-    except:
-        mode = ''
+    try: mode = sys.argv[1]
+    except: mode = ''
 
     BookingScraper(mode)
 

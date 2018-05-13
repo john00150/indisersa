@@ -15,4 +15,4 @@ cities = [
     'Antigua Guatemala, Guatemala',
 ]
 
-path = os.getcwd()
+path = os.path.dirname(os.getcwd())
