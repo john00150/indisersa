@@ -9,6 +9,8 @@ import time, re, sys
 class MarriottScraper(BaseScraper):
     def __init__(self, mode):
         self.url = 'https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/'
+        self.checkin_checkout_element ='.//div[@aria-label="{}"]'
+        self.further_element = './/div[@title="Next month"]'
         self.cities = cities[:1]
         self.mode = mode
         self.source = 'marriott.com'
@@ -24,12 +26,13 @@ class MarriottScraper(BaseScraper):
         pass
 
     def checkin_element(self):
-        #self.elements(self.driver, './/div[contains(@data-check-in-label, "Check-in")]')[1].click()
+        self.elements(self.driver, './/div[contains(@class, "js-toggle-picker")]')[1].click()
+        time.sleep(2)
+        self.elements(self.driver, './/input[@placeholder="Check-in"]')[2].clear()
 
-        self.checkin_checkout_element ='.//div[@aria-label="{}"]'
-        self.further_element = './/div[@title="Next month"]'
         elements = './/span[contains(@class, "l-icon-calendar")]'
         elements = self.elements(self.driver, elements)
+
         for element in elements:
             try:
                 element.click()
@@ -47,6 +50,8 @@ class MarriottScraper(BaseScraper):
         self._checkin_checkout_element(elements)
 
     def checkout_element(self):
+        self.elements(self.driver, './/div[contains(@class, "js-toggle-picker")]')[1].click()
+
         _str = '{}, {} {}, {}'.format(
             self.checkout.strftime('%A')[:3],
             self.checkout.strftime('%B')[:3],
