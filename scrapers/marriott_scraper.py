@@ -1,4 +1,5 @@
 #encoding: utf8
+from __future__ import print_function
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
 from settings import cities
@@ -17,14 +18,14 @@ class MarriottScraper(BaseScraper):
     def scrape_pages(self):
         elements = './/div'
         elements = self.presence(self.driver, elements, 10)
-        elements = [elements]
-        self.scrape_hotels(element)
-#        self.report()
+        self.scrape_hotels([elements])
 
     def city_element(self):
         pass
 
     def checkin_element(self):
+        #self.elements(self.driver, './/div[contains(@data-check-in-label, "Check-in")]')[1].click()
+
         self.checkin_checkout_element ='.//div[@aria-label="{}"]'
         self.further_element = './/div[@title="Next month"]'
         elements = './/span[contains(@class, "l-icon-calendar")]'
@@ -130,6 +131,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-#    url = 'https://www.marriott.com/hotels/travel/guacy-courtyard-guatemala-city/'
     MarriottScraper(mode)
 

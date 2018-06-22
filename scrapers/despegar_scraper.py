@@ -1,5 +1,6 @@
 #encoding: utf8
 from base_scraper import BaseScraper
+from selenium.webdriver.common.keys import Keys
 from settings import cities
 import time, sys, re
 
@@ -14,6 +15,7 @@ class DespegarScraper(BaseScraper):
         self.banners = [
             './/i[@class="nevo-modal-close nevo-icon-close"]',
             './/span[contains(@class, "eva-close")]',
+            './/span[contains(@class, "as-login-close")]'
         ]
         BaseScraper.__init__(self)
 
@@ -48,21 +50,26 @@ class DespegarScraper(BaseScraper):
         else:
             element.send_keys(self.city)
 
-        element = './/div[@class="geo-searchbox-autocomplete-holder-transition"]'
-        if self.city == 'Guatemala City, Guatemala':
-            element2 = './/*[contains(., "Guatemala City, Guatemala, Guatemala")]'
+        time.sleep(2)
+        element.send_keys(Keys.RETURN)
 
-        if self.city == 'Antigua Guatemala, Guatemala':
-            element2 = './/*[contains(., "Antigua, Sacatepequez, Guatemala")]'
+        #element = './/div[@class="geo-searchbox-autocomplete-holder-transition"]'
+
+        #if self.city == 'Guatemala City, Guatemala':
+        #    element = './/*[contains(text(), "Guatemala City, Guatemala, Guatemala")]'
+        #    self.presence(self.driver, element, 10).click()
+
+        #if self.city == 'Antigua Guatemala, Guatemala':
+        #    element2 = './/*[contains(., "Antigua, Sacatepequez, Guatemala")]'
         
-        while True:
-            try:
-                _element = self.presence(self.driver, element, 10)
-                _element = self.elements(_element, element2)[1]
-                _element.click()
-                break
-            except:
-                pass
+        #while True:
+        #    try:
+        #        _element = self.presence(self.driver, element, 10)
+        #        _element = self.elements(_element, element2)[1]
+        #        _element.click()
+        #        break
+        #    except:
+        #        pass
 
     def checkin_checkout_scrape(self, date):
         elements = './/div[contains(@data-month, "{}")]/div/span[contains(text(), "{}")]'
@@ -70,6 +77,7 @@ class DespegarScraper(BaseScraper):
 
         x = 0
         elements = elements.format(date.strftime('%Y-%m'), date.day)
+
         while True:
             _elements = self.elements(self.driver, elements)
             for _element in _elements:
@@ -102,7 +110,7 @@ class DespegarScraper(BaseScraper):
         element2 = './/a[contains(@class, "icon-minus")]'
         element2 = self.presence(self.driver, element2, 5)
         element2.click()
-        element3 = './/div[contains(@class, "full")]'
+        element3 = './/a[contains(text(), "Apply")]'
         element3 = self.presence(self.driver, element3, 5)
         element3.click()
 
@@ -112,7 +120,7 @@ class DespegarScraper(BaseScraper):
         element.click()
 
     def scrape_name(self, element):
-        _element = './/h3[@class="hf-hotel-name"]/a'
+        _element = './/h3[contains(@class, "hf-hotel-name")]/a'
         return self.element(element, _element).get_attribute('title') 
 
     def scrape_address(self, element):
@@ -150,5 +158,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    DespegarScraper(url, mode)
+    DespegarScraper(mode)
 

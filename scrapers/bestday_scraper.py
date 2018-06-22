@@ -31,19 +31,20 @@ class BestDayScraper(BaseScraper):
         #self.report()
 
     def city_element(self):
-        element = './/input[@name="ajhoteles"]'
-        _element = self.presence(self.driver, element, 10)
-        _element.send_keys(self.city)
-
         if self.city == 'Guatemala City, Guatemala':
-            element = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[./strong[contains(text(), "Guatemala")]]'
-            _element = self.visibility(self.driver, element, 10)
-            _element.click()
+            keys = 'Guatemala City'
+            element = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]'
 
         else:
+            keys = self.city
             element = './/ul[contains(@class, "ui-autocomplete")]/li[@class="ui-menu-item"]/a[contains(text(), "Antigua, Guatemala")]'
-            _element = self.visibility(self.driver, element, 10)
-            _element.click()
+
+        city_element = './/input[@name="ajhoteles"]'
+        city_element = self.presence(self.driver, city_element, 10)
+        city_element.send_keys(keys)
+
+        city_dropdown_element = self.visibility(self.driver, element, 10)
+        city_dropdown_element.click()
 
     def checkin_element(self):
         element = '//input[@name="check-inH"]'
@@ -103,7 +104,9 @@ class BestDayScraper(BaseScraper):
         _element = './/span[@class="currency"]/span[@class="currency-price"]'
 
         try:
-            return self.element(element, _element).text.strip()
+            price = self.element(element, _element).text.strip()
+            #print(price)
+            return price
         except:
             return 0
 
@@ -111,7 +114,9 @@ class BestDayScraper(BaseScraper):
         _element = './/span[@class="currency-before"]/span[@class="currency-before"]/span[@class="currency-price"]'
 
         try:
-            return self.element(element, _element).text.strip()
+            price = self.element(element, _element).text.strip()
+            #print(price)
+            return price
         except:
             return 0
 
