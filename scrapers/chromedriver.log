@@ -1,4 +1,4 @@
-[1529683366,092][INFO]: COMMAND InitSession {
+[1529687073,697][INFO]: COMMAND InitSession {
    "capabilities": {
       "alwaysMatch": {
          "browserName": "chrome",
@@ -22,7 +22,7 @@
       "version": ""
    }
 }
-[1529683366,093][INFO]: Populating Preferences file: {
+[1529687073,697][INFO]: Populating Preferences file: {
    "alternate_error_pages": {
       "enabled": false
    },
@@ -75,7 +75,7 @@
       "enabled": false
    }
 }
-[1529683366,093][INFO]: Populating Local State file: {
+[1529687073,697][INFO]: Populating Local State file: {
    "background_mode": {
       "enabled": false
    },
@@ -85,9 +85,9 @@
       }
    }
 }
-[1529683366,093][INFO]: Launching chrome: /usr/bin/google-chrome --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension=/tmp/.org.chromium.Chromium.j1GzFV/internal --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain --user-data-dir=/tmp/.org.chromium.Chromium.KH2bJA data:,
-[1529683366,508][INFO]: resolved localhost to ["127.0.0.1"]
-[1529683366,600][INFO]: RESPONSE InitSession {
+[1529687073,698][INFO]: Launching chrome: /usr/bin/google-chrome --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --disable-web-resources --enable-automation --enable-logging --force-fieldtrials=SiteIsolationExtensions/Control --ignore-certificate-errors --load-extension=/tmp/.org.chromium.Chromium.TYmTC8/internal --log-level=0 --metrics-recording-only --no-first-run --password-store=basic --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain --user-data-dir=/tmp/.org.chromium.Chromium.1BDf73 data:,
+[1529687074,119][INFO]: resolved localhost to ["127.0.0.1"]
+[1529687074,187][INFO]: RESPONSE InitSession {
    "acceptInsecureCerts": false,
    "acceptSslCerts": false,
    "applicationCacheEnabled": false,
@@ -95,7 +95,7 @@
    "browserName": "chrome",
    "chrome": {
       "chromedriverVersion": "2.40.565383 (76257d1ab79276b2d53ee976b2c3e3b9f335cde7)",
-      "userDataDir": "/tmp/.org.chromium.Chromium.KH2bJA"
+      "userDataDir": "/tmp/.org.chromium.Chromium.1BDf73"
    },
    "cssSelectorsEnabled": true,
    "databaseEnabled": false,
@@ -112,538 +112,497 @@
    "setWindowRect": true,
    "~~~": "..."
 }
-[1529683366,602][INFO]: COMMAND MaximizeWindow {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687074,189][INFO]: COMMAND MaximizeWindow {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "windowHandle": "current"
 }
-[1529683366,603][INFO]: resolved localhost to ["127.0.0.1"]
-[1529683366,707][INFO]: RESPONSE MaximizeWindow
-[1529683366,708][INFO]: COMMAND Navigate {
-   "sessionId": "7151712a54dd12979153bf190496167f",
-   "url": "https://www.marriott.com/hotels/hotel-rooms/guacy-courtyard-guatemala-city/"
+[1529687074,189][INFO]: resolved localhost to ["127.0.0.1"]
+[1529687074,291][INFO]: RESPONSE MaximizeWindow
+[1529687074,292][INFO]: COMMAND Navigate {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "url": "https://www.radisson.com/"
 }
-[1529683366,708][INFO]: Waiting for pending navigations...
-[1529683366,709][INFO]: Done waiting for pending navigations. Status: ok
-[1529683367,923][INFO]: Waiting for pending navigations...
-[1529683374,886][INFO]: Done waiting for pending navigations. Status: ok
-[1529683374,886][INFO]: RESPONSE Navigate
-[1529683377,889][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687074,292][INFO]: Waiting for pending navigations...
+[1529687074,312][INFO]: Done waiting for pending navigations. Status: ok
+[1529687075,689][INFO]: Waiting for pending navigations...
+[1529687078,054][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,054][INFO]: RESPONSE Navigate
+[1529687078,055][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//span[contains(@class, \"l-icon-calendar\")]"
+   "value": ".//input[@name=\"city\"]"
 }
-[1529683377,890][INFO]: Waiting for pending navigations...
-[1529683377,891][INFO]: Done waiting for pending navigations. Status: ok
-[1529683377,910][INFO]: Waiting for pending navigations...
-[1529683377,910][INFO]: Done waiting for pending navigations. Status: ok
-[1529683377,910][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-1"
-} ]
-[1529683377,911][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-1",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687078,055][INFO]: Waiting for pending navigations...
+[1529687078,056][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,082][INFO]: Waiting for pending navigations...
+[1529687078,084][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,084][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-1"
 }
-[1529683377,911][INFO]: Waiting for pending navigations...
-[1529683377,912][INFO]: Done waiting for pending navigations. Status: ok
-[1529683377,938][INFO]: Waiting for pending navigations...
-[1529683377,939][INFO]: Done waiting for pending navigations. Status: ok
-[1529683377,939][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683378,942][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687078,085][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-1"
+}
+[1529687078,085][INFO]: Waiting for pending navigations...
+[1529687078,086][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,106][INFO]: Waiting for pending navigations...
+[1529687078,107][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,107][INFO]: RESPONSE IsElementDisplayed true
+[1529687078,108][INFO]: COMMAND TypeElement {
+   "id": "0.8361304983258557-1",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "text": "Guatemala City, Guatemala",
+   "value": [ "G", "u", "a", "t", "e", "m", "a", "l", "a", " ", "C", "i", "t", "y", ",", " ", "G", "u", "a", "..." ]
+}
+[1529687078,108][INFO]: Waiting for pending navigations...
+[1529687078,109][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,412][INFO]: Waiting for pending navigations...
+[1529687078,414][INFO]: Done waiting for pending navigations. Status: ok
+[1529687078,414][INFO]: RESPONSE TypeElement
+[1529687081,418][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Sat, Jul 7, 2018\"]"
+   "value": ".//input[@id=\"checkinDate\"]"
 }
-[1529683378,943][INFO]: Waiting for pending navigations...
-[1529683378,944][INFO]: Done waiting for pending navigations. Status: ok
-[1529683378,970][INFO]: Waiting for pending navigations...
-[1529683378,971][INFO]: Done waiting for pending navigations. Status: ok
-[1529683378,971][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-2"
-}, {
-   "ELEMENT": "0.09952676140274996-3"
-}, {
-   "ELEMENT": "0.09952676140274996-4"
-} ]
-[1529683378,972][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-2",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687081,418][INFO]: Waiting for pending navigations...
+[1529687081,419][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,438][INFO]: Waiting for pending navigations...
+[1529687081,449][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,449][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-2"
 }
-[1529683378,972][INFO]: Waiting for pending navigations...
-[1529683378,973][INFO]: Done waiting for pending navigations. Status: ok
-[1529683378,997][INFO]: Waiting for pending navigations...
-[1529683378,998][INFO]: Done waiting for pending navigations. Status: ok
-[1529683378,998][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683380,001][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-3",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687081,450][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-2"
 }
-[1529683380,001][INFO]: Waiting for pending navigations...
-[1529683380,002][INFO]: Done waiting for pending navigations. Status: ok
-[1529683380,029][INFO]: Waiting for pending navigations...
-[1529683380,030][INFO]: Done waiting for pending navigations. Status: ok
-[1529683380,030][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683381,033][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-4",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687081,450][INFO]: Waiting for pending navigations...
+[1529687081,456][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,475][INFO]: Waiting for pending navigations...
+[1529687081,476][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,476][INFO]: RESPONSE IsElementDisplayed true
+[1529687081,477][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-2",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
 }
-[1529683381,033][INFO]: Waiting for pending navigations...
-[1529683381,035][INFO]: Done waiting for pending navigations. Status: ok
-[1529683381,071][INFO]: Waiting for pending navigations...
-[1529683381,071][INFO]: Done waiting for pending navigations. Status: ok
-[1529683381,071][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683382,074][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687081,477][INFO]: Waiting for pending navigations...
+[1529687081,481][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,634][INFO]: Waiting for pending navigations...
+[1529687081,640][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,640][INFO]: RESPONSE ClickElement
+[1529687081,641][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@title=\"Next month\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683382,074][INFO]: Waiting for pending navigations...
-[1529683382,075][INFO]: Done waiting for pending navigations. Status: ok
-[1529683382,091][INFO]: Waiting for pending navigations...
-[1529683382,092][INFO]: Done waiting for pending navigations. Status: ok
-[1529683382,092][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-5"
-}, {
-   "ELEMENT": "0.09952676140274996-6"
-} ]
-[1529683382,093][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-5",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683382,093][INFO]: Waiting for pending navigations...
-[1529683382,094][INFO]: Done waiting for pending navigations. Status: ok
-[1529683382,118][INFO]: Waiting for pending navigations...
-[1529683382,118][INFO]: Done waiting for pending navigations. Status: ok
-[1529683382,118][INFO]: RESPONSE ClickElement element not visible
+[1529687081,641][INFO]: Waiting for pending navigations...
+[1529687081,642][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,667][INFO]: Waiting for pending navigations...
+[1529687081,669][INFO]: Done waiting for pending navigations. Status: ok
+[1529687081,669][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683383,121][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-6",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683383,121][INFO]: Waiting for pending navigations...
-[1529683383,123][INFO]: Done waiting for pending navigations. Status: ok
-[1529683383,151][INFO]: Waiting for pending navigations...
-[1529683383,152][INFO]: Done waiting for pending navigations. Status: ok
-[1529683383,152][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683384,154][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687082,172][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Sat, Jul 7, 2018\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683384,154][INFO]: Waiting for pending navigations...
-[1529683384,156][INFO]: Done waiting for pending navigations. Status: ok
-[1529683384,171][INFO]: Waiting for pending navigations...
-[1529683384,172][INFO]: Done waiting for pending navigations. Status: ok
-[1529683384,172][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-2"
-}, {
-   "ELEMENT": "0.09952676140274996-3"
-}, {
-   "ELEMENT": "0.09952676140274996-4"
-} ]
-[1529683384,173][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-2",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683384,173][INFO]: Waiting for pending navigations...
-[1529683384,175][INFO]: Done waiting for pending navigations. Status: ok
-[1529683384,199][INFO]: Waiting for pending navigations...
-[1529683384,200][INFO]: Done waiting for pending navigations. Status: ok
-[1529683384,200][INFO]: RESPONSE ClickElement element not visible
+[1529687082,172][INFO]: Waiting for pending navigations...
+[1529687082,173][INFO]: Done waiting for pending navigations. Status: ok
+[1529687082,188][INFO]: Waiting for pending navigations...
+[1529687082,189][INFO]: Done waiting for pending navigations. Status: ok
+[1529687082,189][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683385,204][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-3",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683385,204][INFO]: Waiting for pending navigations...
-[1529683385,205][INFO]: Done waiting for pending navigations. Status: ok
-[1529683385,232][INFO]: Waiting for pending navigations...
-[1529683385,234][INFO]: Done waiting for pending navigations. Status: ok
-[1529683385,234][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683386,236][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-4",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683386,237][INFO]: Waiting for pending navigations...
-[1529683386,238][INFO]: Done waiting for pending navigations. Status: ok
-[1529683386,257][INFO]: Waiting for pending navigations...
-[1529683386,258][INFO]: Done waiting for pending navigations. Status: ok
-[1529683386,258][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683387,260][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687082,692][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@title=\"Next month\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683387,260][INFO]: Waiting for pending navigations...
-[1529683387,261][INFO]: Done waiting for pending navigations. Status: ok
-[1529683387,271][INFO]: Waiting for pending navigations...
-[1529683387,272][INFO]: Done waiting for pending navigations. Status: ok
-[1529683387,272][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-5"
-}, {
-   "ELEMENT": "0.09952676140274996-6"
-} ]
-[1529683387,273][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-5",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683387,273][INFO]: Waiting for pending navigations...
-[1529683387,274][INFO]: Done waiting for pending navigations. Status: ok
-[1529683387,291][INFO]: Waiting for pending navigations...
-[1529683387,292][INFO]: Done waiting for pending navigations. Status: ok
-[1529683387,292][INFO]: RESPONSE ClickElement element not visible
+[1529687082,692][INFO]: Waiting for pending navigations...
+[1529687082,693][INFO]: Done waiting for pending navigations. Status: ok
+[1529687082,712][INFO]: Waiting for pending navigations...
+[1529687082,714][INFO]: Done waiting for pending navigations. Status: ok
+[1529687082,714][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683388,295][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-6",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683388,295][INFO]: Waiting for pending navigations...
-[1529683388,297][INFO]: Done waiting for pending navigations. Status: ok
-[1529683388,324][INFO]: Waiting for pending navigations...
-[1529683388,326][INFO]: Done waiting for pending navigations. Status: ok
-[1529683388,326][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683389,329][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687083,216][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Sat, Jul 7, 2018\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683389,329][INFO]: Waiting for pending navigations...
-[1529683389,330][INFO]: Done waiting for pending navigations. Status: ok
-[1529683389,345][INFO]: Waiting for pending navigations...
-[1529683389,348][INFO]: Done waiting for pending navigations. Status: ok
-[1529683389,348][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-2"
-}, {
-   "ELEMENT": "0.09952676140274996-3"
-}, {
-   "ELEMENT": "0.09952676140274996-4"
-} ]
-[1529683389,351][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-2",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683389,351][INFO]: Waiting for pending navigations...
-[1529683389,352][INFO]: Done waiting for pending navigations. Status: ok
-[1529683389,367][INFO]: Waiting for pending navigations...
-[1529683389,368][INFO]: Done waiting for pending navigations. Status: ok
-[1529683389,368][INFO]: RESPONSE ClickElement element not visible
+[1529687083,216][INFO]: Waiting for pending navigations...
+[1529687083,218][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,232][INFO]: Waiting for pending navigations...
+[1529687083,233][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,233][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683390,371][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-3",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683390,371][INFO]: Waiting for pending navigations...
-[1529683390,373][INFO]: Done waiting for pending navigations. Status: ok
-[1529683390,395][INFO]: Waiting for pending navigations...
-[1529683390,396][INFO]: Done waiting for pending navigations. Status: ok
-[1529683390,396][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683391,400][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-4",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683391,400][INFO]: Waiting for pending navigations...
-[1529683391,402][INFO]: Done waiting for pending navigations. Status: ok
-[1529683391,413][INFO]: Waiting for pending navigations...
-[1529683391,414][INFO]: Done waiting for pending navigations. Status: ok
-[1529683391,414][INFO]: RESPONSE ClickElement stale element reference: element is not attached to the page document
-  (Session info: chrome=66.0.3359.170)
-[1529683392,417][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687083,735][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@title=\"Next month\"]"
+   "value": ".//a[@data-handler=\"next\"]"
 }
-[1529683392,417][INFO]: Waiting for pending navigations...
-[1529683392,419][INFO]: Done waiting for pending navigations. Status: ok
-[1529683392,431][INFO]: Waiting for pending navigations...
-[1529683392,432][INFO]: Done waiting for pending navigations. Status: ok
-[1529683392,432][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-5"
-}, {
-   "ELEMENT": "0.09952676140274996-7"
-} ]
-[1529683392,435][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-5",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687083,736][INFO]: Waiting for pending navigations...
+[1529687083,737][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,755][INFO]: Waiting for pending navigations...
+[1529687083,756][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,756][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-3"
 }
-[1529683392,435][INFO]: Waiting for pending navigations...
-[1529683392,436][INFO]: Done waiting for pending navigations. Status: ok
-[1529683392,459][INFO]: Waiting for pending navigations...
-[1529683392,460][INFO]: Done waiting for pending navigations. Status: ok
-[1529683392,460][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683393,463][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-7",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687083,757][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-3"
 }
-[1529683393,463][INFO]: Waiting for pending navigations...
-[1529683393,465][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,557][INFO]: Waiting for pending navigations...
-[1529683393,564][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,564][INFO]: RESPONSE ClickElement
-[1529683393,566][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687083,757][INFO]: Waiting for pending navigations...
+[1529687083,758][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,777][INFO]: Waiting for pending navigations...
+[1529687083,779][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,779][INFO]: RESPONSE IsElementDisplayed true
+[1529687083,780][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-3",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687083,780][INFO]: Waiting for pending navigations...
+[1529687083,781][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,889][INFO]: Waiting for pending navigations...
+[1529687083,897][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,897][INFO]: RESPONSE ClickElement
+[1529687083,898][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Sat, Jul 7, 2018\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683393,566][INFO]: Waiting for pending navigations...
-[1529683393,570][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,604][INFO]: Waiting for pending navigations...
-[1529683393,605][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,605][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-2"
-}, {
-   "ELEMENT": "0.09952676140274996-3"
-}, {
-   "ELEMENT": "0.09952676140274996-8"
-} ]
-[1529683393,606][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-2",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683393,607][INFO]: Waiting for pending navigations...
-[1529683393,609][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,642][INFO]: Waiting for pending navigations...
-[1529683393,654][INFO]: Done waiting for pending navigations. Status: ok
-[1529683393,654][INFO]: RESPONSE ClickElement element not visible
+[1529687083,898][INFO]: Waiting for pending navigations...
+[1529687083,899][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,909][INFO]: Waiting for pending navigations...
+[1529687083,910][INFO]: Done waiting for pending navigations. Status: ok
+[1529687083,910][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683394,657][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-3",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683394,657][INFO]: Waiting for pending navigations...
-[1529683394,658][INFO]: Done waiting for pending navigations. Status: ok
-[1529683394,680][INFO]: Waiting for pending navigations...
-[1529683394,682][INFO]: Done waiting for pending navigations. Status: ok
-[1529683394,682][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683395,685][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-8",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683395,685][INFO]: Waiting for pending navigations...
-[1529683395,687][INFO]: Done waiting for pending navigations. Status: ok
-[1529683395,719][INFO]: Waiting for pending navigations...
-[1529683395,719][INFO]: Done waiting for pending navigations. Status: ok
-[1529683395,719][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683396,722][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687084,412][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@title=\"Next month\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683396,723][INFO]: Waiting for pending navigations...
-[1529683396,724][INFO]: Done waiting for pending navigations. Status: ok
-[1529683396,741][INFO]: Waiting for pending navigations...
-[1529683396,743][INFO]: Done waiting for pending navigations. Status: ok
-[1529683396,743][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-5"
-}, {
-   "ELEMENT": "0.09952676140274996-7"
-} ]
-[1529683396,744][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-5",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683396,744][INFO]: Waiting for pending navigations...
-[1529683396,745][INFO]: Done waiting for pending navigations. Status: ok
-[1529683396,762][INFO]: Waiting for pending navigations...
-[1529683396,763][INFO]: Done waiting for pending navigations. Status: ok
-[1529683396,763][INFO]: RESPONSE ClickElement element not visible
+[1529687084,412][INFO]: Waiting for pending navigations...
+[1529687084,414][INFO]: Done waiting for pending navigations. Status: ok
+[1529687084,431][INFO]: Waiting for pending navigations...
+[1529687084,432][INFO]: Done waiting for pending navigations. Status: ok
+[1529687084,432][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683397,766][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-7",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683397,766][INFO]: Waiting for pending navigations...
-[1529683397,768][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,852][INFO]: Waiting for pending navigations...
-[1529683397,864][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,864][INFO]: RESPONSE ClickElement
-[1529683397,866][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687084,934][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Sat, Jul 7, 2018\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683397,866][INFO]: Waiting for pending navigations...
-[1529683397,867][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,878][INFO]: Waiting for pending navigations...
-[1529683397,879][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,879][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-2"
-}, {
-   "ELEMENT": "0.09952676140274996-3"
-}, {
-   "ELEMENT": "0.09952676140274996-9"
-} ]
-[1529683397,880][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-2",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683397,880][INFO]: Waiting for pending navigations...
-[1529683397,880][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,894][INFO]: Waiting for pending navigations...
-[1529683397,895][INFO]: Done waiting for pending navigations. Status: ok
-[1529683397,895][INFO]: RESPONSE ClickElement element not visible
+[1529687084,935][INFO]: Waiting for pending navigations...
+[1529687084,936][INFO]: Done waiting for pending navigations. Status: ok
+[1529687084,951][INFO]: Waiting for pending navigations...
+[1529687084,952][INFO]: Done waiting for pending navigations. Status: ok
+[1529687084,952][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683398,897][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-3",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683398,897][INFO]: Waiting for pending navigations...
-[1529683398,899][INFO]: Done waiting for pending navigations. Status: ok
-[1529683398,919][INFO]: Waiting for pending navigations...
-[1529683398,921][INFO]: Done waiting for pending navigations. Status: ok
-[1529683398,921][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683399,923][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-9",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683399,923][INFO]: Waiting for pending navigations...
-[1529683399,925][INFO]: Done waiting for pending navigations. Status: ok
-[1529683400,048][INFO]: Waiting for pending navigations...
-[1529683400,057][INFO]: Done waiting for pending navigations. Status: ok
-[1529683400,057][INFO]: RESPONSE ClickElement
-[1529683403,061][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687085,455][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//div[@aria-label=\"Tue, Jul 10, 2018\"]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683403,061][INFO]: Waiting for pending navigations...
-[1529683403,062][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,088][INFO]: Waiting for pending navigations...
-[1529683403,092][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,092][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-10"
-} ]
-[1529683403,093][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-10",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683403,093][INFO]: Waiting for pending navigations...
-[1529683403,094][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,222][INFO]: Waiting for pending navigations...
-[1529683403,235][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,235][INFO]: RESPONSE ClickElement
-[1529683403,236][INFO]: COMMAND FindElement {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687085,455][INFO]: Waiting for pending navigations...
+[1529687085,455][INFO]: Done waiting for pending navigations. Status: ok
+[1529687085,468][INFO]: Waiting for pending navigations...
+[1529687085,469][INFO]: Done waiting for pending navigations. Status: ok
+[1529687085,469][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
+  (Session info: chrome=66.0.3359.170)
+[1529687085,972][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//body"
+   "value": ".//a[@data-handler=\"next\"]"
 }
-[1529683403,236][INFO]: Waiting for pending navigations...
-[1529683403,242][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,289][INFO]: Waiting for pending navigations...
-[1529683403,296][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,296][INFO]: RESPONSE FindElement {
-   "ELEMENT": "0.09952676140274996-11"
+[1529687085,972][INFO]: Waiting for pending navigations...
+[1529687085,974][INFO]: Done waiting for pending navigations. Status: ok
+[1529687085,988][INFO]: Waiting for pending navigations...
+[1529687085,989][INFO]: Done waiting for pending navigations. Status: ok
+[1529687085,989][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-4"
 }
-[1529683403,297][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-11",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687085,990][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-4"
 }
-[1529683403,297][INFO]: Waiting for pending navigations...
-[1529683403,302][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,449][INFO]: Waiting for pending navigations...
-[1529683403,458][INFO]: Done waiting for pending navigations. Status: ok
-[1529683403,459][INFO]: RESPONSE ClickElement
-[1529683409,467][INFO]: COMMAND FindElement {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687085,990][INFO]: Waiting for pending navigations...
+[1529687085,991][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,012][INFO]: Waiting for pending navigations...
+[1529687086,014][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,014][INFO]: RESPONSE IsElementDisplayed true
+[1529687086,016][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-4",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687086,016][INFO]: Waiting for pending navigations...
+[1529687086,017][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,124][INFO]: Waiting for pending navigations...
+[1529687086,133][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,133][INFO]: RESPONSE ClickElement
+[1529687086,134][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//button[contains(@type, \"submit\")]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683409,467][INFO]: Waiting for pending navigations...
-[1529683409,469][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,497][INFO]: Waiting for pending navigations...
-[1529683409,498][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,498][INFO]: RESPONSE FindElement {
-   "ELEMENT": "0.09952676140274996-12"
-}
-[1529683409,499][INFO]: COMMAND FindElements {
-   "sessionId": "7151712a54dd12979153bf190496167f",
+[1529687086,134][INFO]: Waiting for pending navigations...
+[1529687086,136][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,150][INFO]: Waiting for pending navigations...
+[1529687086,151][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,151][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
+  (Session info: chrome=66.0.3359.170)
+[1529687086,654][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
    "using": "xpath",
-   "value": ".//button[contains(@type, \"submit\")]"
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683409,499][INFO]: Waiting for pending navigations...
-[1529683409,500][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,519][INFO]: Waiting for pending navigations...
-[1529683409,521][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,521][INFO]: RESPONSE FindElements [ {
-   "ELEMENT": "0.09952676140274996-12"
-}, {
-   "ELEMENT": "0.09952676140274996-13"
-}, {
-   "ELEMENT": "0.09952676140274996-14"
-}, {
-   "ELEMENT": "0.09952676140274996-15"
-}, {
-   "ELEMENT": "0.09952676140274996-16"
-}, {
-   "ELEMENT": "0.09952676140274996-17"
-} ]
-[1529683409,522][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-12",
-   "sessionId": "7151712a54dd12979153bf190496167f"
-}
-[1529683409,522][INFO]: Waiting for pending navigations...
-[1529683409,522][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,549][INFO]: Waiting for pending navigations...
-[1529683409,549][INFO]: Done waiting for pending navigations. Status: ok
-[1529683409,549][INFO]: RESPONSE ClickElement element not visible
+[1529687086,654][INFO]: Waiting for pending navigations...
+[1529687086,656][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,675][INFO]: Waiting for pending navigations...
+[1529687086,677][INFO]: Done waiting for pending navigations. Status: ok
+[1529687086,677][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683410,552][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-13",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687087,179][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683410,552][INFO]: Waiting for pending navigations...
-[1529683410,554][INFO]: Done waiting for pending navigations. Status: ok
-[1529683410,591][INFO]: Waiting for pending navigations...
-[1529683410,592][INFO]: Done waiting for pending navigations. Status: ok
-[1529683410,592][INFO]: RESPONSE ClickElement element not visible
+[1529687087,179][INFO]: Waiting for pending navigations...
+[1529687087,181][INFO]: Done waiting for pending navigations. Status: ok
+[1529687087,195][INFO]: Waiting for pending navigations...
+[1529687087,196][INFO]: Done waiting for pending navigations. Status: ok
+[1529687087,196][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683411,595][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-14",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687087,698][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
 }
-[1529683411,595][INFO]: Waiting for pending navigations...
-[1529683411,596][INFO]: Done waiting for pending navigations. Status: ok
-[1529683411,624][INFO]: Waiting for pending navigations...
-[1529683411,625][INFO]: Done waiting for pending navigations. Status: ok
-[1529683411,625][INFO]: RESPONSE ClickElement element not visible
+[1529687087,698][INFO]: Waiting for pending navigations...
+[1529687087,700][INFO]: Done waiting for pending navigations. Status: ok
+[1529687087,718][INFO]: Waiting for pending navigations...
+[1529687087,719][INFO]: Done waiting for pending navigations. Status: ok
+[1529687087,719][INFO]: RESPONSE FindElement no such element: Unable to locate element: {"method":"xpath","selector":".//td[@data-handler="selectDay"][@data-month="9"][@data-year="2018"]/a[contains(text(), "20")]"}
   (Session info: chrome=66.0.3359.170)
-[1529683412,628][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-15",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687088,221][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//a[@data-handler=\"next\"]"
 }
-[1529683412,628][INFO]: Waiting for pending navigations...
-[1529683412,629][INFO]: Done waiting for pending navigations. Status: ok
-[1529683412,662][INFO]: Waiting for pending navigations...
-[1529683412,662][INFO]: Done waiting for pending navigations. Status: ok
-[1529683412,662][INFO]: RESPONSE ClickElement element not visible
-  (Session info: chrome=66.0.3359.170)
-[1529683413,665][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-16",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687088,222][INFO]: Waiting for pending navigations...
+[1529687088,223][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,234][INFO]: Waiting for pending navigations...
+[1529687088,235][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,235][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-5"
 }
-[1529683413,665][INFO]: Waiting for pending navigations...
-[1529683413,667][INFO]: Done waiting for pending navigations. Status: ok
-[1529683413,774][INFO]: Waiting for pending navigations...
-[1529683419,974][INFO]: Done waiting for pending navigations. Status: ok
-[1529683419,974][INFO]: RESPONSE ClickElement
-[1529683419,975][INFO]: COMMAND ClickElement {
-   "id": "0.09952676140274996-17",
-   "sessionId": "7151712a54dd12979153bf190496167f"
+[1529687088,236][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-5"
 }
-[1529683419,975][INFO]: Waiting for pending navigations...
-[1529683419,980][INFO]: Done waiting for pending navigations. Status: ok
-[1529683419,985][INFO]: Waiting for pending navigations...
-[1529683419,985][INFO]: Done waiting for pending navigations. Status: ok
-[1529683419,986][INFO]: RESPONSE ClickElement stale element reference: element is not attached to the page document
-  (Session info: chrome=66.0.3359.170)
+[1529687088,236][INFO]: Waiting for pending navigations...
+[1529687088,236][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,260][INFO]: Waiting for pending navigations...
+[1529687088,261][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,261][INFO]: RESPONSE IsElementDisplayed true
+[1529687088,262][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-5",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687088,262][INFO]: Waiting for pending navigations...
+[1529687088,263][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,390][INFO]: Waiting for pending navigations...
+[1529687088,397][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,397][INFO]: RESPONSE ClickElement
+[1529687088,398][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"20\")]"
+}
+[1529687088,398][INFO]: Waiting for pending navigations...
+[1529687088,399][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,408][INFO]: Waiting for pending navigations...
+[1529687088,410][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,410][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-6"
+}
+[1529687088,411][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-6"
+}
+[1529687088,412][INFO]: Waiting for pending navigations...
+[1529687088,415][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,438][INFO]: Waiting for pending navigations...
+[1529687088,438][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,438][INFO]: RESPONSE IsElementDisplayed true
+[1529687088,439][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-6",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687088,439][INFO]: Waiting for pending navigations...
+[1529687088,440][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,608][INFO]: Waiting for pending navigations...
+[1529687088,620][INFO]: Done waiting for pending navigations. Status: ok
+[1529687088,620][INFO]: RESPONSE ClickElement
+[1529687091,623][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//input[@id=\"checkoutDate\"]"
+}
+[1529687091,624][INFO]: Waiting for pending navigations...
+[1529687091,626][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,653][INFO]: Waiting for pending navigations...
+[1529687091,654][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,654][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-7"
+}
+[1529687091,655][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-7"
+}
+[1529687091,655][INFO]: Waiting for pending navigations...
+[1529687091,656][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,671][INFO]: Waiting for pending navigations...
+[1529687091,672][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,672][INFO]: RESPONSE IsElementDisplayed true
+[1529687091,673][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-7",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687091,673][INFO]: Waiting for pending navigations...
+[1529687091,674][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,804][INFO]: Waiting for pending navigations...
+[1529687091,806][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,806][INFO]: RESPONSE ClickElement
+[1529687091,807][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//td[@data-handler=\"selectDay\"][@data-month=\"9\"][@data-year=\"2018\"]/a[contains(text(), \"23\")]"
+}
+[1529687091,807][INFO]: Waiting for pending navigations...
+[1529687091,808][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,833][INFO]: Waiting for pending navigations...
+[1529687091,838][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,838][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-8"
+}
+[1529687091,839][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.8361304983258557-8"
+}
+[1529687091,839][INFO]: Waiting for pending navigations...
+[1529687091,840][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,860][INFO]: Waiting for pending navigations...
+[1529687091,868][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,868][INFO]: RESPONSE IsElementDisplayed true
+[1529687091,870][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-8",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687091,870][INFO]: Waiting for pending navigations...
+[1529687091,871][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,978][INFO]: Waiting for pending navigations...
+[1529687091,983][INFO]: Done waiting for pending navigations. Status: ok
+[1529687091,983][INFO]: RESPONSE ClickElement
+[1529687097,991][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//a[contains(@title, \"Go\")]"
+}
+[1529687097,991][INFO]: Waiting for pending navigations...
+[1529687097,993][INFO]: Done waiting for pending navigations. Status: ok
+[1529687098,023][INFO]: Waiting for pending navigations...
+[1529687098,024][INFO]: Done waiting for pending navigations. Status: ok
+[1529687098,024][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.8361304983258557-9"
+}
+[1529687098,025][INFO]: COMMAND ClickElement {
+   "id": "0.8361304983258557-9",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d"
+}
+[1529687098,025][INFO]: Waiting for pending navigations...
+[1529687098,026][INFO]: Done waiting for pending navigations. Status: ok
+[1529687098,142][INFO]: Waiting for pending navigations...
+[1529687098,149][INFO]: Done waiting for pending navigations. Status: ok
+[1529687098,149][INFO]: RESPONSE ClickElement
+[1529687101,153][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//div[contains(@class, \"hotelRow\")]"
+}
+[1529687102,056][INFO]: Waiting for pending navigations...
+[1529687104,068][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,100][INFO]: Waiting for pending navigations...
+[1529687104,101][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,101][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.054152123288429665-1"
+}
+[1529687104,102][INFO]: COMMAND GetElementAttribute {
+   "id": "0.054152123288429665-1",
+   "name": "hoteldata"
+}
+[1529687104,102][INFO]: Waiting for pending navigations...
+[1529687104,102][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,107][INFO]: Waiting for pending navigations...
+[1529687104,108][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,108][INFO]: RESPONSE GetElementAttribute "{\"amenities\":[\"roomService\",\"coveredParking\",\"suitesAvail\",\"onSiteRestaurant\",\"meetingFacilitiesAvail\",\"onSiteBusinessCenter\",\"onSiteHealthClub\",\"freeInternet\",\"compShuttle\"],\"distance\":5.0,\"price\"..."
+[1529687104,110][INFO]: COMMAND GetElementAttribute {
+   "id": "0.054152123288429665-1",
+   "name": "hoteldata"
+}
+[1529687104,110][INFO]: Waiting for pending navigations...
+[1529687104,111][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,113][INFO]: Waiting for pending navigations...
+[1529687104,114][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,114][INFO]: RESPONSE GetElementAttribute "{\"amenities\":[\"roomService\",\"coveredParking\",\"suitesAvail\",\"onSiteRestaurant\",\"meetingFacilitiesAvail\",\"onSiteBusinessCenter\",\"onSiteHealthClub\",\"freeInternet\",\"compShuttle\"],\"distance\":5.0,\"price\"..."
+[1529687104,116][INFO]: COMMAND FindChildElement {
+   "id": "0.054152123288429665-1",
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//a[@class=\"ratingLink\"]"
+}
+[1529687104,116][INFO]: Waiting for pending navigations...
+[1529687104,117][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,149][INFO]: Waiting for pending navigations...
+[1529687104,150][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,150][INFO]: RESPONSE FindChildElement {
+   "ELEMENT": "0.054152123288429665-2"
+}
+[1529687104,151][INFO]: COMMAND GetElementText {
+   "id": "0.054152123288429665-2"
+}
+[1529687104,151][INFO]: Waiting for pending navigations...
+[1529687104,152][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,172][INFO]: Waiting for pending navigations...
+[1529687104,173][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,173][INFO]: RESPONSE GetElementText "1,181 Reviews"
+[1529687104,174][INFO]: COMMAND FindElement {
+   "sessionId": "9b6a9391d1fdc8badf75e952aed3196d",
+   "using": "xpath",
+   "value": ".//td[@id=\"hoteladdress\"]"
+}
+[1529687104,174][INFO]: Waiting for pending navigations...
+[1529687104,175][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,196][INFO]: Waiting for pending navigations...
+[1529687104,197][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,197][INFO]: RESPONSE FindElement {
+   "ELEMENT": "0.054152123288429665-3"
+}
+[1529687104,198][INFO]: COMMAND IsElementDisplayed {
+   "id": "0.054152123288429665-3"
+}
+[1529687104,198][INFO]: Waiting for pending navigations...
+[1529687104,199][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,218][INFO]: Waiting for pending navigations...
+[1529687104,219][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,219][INFO]: RESPONSE IsElementDisplayed true
+[1529687104,220][INFO]: COMMAND GetElementText {
+   "id": "0.054152123288429665-3"
+}
+[1529687104,220][INFO]: Waiting for pending navigations...
+[1529687104,221][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,250][INFO]: Waiting for pending navigations...
+[1529687104,251][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,251][INFO]: RESPONSE GetElementText "1 Ave.12-46 Zona 10, Guatemala City, 01010\n+502 24215151  |  2.5 mi /  4.0 km from requested location"
+[1529687104,252][INFO]: COMMAND GetElementAttribute {
+   "id": "0.054152123288429665-1",
+   "name": "hoteldata"
+}
+[1529687104,252][INFO]: Waiting for pending navigations...
+[1529687104,253][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,255][INFO]: Waiting for pending navigations...
+[1529687104,255][INFO]: Done waiting for pending navigations. Status: ok
+[1529687104,255][INFO]: RESPONSE GetElementAttribute "{\"amenities\":[\"roomService\",\"coveredParking\",\"suitesAvail\",\"onSiteRestaurant\",\"meetingFacilitiesAvail\",\"onSiteBusinessCenter\",\"onSiteHealthClub\",\"freeInternet\",\"compShuttle\"],\"distance\":5.0,\"price\"..."
+[1529687104,256][INFO]: COMMAND Quit {
+
+}
+[1529687104,307][INFO]: RESPONSE Quit

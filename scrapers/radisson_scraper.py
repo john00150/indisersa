@@ -1,8 +1,9 @@
 #encoding: utf8
+from __future__ import print_function
 from selenium.webdriver.common.keys import Keys
 from base_scraper import BaseScraper
 from settings import cities
-import time, re, json
+import time, re, json, sys
 
 
 class RadissonScraper(BaseScraper):
@@ -22,8 +23,7 @@ class RadissonScraper(BaseScraper):
         elements = self.presence(self.driver, elements, 10)
         elements = [elements]
 #        print self.presence(self.driver, element, 10).get_attribute('hoteldata')
-        x = self.scrape_hotels(element)
-        self.report()        
+        x = self.scrape_hotels(elements)
 
     def city_element(self):
         element = './/input[@name="city"]'
@@ -101,5 +101,5 @@ if __name__ == '__main__':
     except:
         mode = ''
  
-    RadissonScraper(url, mode)
+    RadissonScraper(mode)
 
