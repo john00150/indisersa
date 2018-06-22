@@ -10,7 +10,7 @@ class BookHotelBedsScraper(BaseScraper):
         self.currency = 'GTQ'
         self.url = 'http://www.book-hotel-beds.com/'
         self.mode = mode
-        self.citis = cities
+        self.cities = cities
         self.source = 'book-hotel-beds.com'
         self.banners = []
         BaseScraper.__init__(self)
@@ -131,5 +131,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    BookHotelBedsScraper(url, mode)
+    BookHotelBedsScraper(mode)
 

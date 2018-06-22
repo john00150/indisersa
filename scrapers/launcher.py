@@ -1,7 +1,7 @@
 from datetime import datetime
 from hotels_scraper import HotelsScraper
 from booking_scraper import BookingScraper
-import smtplib, os
+import smtplib, os, subprocess
 from email.mime.text import MIMEText
 from settings import path, hostname
 
