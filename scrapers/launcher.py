@@ -32,6 +32,14 @@ if __name__ == "__main__":
 
         HotelsScraper('')
         BookingScraper('')
+        DespegarScraper('')
+        RadissonScraper('')
+        ElconventoantiguaScraper('')
+        LodebernalScraper('')
+        MarriottScraper('')
+        ExpediaScraper('')
+#        BestDayScraper('')
+#        BookHotelBedsScraper('')
             
     #    send_email(fh.read())
 
