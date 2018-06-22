@@ -185,8 +185,7 @@ class BaseScraper(object):
 
             self.write_sql(t)
 
-            if self.mode == 'print': 
-                print(t)                
+            if self.mode == 'print': print(list(t))       
 
     def connect_sql(self):
         self.conn = pyodbc.connect(

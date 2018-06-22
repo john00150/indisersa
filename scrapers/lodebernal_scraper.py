@@ -1,9 +1,9 @@
 #encoding: utf8
+from __future__ import print_function
 from base_scraper import BaseScraper
 from settings import cities
 from selenium.webdriver.common.keys import Keys
-
-import time, re
+import time, re, sys
 
 
 class LodebernalScraper(BaseScraper):
@@ -22,7 +22,6 @@ class LodebernalScraper(BaseScraper):
             elements = self.presence(self.driver, elements, 10)
             elements = [elements]
             self.scrape_hotels(elements)
-            self.report()
         except:
             pass
 
@@ -45,7 +44,7 @@ class LodebernalScraper(BaseScraper):
         pass
 
     def submit_element(self):
-        element = './/input[@value="Search"]'
+        element = './/a[contains(text(), "Search")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
         
@@ -76,7 +75,8 @@ class LodebernalScraper(BaseScraper):
         element = self.driver.execute_script('return arguments[0].innerHTML', element)
         element = re.findall(r'([0-9,]+)', element)[0]
         element = re.sub(r',', '', element)
-        return int(element)/3 
+        element = int(element)/3
+        return element 
 
     def scrape_old_price(self, element):
         return 0
@@ -88,5 +88,5 @@ if __name__ == "__main__":
     except:
         mode = ''
 
-    LodebernalScraper(url, mode)
+    LodebernalScraper(mode)
 

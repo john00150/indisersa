@@ -38,25 +38,30 @@ class BookHotelBedsScraper(BaseScraper):
         element = './/div[@class="hcsb_citySearchWrapper"]/input'
         element = self.visibility(self.driver, element, 10)
         element.send_keys(self.city)
+        time.sleep(5)
 
         element = './/ul[@id="ui-id-1"]/li' 
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(5)
     
     def checkin_element(self):
         element = './/body'
         element = self.element(self.driver, element)
         element.click()
+        time.sleep(2)
 
         checkin_year_month = '{}-{}'.format(self.checkin.year, self.checkin.month)
 
         element = '//select[@class="hcsb_checkinMonth"]/option[@value="{}"]'.format(checkin_year_month)
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(2)
     
         element = '//select[@class="hcsb_checkinDay"]/option[@value="{}"]'.format(self.checkin.day)
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(2)
 
     def checkout_element(self):
         checkout_year_month = '{}-{}'.format(self.checkout.year, self.checkout.month)
@@ -64,15 +69,18 @@ class BookHotelBedsScraper(BaseScraper):
         element = '//select[@class="hcsb_checkoutMonth"]/option[@value="{}"]'.format(checkout_year_month)
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(2)
     
         element = '//select[@class="hcsb_checkoutDay"]/option[@value="{}"]'.format(self.checkout.day)
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(2)
 
     def occupancy_element(self):
         element = './/select[@class="hcsb_guests"]/option[@value="1-1"]'
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(5)
 
     def submit_element(self):
         element = '//a[@class="hcsb_searchButton"]'

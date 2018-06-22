@@ -72,7 +72,7 @@ class BookingScraper(BaseScraper):
 
     def checkout_element(self):
 #        print 'checkout element...'
-        self.click_elements('.//div[contains(@data-placeholder, "Check-out Date")]') 
+        self.click_elements('.//div[contains(@data-mode, "checkout")]') 
   
         year = self.checkout.strftime('%Y')
         month = self.checkout.strftime('%B')
@@ -108,6 +108,8 @@ class BookingScraper(BaseScraper):
 
     def occupancy_element(self):
 #        print 'occupancy element...'
+        self.visibility(self.driver, './/label[contains(@id, "xp__guests__toggle")]', 5).click()
+        time.sleep(2)
         element = './/select[@name="group_adults"]/option[contains(@value, "1")]'
         element = self.visibility(self.driver, element, 5)
         element.click()
