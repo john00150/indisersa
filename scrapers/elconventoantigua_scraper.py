@@ -1,11 +1,11 @@
 from base_scraper import BaseScraper
 from settings import cities
-import time, re
+import time, re, sys
 
 
 class ElconventoantiguaScraper(BaseScraper):
     def __init__(self, mode):
-        self.url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel-,rooms-en.html'
+        self.url = 'http://www.elconventoantigua.com/suites-convento-boutique-hotel'
         self.mode = mode
         self.cities = cities[1:]
         self.currency = 'USD'
@@ -15,11 +15,9 @@ class ElconventoantiguaScraper(BaseScraper):
 
     def scrape_pages(self):
         try:
-            elements = './/div[contains(@class, "AccommodationsList")]/div'
+            elements = './/div[contains(@ng-if, "displayMultiRateListView")]'
             elements = self.presence(self.driver, elements, 10)
-            elements = [elements]
-            x = self.scrape_hotels(element)
-            self.report()
+            self.scrape_hotels([elements])
         except:
             pass
 
@@ -30,12 +28,11 @@ class ElconventoantiguaScraper(BaseScraper):
         return '2a Avenida Norte #11, Antigua Guatemala +502 7720 7272'
 
     def scrape_new_price(self, element):
-        _element = './/div[contains(@class, "CardList-price-title")]'
-        _element = self.element(element, _element)
-        _element = self.driver.execute_script('return arguments[0].innerHTML', _element)
-        _element = re.findall(r'([0-9.]+)', _element)[0]
-        print _element
-        return _element
+        _element = './/div[contains(@class, "CardGrid-price")]'
+        _element = self.elements(element, _element)
+        _element = [x.text.replace('$', '').strip() for x in _element if '$' in x.text]
+        _element.sort()
+        return _element[0]
 
     def scrape_old_price(self, element):
         return 0
@@ -100,5 +97,5 @@ if __name__ == "__main__":
     except:
         mode = ''
 
-    ElconventoantiguaScraper(url, mode)
+    ElconventoantiguaScraper(mode)
 
