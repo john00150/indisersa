@@ -1,10 +1,11 @@
 #!/usr/bin/python
 #encoding: utf8
+from __future__ import print_function
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from base_scraper import BaseScraper
 from settings import cities
-import re, time
+import re, time, sys
 
 
 class ExpediaScraper(BaseScraper):
@@ -22,12 +23,11 @@ class ExpediaScraper(BaseScraper):
 
     def scrape_pages(self):
         _next = './/button[@class="pagination-next"]/abbr'
-        elements = './/div[@id="resultsContainer"]/section/article'
+        _elements = './/div[@id="resultsContainer"]/section/article[contains(@class, "hotel listing")]'
 
         while True:
-            check_element = self.presence(self.driver, elements, 10)
-            self.presence(self.driver, elements, 10)
-            elements = self.elements(self.driver, elements)
+            check_element = self.presence(self.driver, _elements, 10)
+            elements = self.elements(self.driver, _elements)
             self.scrape_hotels(elements)
 
             try:
@@ -35,7 +35,6 @@ class ExpediaScraper(BaseScraper):
                 self.wait_for_page_to_load(check_element)
             except Exception, e:
                 self.driver.quit()
-                self.report()
                 break
 
     def city_element(self):
@@ -56,9 +55,14 @@ class ExpediaScraper(BaseScraper):
         element.send_keys(self.checkout.strftime('%m/%d/%Y'))
 
     def occupancy_element(self):
-        element = './/select[contains(@class, "gcw-guests-field")]/option[contains(text(), "1 adult")]'
+        element = './/button[contains(@class, "gcw-traveler-amount-select")]'
         element = self.visibility(self.driver, element, 10)
         element.click()
+        time.sleep(3)
+        element = './/button[contains(@class, "uitk-step-input-minus")]'
+        element = self.visibility(self.driver, element, 10)
+        element.click()
+        time.sleep(3)
 
     def submit_element(self):
         element1 = './/section[@id="section-hotel-tab-hlp"]/form'
@@ -68,8 +72,8 @@ class ExpediaScraper(BaseScraper):
         element.click()
 
     def scrape_name(self, element):
-        _element = './h3'
-        return self.presence(element, _element, 2).text.strip()
+        _element = './/li[contains(@class, "hotelTitle")]'
+        return self.element(element, _element).text.strip()
 
     def scrape_review(self, element):
         _element = './/li[contains(@class, "reviewCount")]/span'
@@ -93,7 +97,8 @@ class ExpediaScraper(BaseScraper):
     def scrape_new_price(self, element):
         _element = './/li[@data-automation="actual-price"]/a'
         try:
-            return self.element(element, _element).text.lstrip('$')
+            price = self.element(element, _element).text.lstrip('$')
+            return price
         except:
             return 0
 
@@ -101,7 +106,8 @@ class ExpediaScraper(BaseScraper):
         _element = './/li[@data-automation="strike-price"]/a'
         try:
             element = self.element(element, _element).text
-            return re.findall(r'([0-9,]+)', element)[0]
+            price = re.findall(r'([0-9,]+)', element)[0]
+            return price
         except:
             return 0
 
@@ -116,5 +122,5 @@ if __name__ == '__main__':
     except:
         mode = ''
 
-    ExpediaScraper(url, mode)
+    ExpediaScraper(mode)
 

@@ -1,4 +1,5 @@
 #encoding: utf8
+from __future__ import print_function
 from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
 from settings import cities
@@ -20,14 +21,14 @@ class DespegarScraper(BaseScraper):
         BaseScraper.__init__(self)
 
     def scrape_pages(self):
-        elements = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
+        _elements = './/div[contains(@id, "hotels")]/div[contains(@class, "results-cluster-container")]'
         next_element = './/a[@data-ga-el="next"]'
         self.close_banner()
 
         while True:
-            check_element = self.presence(self.driver, elements, 10)
-            self.presence(self.driver, elements, 10)
-            elements = self.elements(self.driver, elements)
+            check_element = self.presence(self.driver, _elements, 10)
+            self.presence(self.driver, _elements, 10)
+            elements = self.elements(self.driver, _elements)
             self.scrape_hotels(elements)    
 #            self.scroll_to_bottom()
         
