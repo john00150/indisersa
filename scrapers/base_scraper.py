@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from settings import dates, hostname
+from settings import dates, hostname, path
 from datetime import datetime, timedelta
 
 class BaseScraper(object):
@@ -15,6 +15,7 @@ class BaseScraper(object):
             self.connect_sql()
 
         self.dates = dates
+        self.log_path = path + '/logs/chromedriver.log'
 
         self.main_function()
 
@@ -31,12 +32,7 @@ class BaseScraper(object):
                 self.city, self.city2 = self.get_city(city)
                 self.count = 0
 
-                #if self.spider_name == 'chrome':
                 self.driver = self.chrome()
-                #if self.spider_name == 'firefox':
-                #    self.driver = self.firefox()
-                #if self.spider_name == 'chrome_long_window':
-                #    self.driver = self.chrome_long_window()
 
                 self.city_element()
                 time.sleep(3)
@@ -60,7 +56,7 @@ class BaseScraper(object):
         return driver
 
     def chrome(self):
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service_log_path = self.log_path)
         driver.maximize_window()
         driver.get(self.url)
         return driver

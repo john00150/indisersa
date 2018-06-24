@@ -1,4 +1,5 @@
 #encoding: utf8
+from __future__ import print_function
 from base_scraper import BaseScraper
 from selenium.webdriver.common.keys import Keys
 from settings import cities
@@ -28,7 +29,6 @@ class BestDayScraper(BaseScraper):
         self.presence(self.driver, elements, 10)
         elements = self.elements(self.driver, elements)
         self.scrape_hotels(elements) 
-        #self.report()
 
     def city_element(self):
         if self.city == 'Guatemala City, Guatemala':
