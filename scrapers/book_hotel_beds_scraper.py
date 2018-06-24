@@ -15,23 +15,56 @@ class BookHotelBedsScraper(BaseScraper):
         self.banners = []
         BaseScraper.__init__(self)
 
+    def main_function(self):
+        for date in self.dates:
+            self.date = date
+            self.checkin, self.checkin2 = self.get_checkin()
+            self.checkout, self.checkout2 = self.get_checkout()
+
+            for city in self.cities:
+                try:
+                    self.city, self.city2 = self.get_city(city)
+                    self.count = 0
+
+                    self.driver = self.chrome()
+
+                    self.city_element()
+                    time.sleep(3)
+                    self.checkin_element()
+                    time.sleep(3)
+                    self.checkout_element()
+                    time.sleep(3)
+                    self.occupancy_element()
+                    time.sleep(3)
+                    self.submit_element()
+                    time.sleep(3)
+                    self.scrape_pages()
+                    self.report()
+                    self.driver.quit()
+                except:
+                    self.driver.quit()
+
     def scrape_pages(self):
         next_element = './/a[contains(text(), "Next")]'
         elements = './/div[@class="hc_sri hc_m_v4"]'
 #        element = './/div[@class="hc_sr_summary"]/div[@class="hc_sri hc_m_v4"]'
 
         while True:
-            time.sleep(20)
-            check_element = self.presence(self.driver, elements, 10)
-            self.presence(self.driver, elements, 10)
-            elements = self.elements(self.driver, elements)
-            x = self.scrape_hotels(elements)
-
             try:
-                self.visibility(self.driver, next_element, 5).click()
-                self.wait_for_page_to_load(check_element)
-            except Exception, e:
-                self.report()
+                time.sleep(20)
+                check_element = self.presence(self.driver, elements, 10)
+                self.presence(self.driver, elements, 10)
+                elements = self.elements(self.driver, elements)
+                self.scrape_hotels(elements)
+
+                try:
+                    self.visibility(self.driver, next_element, 5).click()
+                    self.wait_for_page_to_load(check_element)
+                except Exception, e:
+                    self.driver.quit()
+                    break
+            except:
+                self.driver.quit()
                 break
 
     def city_element(self):

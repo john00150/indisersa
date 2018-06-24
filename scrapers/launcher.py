@@ -38,8 +38,8 @@ if __name__ == "__main__":
         LodebernalScraper('')
         MarriottScraper('')
         ExpediaScraper('')
-#        BestDayScraper('')
-#        BookHotelBedsScraper('')
+        BestDayScraper('')
+        BookHotelBedsScraper('')
             
     #    send_email(fh.read())
 
