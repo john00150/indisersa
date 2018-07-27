@@ -50,17 +50,18 @@ class BookingScraper(BaseScraper):
         return 0
 
     def city_element(self):
-#        print 'city element...'
+        #print 'city element...'
         element_before = './/input[@id="ss"]'
         element_before = self.visibility(self.driver, element_before, 5)
         element_before.send_keys(self.city)
-        time.sleep(3)
+        time.sleep(2)
         element_after = './/li[contains(@class, "autocomplete")]'
         element_after = self.visibility(self.driver, element_after, 5)
         element_after.click()
 
     def checkin_element(self):
-#        print 'checkin element...'
+        #print 'checkin element...'
+        time.sleep(2)
         self.checkin_checkout = './/table[contains(@class, "c2-month-table")][./thead/tr/th[contains(text(), "{}")]]/tbody/tr/td/span[contains(text(), "{}")]'
         self.further = './/div[contains(@class, "c2-button-further")]'
         year = self.checkin.strftime('%Y')
@@ -69,9 +70,10 @@ class BookingScraper(BaseScraper):
         day = self.checkin.day 
         checkin_element = self.checkin_checkout.format(month_year, day)            
         self.checkin_checkout_element(checkin_element)
+        self.click_elements('.//div[contains(@data-mode, "checkin")]') 
 
     def checkout_element(self):
-#        print 'checkout element...'
+        #print 'checkout element...'
         self.click_elements('.//div[contains(@data-mode, "checkout")]') 
   
         year = self.checkout.strftime('%Y')
@@ -82,11 +84,12 @@ class BookingScraper(BaseScraper):
         self.checkin_checkout_element(checkout_element)
 
     def checkin_checkout_element(self, checkin_checkout):
-#        print 'checkin checkout element...'
+        #print 'checkin checkout element...'
         status = False
         while True:
-            time.sleep(5)
+            time.sleep(1)
             _elements = self.elements(self.driver, checkin_checkout)
+
             for element in _elements:
                 try:
                     element.click()
@@ -107,7 +110,7 @@ class BookingScraper(BaseScraper):
                     pass
 
     def occupancy_element(self):
-#        print 'occupancy element...'
+        #print 'occupancy element...'
         self.visibility(self.driver, './/label[contains(@id, "xp__guests__toggle")]', 5).click()
         time.sleep(2)
         element = './/select[@name="group_adults"]/option[contains(@value, "1")]'
@@ -115,7 +118,7 @@ class BookingScraper(BaseScraper):
         element.click()
 
     def submit_element(self):
-#        print 'submit element...'
+        #print 'submit element...'
         element = '//button[@type="submit"]'
         element = self.visibility(self.driver, element, 5)
         element.click()
