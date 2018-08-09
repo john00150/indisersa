@@ -1,6 +1,16 @@
+from __future__ import print_function
 from datetime import datetime
+#from banguat_scraper import 
 from hotels_scraper import HotelsScraper
 from booking_scraper import BookingScraper
+from despegar_scraper import DespegarScraper
+from radisson_scraper import RadissonScraper
+from elconventoantigua_scraper import ElconventoantiguaScraper
+from lodebernal_scraper import LodebernalScraper
+from marriott_scraper import MarriottScraper
+from expedia_scraper import ExpediaScraper
+from bestday_scraper import BestDayScraper
+from book_hotel_beds_scraper import BookHotelBedsScraper
 import smtplib, os, subprocess
 from email.mime.text import MIMEText
 from settings import path, hostname
@@ -30,16 +40,35 @@ if __name__ == "__main__":
         if hostname != 'john-Vostro-3558': 
             subprocess.call('taskkill /f /im chromedriver.exe')
 
-        HotelsScraper('')
-        BookingScraper('')
-        DespegarScraper('')
-        RadissonScraper('')
-        ElconventoantiguaScraper('')
-        LodebernalScraper('')
-        MarriottScraper('')
-        ExpediaScraper('')
-        BestDayScraper('')
-        BookHotelBedsScraper('')
+        try: HotelsScraper('')
+        except Exception as e: print(e)
+        
+        try: BookingScraper('')
+        except Exception as e: print(e)
+        
+        try: DespegarScraper('')
+        except Exception as e: print(e)
+        
+        try: RadissonScraper('')
+        except Exception as e: print(e)
+        
+        try: ElconventoantiguaScraper('')
+        except Exception as e: print(e)
+        
+        try: LodebernalScraper('')
+        except Exception as e: print(e)
+        
+        try: MarriottScraper('')
+        except Exception as e: print(e)
+        
+        try: ExpediaScraper('')
+        except Exception as e: print(e)
+        
+        try: BestDayScraper('')
+        except Exception as e: print(e)
+        
+        try: BookHotelBedsScraper('')
+        except Exception as e: print(e)
             
     #    send_email(fh.read())
 
