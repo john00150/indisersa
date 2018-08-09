@@ -26,19 +26,7 @@ class MarriottScraper(BaseScraper):
         pass
 
     def checkin_element(self):
-        self.elements(self.driver, './/div[contains(@class, "js-toggle-picker")]')[1].click()
-        time.sleep(2)
-        self.elements(self.driver, './/input[@placeholder="Check-in"]')[2].clear()
-
-        elements = './/span[contains(@class, "l-icon-calendar")]'
-        elements = self.elements(self.driver, elements)
-
-        for element in elements:
-            try:
-                element.click()
-                break
-            except:
-                time.sleep(1)
+        checkin_el = './/input[@placeholder="Check-in"]'
 
         _str = '{}, {} {}, {}'.format(
             self.checkin.strftime('%A')[:3],
@@ -46,11 +34,17 @@ class MarriottScraper(BaseScraper):
             self.checkin.day, 
             self.checkin.year
         )
-        elements = self.checkin_checkout_element.format(_str)
-        self._checkin_checkout_element(elements)
+
+        self.click_date_picker()
+
+        self.elements(self.driver, checkin_el)[2].clear()
+        time.sleep(1)
+
+        self.elements(self.driver, checkin_el)[2].send_keys(_str)
+        time.sleep(1)
 
     def checkout_element(self):
-        self.elements(self.driver, './/div[contains(@class, "js-toggle-picker")]')[1].click()
+        checkout_el = './/input[@placeholder="Check-out"]'
 
         _str = '{}, {} {}, {}'.format(
             self.checkout.strftime('%A')[:3],
@@ -58,32 +52,21 @@ class MarriottScraper(BaseScraper):
             self.checkout.day, 
             self.checkout.year
         )
-        elements = self.checkin_checkout_element.format(_str)
-        self._checkin_checkout_element(elements)
+
+        self.click_date_picker()
+
+        self.elements(self.driver, checkout_el)[2].clear()
+        time.sleep(1)
+
+        self.elements(self.driver, checkout_el)[2].send_keys(_str)
+        time.sleep(1)
+
         self.element(self.driver, './/body').click()
 
-    def _checkin_checkout_element(self, elements):
-        x = False
-    
-        while True:
-            _elements = self.elements(self.driver, elements)
-            for _element in _elements:
-                try:
-                    _element.click()
-                    x = True
-                    break
-                except:
-                    time.sleep(1)
-                
-            if x == True:
-                break
-            
-            _furthers = self.elements(self.driver, self.further_element)
-            for _further in _furthers:
-                try:
-                    _further.click()
-                except:
-                    time.sleep(1)
+    def click_date_picker(self):
+        element = './/div[contains(@class, "js-toggle-picker")]'
+        self.elements(self.driver, element)[1].click()
+        time.sleep(1)
 
     def occupancy_element(self):
         pass
