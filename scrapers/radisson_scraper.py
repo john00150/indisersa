@@ -102,7 +102,7 @@ if __name__ == '__main__':
     try:
         mode = sys.argv[1]
     except:
-        mode = None
+        mode = ''
  
     RadissonScraper(mode)
 
