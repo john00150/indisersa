@@ -1,60 +1,54 @@
-import requests, time, traceback, pyodbc
+from __future__ import print_function
+import requests, time, traceback, sys
+from base_scraper import BaseScraper
 from lxml import html
 from datetime import datetime
-import smtplib
-from email.mime.text import MIMEText
 
+class BanguatScraper(BaseScraper):
+    def __init__(self, mode):
+        self.mode = mode
+        self.log_path = 'C:\\users\\indisersa\\Desktop\hotels\\logs\\banguat.log'
+        self.url = 'http://banguat.gob.gt/default.asp'
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:39.0) Gecko/20100101 Firefox/39.0'
+        }
+        BaseScraper.__init__(self)
 
-url = 'http://banguat.gob.gt/default.asp'
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:39.0) Gecko/20100101 Firefox/39.0',
-}
+    def main_function(self):
+        try:
+            self.get_rate()
+        except Exception:
+            traceback.print_exc()
 
-def get_rate():
-    date = datetime.now().strftime('%m/%d/%Y')
-    
-    r = requests.get(
-        url,
-        headers=headers,
+    def get_rate(self):
+        r = requests.get(
+            self.url,
+            headers = self.headers,
         )
-    tree = html.fromstring(r.content)
-    
-    element = tree.xpath('.//tr[@class="txt-resumen"]/td[./strong/a[contains(@href, "cambio/default.asp")]]/following-sibling::td/text()')
-    try:
-        sql = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (date, element[0].strip())
-        cur.execute(sql)
-        conn.commit()
-    except:
-        pass
 
-def send_email(line):
-    sender = 'scrapers@radissonguat.com'
-    recipients = ['oknoke@indisersa.com', 'dpaz@grupoazur.com', 'egonzalez@grupazu.com', 'yury0051@gmail.com']
-    msg = MIMEText(line)
-    msg['Subject'] = 'banguat scraper'
-    msg['From'] = sender
-    msg['To'] = ', '.join(recipients)
+        tree = html.fromstring(r.content)
+        
+        element = tree.xpath(
+            './/tr[@class="txt-resumen"]/td[./strong/a[contains(@href, "cambio/default.asp")]]/following-sibling::td/text()'
+        )
+        element = element[0].strip()
 
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender, recipients, msg.as_string())
-    s.quit()
+        if self.mode == 'print': 
+            print(element)
+
+        query = "INSERT INTO banguat (date_scraped, banguate_rate) values ('%s', '%s')" % (
+            self.current_date, element
+        )
+
+        if self.hostname != 'john-Vostro-3558':
+            self.cur.execute(query)
+            self.conn.commit()
 
 if __name__ == "__main__":
-    global conn
-    global cur
+    try: 
+        mode = sys.argv[1]
+    except:
+        mode = None
 
-    conn = pyodbc.connect(r'DRIVER={SQL SERVER};SERVER=(local);DATABASE=hotels;Trusted_Connection=Yes;')
-    cur = conn.cursor()
+    BanguatScraper(mode)
     
-    fh = open('C:\\users\\indisersa\\Desktop\hotels\\logs\\banguat.log', 'w')
-    fh.write('start: %s\n' % datetime.now())
-    
-    try:
-        get_rate()
-    except Exception:
-        traceback.print_exc(file=fh)
-        line = 'banguat scraper error'
-        send_email(line)
-
-    fh.write('finish: %s' % datetime.now())        
-    fh.close()

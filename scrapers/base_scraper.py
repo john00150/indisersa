@@ -11,16 +11,17 @@ from datetime import datetime, timedelta
 
 class BaseScraper(object):
     def __init__(self):
-        if hostname != 'john-Vostro-3558':
-            self.connect_sql()
+        self.hostname = hostname
+        self.current_date = datetime.now().strftime('%m/%d/%Y'), 
+
+        self.connect_sql()
 
         self.dates = dates
         self.log_path = path + '/logs/chromedriver.log'
 
         self.main_function()
 
-        if hostname != 'john-Vostro-3558':
-            self.close_sql()
+        self.close_sql()
 
     def main_function(self):
         for date in self.dates:
@@ -174,24 +175,26 @@ class BaseScraper(object):
                 self.city2.replace("'", '"').decode('utf8'), 
                 self.currency, 
                 self.source, 
-                datetime.now().strftime('%m/%d/%Y'), 
+                self.current_date, 
                 self.count, 
                 self.date
             )
 
             self.write_sql(t)
 
-            if self.mode == 'print': print(list(t))       
+            if self.mode == 'print': 
+                print(list(t))       
 
     def connect_sql(self):
-        self.conn = pyodbc.connect(
-            r"""DRIVER={SQL Server};
-            SERVER=(local);
-            DATABASE=hotels;
-            Trusted_Connection=Yes;
-            CharacterSet=UTF-8;"""
-        )
-        self.cur = self.conn.cursor()
+        if self.hostname != 'john-Vostro-3558':
+            self.conn = pyodbc.connect(
+                r"""DRIVER={SQL Server};
+                SERVER=(local);
+                DATABASE=hotels;
+                Trusted_Connection=Yes;
+                CharacterSet=UTF-8;"""
+            )
+            self.cur = self.conn.cursor()
 
     def write_sql(self, t):
         if hostname != 'john-Vostro-3558':
@@ -207,10 +210,12 @@ class BaseScraper(object):
                 print(e)
 
     def close_sql(self):
-        self.conn.close()
+        if self.hostname != 'john-Vostro-3558':
+            self.conn.close()
 
     def full_report(self):
         fh = open('report.csv', 'w')
+
         for t in self.data:
             line = """%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n""" % t
             fh.write(line) 

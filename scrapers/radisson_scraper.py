@@ -29,6 +29,8 @@ class RadissonScraper(BaseScraper):
         element = './/input[@name="city"]'
         element = self.visibility(self.driver, element, 5)
         element.send_keys(self.city)
+        time.sleep(2)
+        self.element(self.driver, './/body').click()
 
     def checkin_element(self):
         self.checkin_checkout_element = './/td[@data-handler="selectDay"][@data-month="{}"][@data-year="{}"]/a[contains(text(), "{}")]'
@@ -39,6 +41,7 @@ class RadissonScraper(BaseScraper):
         element.click()
 
         element = self.checkin_checkout_element.format(self.checkin.month-1, self.checkin.year, self.checkin.day)
+
         while True:
             try:
                 _element = self.visibility(self.driver, element, 2)
@@ -99,7 +102,7 @@ if __name__ == '__main__':
     try:
         mode = sys.argv[1]
     except:
-        mode = ''
+        mode = None
  
     RadissonScraper(mode)
 
