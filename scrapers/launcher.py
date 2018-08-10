@@ -1,6 +1,6 @@
 from __future__ import print_function
 from datetime import datetime
-#from banguat_scraper import 
+from banguat_scraper import BanguatScraper 
 from hotels_scraper import HotelsScraper
 from booking_scraper import BookingScraper
 from despegar_scraper import DespegarScraper
@@ -40,6 +40,9 @@ if __name__ == "__main__":
         if hostname != 'john-Vostro-3558': 
             subprocess.call('taskkill /f /im chromedriver.exe')
 
+        try: BanguatScraper(None)
+        except Exception as e: print(e)
+
         try: HotelsScraper('')
         except Exception as e: print(e)
         
@@ -49,7 +52,7 @@ if __name__ == "__main__":
         try: DespegarScraper('')
         except Exception as e: print(e)
         
-        try: RadissonScraper('')
+        try: RadissonScraper(None)
         except Exception as e: print(e)
         
         try: ElconventoantiguaScraper('')
