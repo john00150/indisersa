@@ -1,0 +1,12 @@
+*.pyc
+*.py~
+*.csv
+*.txt
+*.docx
+**/logs/**
+**/*log
+docs/
+banguat_docs
+hotels_docs
+vm
+vm~
