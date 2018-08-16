@@ -37,9 +37,6 @@ def send_email(line):
 
 if __name__ == "__main__":
     with open(path + '/logs/launcher.log', 'w+') as fh:
-        if hostname != 'john-Vostro-3558': 
-            subprocess.call('taskkill /f /im chromedriver.exe')
-
         try: BanguatScraper(None)
         except Exception as e: print(e)
 

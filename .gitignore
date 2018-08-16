@@ -3,8 +3,8 @@
 *.csv
 *.txt
 *.docx
-**/logs/**
-**/*log
+**/logs/*.log
+**/*.log
 docs/
 banguat_docs
 hotels_docs

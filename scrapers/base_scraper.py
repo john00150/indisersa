@@ -1,5 +1,5 @@
 from __future__ import print_function
-import pyodbc, time, datetime, sys, traceback, os
+import pyodbc, time, datetime, sys, traceback, os, subprocess
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -12,7 +12,12 @@ from datetime import datetime, timedelta
 class BaseScraper(object):
     def __init__(self):
         self.hostname = hostname
-        self.current_date = datetime.now().strftime('%m/%d/%Y'), 
+        self.current_date = datetime.now().strftime('%m/%d/%Y')
+
+        if hostname != 'john-Vostro-3558': 
+            subprocess.call('taskkill /f /im chromedriver.exe', shell=True)
+        else:
+            subprocess.call('sudo pkill chromedriver', shell=True)
 
         self.connect_sql()
 
