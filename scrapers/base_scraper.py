@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 class BaseScraper(object):
     def __init__(self):
         self.hostname = hostname
-        self.current_date = datetime.now().strftime('%m/%d/%Y'), 
+        self.current_date = datetime.now().strftime('%m/%d/%Y')
 
         self.connect_sql()
 
