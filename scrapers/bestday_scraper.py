@@ -61,7 +61,7 @@ class BestDayScraper(BaseScraper):
                     self.driver, self.checkin_checkout_element.format(self.checkin.strftime('%B'), self.checkin.day), 2
                 ).click()
                 break
-            except Exception, e:
+            except Exception as e:
                 self.presence(self.driver, self._next, 2).click()
     
     def checkout_element(self):
@@ -71,7 +71,7 @@ class BestDayScraper(BaseScraper):
                     self.driver, self.checkin_checkout_element.format(self.checkout.strftime('%B'), self.checkout.day), 2
                 ).click()
                 break
-            except Exception, e:
+            except Exception as e:
                 self.presence(self.driver, self._next, 2).click()
 
     def occupancy_element(self):
