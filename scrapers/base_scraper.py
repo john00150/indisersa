@@ -1,17 +1,20 @@
 from __future__ import print_function
-import pyodbc, time, datetime, sys, traceback, os, subprocess
+import pyodbc, time, datetime, sys, traceback, os, subprocess, smtplib
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from settings import dates, hostname, path
+from settings import dates, hostname, path, sender, recipients
 from datetime import datetime, timedelta
+from email.mime.text import MIMEText
 
 class BaseScraper(object):
     def __init__(self):
         self.hostname = hostname
+        self.sender = sender
+        self.recipients = recipients
         self.current_date = datetime.now().strftime('%m/%d/%Y')
 
         if hostname != 'john-Vostro-3558': 
@@ -235,4 +238,15 @@ class BaseScraper(object):
             self.checkout2, 
             self.date
         ))
+
+    def send_email(self, line):
+        line = ', '.join(line) + '.'
+        msg = MIMEText(line)
+        msg['Subject'] = 'hotel scrapers'
+        msg['From'] = sender
+        msg['To'] = ', '.join(self.recipients)
+
+        s = smtplib.SMTP('localhost')
+        s.sendmail(self.sender, self.recipients, msg.as_string())
+        s.quit()
 

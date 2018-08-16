@@ -16,3 +16,12 @@ cities = [
 ]
 
 path = os.path.dirname(os.getcwd())
+
+sender = 'indisersa@radissonguat'
+
+recipients = [
+    'yury0051@gmail.com', 
+#    'oknoke@indisersa.com', 
+#    'dpaz@grupoazur.com', 
+#    'egonzalez@grupoazur.com'
+]
