@@ -15,6 +15,9 @@ class MarriottScraper(BaseScraper):
         self.mode = mode
         self.source = 'marriott.com'
         self.currency = 'USD'
+        self.banners = [
+            './/button[contains(@class, "close")]'
+        ]
         BaseScraper.__init__(self)
 
     def scrape_pages(self):
@@ -23,7 +26,7 @@ class MarriottScraper(BaseScraper):
         self.scrape_hotels([elements])
 
     def city_element(self):
-        pass
+        self.close_banner()
 
     def checkin_element(self):
         checkin_el = './/input[@placeholder="Check-in"]'
