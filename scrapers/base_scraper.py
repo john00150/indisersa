@@ -39,26 +39,23 @@ class BaseScraper(object):
             self.checkout, self.checkout2 = self.get_checkout()
 
             for city in self.cities:
-                try:
-                    self.city, self.city2 = self.get_city(city)
-                    self.count = 0
+                self.city, self.city2 = self.get_city(city)
+                self.count = 0
 
-                    self.driver = self.chrome()
+                self.driver = self.chrome()
 
-                    self.city_element()
-                    time.sleep(3)
-                    self.checkin_element()
-                    time.sleep(3)
-                    self.checkout_element()
-                    time.sleep(3)
-                    self.occupancy_element()
-                    time.sleep(3)
-                    self.submit_element()
-                    time.sleep(3)
-                    self.scrape_pages()
-                    self.report()
-                except:
-                    pass
+                self.city_element()
+                time.sleep(3)
+                self.checkin_element()
+                time.sleep(3)
+                self.checkout_element()
+                time.sleep(3)
+                self.occupancy_element()
+                time.sleep(3)
+                self.submit_element()
+                time.sleep(3)
+                self.scrape_pages()
+                self.report()
 
                 self.driver.quit()
 
