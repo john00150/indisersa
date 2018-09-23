@@ -20,9 +20,6 @@ if __name__ == "__main__":
         try: HotelsScraper('')
         except Exception as e: print(e)
         
-        try: BookingScraper('')
-        except Exception as e: print(e)
-        
         try: DespegarScraper('')
         except Exception as e: print(e)
         
@@ -45,6 +42,9 @@ if __name__ == "__main__":
         except Exception as e: print(e)
         
         try: BookHotelBedsScraper('')
+        except Exception as e: print(e)
+
+        try: BookingScraper('')
         except Exception as e: print(e)
             
     #    send_email(fh.read())
